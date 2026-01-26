@@ -7,6 +7,7 @@ import path from "path";
 import userRouter from "./routes/user.js";
 import fileRouter from "./routes/file.js";
 import { connectToMongoDB } from "./connection.js";
+import { checkAuthSoft } from "./middlewares/user.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -17,6 +18,8 @@ const PORT = process.env.PORT ?? 8000;
 const MONGO_URI = process.env.MONGO_URI;
 
 // app.use(express.static(path.join(__dirname, "client", "dist")));
+
+app.use(checkAuthSoft);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

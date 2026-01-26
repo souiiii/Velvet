@@ -5,8 +5,48 @@ import { hash, compare } from "bcrypt";
 
 const router = express.Router();
 
-router.post("/login", (req, res) => {
-  return res.json({ msg: "login" });
+router.post("/login", async (req, res) => {
+  try {
+    const body = req.body;
+
+    if (!body.email) {
+      return res.status(400).json({ err: "Email required" });
+    }
+
+    if (!body.password) {
+      return res.status(400).json({ err: "Password required" });
+    }
+
+    if (typeof body.email !== "string" || typeof body.password !== "string")
+      return res.status(400).json({ err: "Enter valid credentials" });
+
+    const email = body.email.trim().toLowerCase();
+    const password = body.password.trim();
+
+    if (!validator.isEmail(email)) {
+      return res.status(400).json({ err: "Invalid email format" });
+    }
+
+    const user = await User.findOne({ email }).lean();
+
+    if (!user) return res.status(400).json({ err: "Invalid credentials" });
+
+    if (!(await compare(password, user.password)))
+      return res.status(400).json({ err: "Invalid credentials" });
+
+    const payload = { _id: user._id };
+
+    const token = setUser(payload);
+    res.cookie("token", token, {
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+      httpOnly: true,
+    });
+    return res.status(200).json({ msg: "Login successful" });
+  } catch (err) {
+    console.log(err.message);
+    return res.status(500).json({ err: "Login Failed" });
+  }
 });
 
 router.post("/signup", async (req, res) => {
