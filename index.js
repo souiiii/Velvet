@@ -16,7 +16,7 @@ const app = express();
 const PORT = process.env.PORT ?? 8000;
 const MONGO_URI = process.env.MONGO_URI;
 
-app.use(express.static(path.join(__dirname, "client")));
+// app.use(express.static(path.join(__dirname, "client", "dist")));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -25,9 +25,9 @@ app.use(cookieParser());
 app.use("/api/user", userRouter);
 app.use("/api/file", fileRouter);
 
-app.use((req, res) =>
-  res.sendFile(path.join(__dirname, "client", "index.html")),
-);
+// app.use((req, res) =>
+//   res.sendFile(path.join(__dirname, "client", "dist", "index.html")),
+// );
 
 connectToMongoDB(MONGO_URI)
   .then(() => {
