@@ -4,6 +4,8 @@ import cookieParser from "cookie-parser";
 import express from "express";
 import { fileURLToPath } from "url";
 import path from "path";
+import userRouter from "./routes/user.js";
+import fileRouter from "./routes/file.js";
 import { connectToMongoDB } from "./connection.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -19,6 +21,9 @@ app.use(express.static(path.join(__dirname, "client")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+app.use("/api/user", userRouter);
+app.use("/api/file", fileRouter);
 
 app.use((req, res) =>
   res.sendFile(path.join(__dirname, "client", "index.html")),
