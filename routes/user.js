@@ -2,6 +2,7 @@ import express from "express";
 import validator from "validator";
 import User from "../models/User.js";
 import { hash, compare } from "bcrypt";
+import { setUser } from "../utils/auth.js";
 
 const router = express.Router();
 
