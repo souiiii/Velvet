@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Loading from "../components/Loading";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/useAuth";
 
 function Login() {

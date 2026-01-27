@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router";
+import { Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./contexts/authContext";
 import HomePage from "./pages/HomePage";
 import Login from "./pages/Login";
@@ -15,7 +15,7 @@ function App() {
         </Route>
         <Route path="/link/:id" element={<Link />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/Signup" element={<Signup />} />
+        <Route path="/signup" element={<Signup />} />
       </Routes>
     </AuthProvider>
   );
