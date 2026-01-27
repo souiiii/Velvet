@@ -1,5 +1,12 @@
+import AddFile from "../components/AddFile";
+
 function HomePage() {
-  return <div>HomePage</div>;
+  return (
+    <div>
+      <p>HomePage</p>
+      <AddFile />
+    </div>
+  );
 }
 
 export default HomePage;
