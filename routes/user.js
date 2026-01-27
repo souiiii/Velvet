@@ -3,8 +3,19 @@ import validator from "validator";
 import User from "../models/User.js";
 import { hash, compare } from "bcrypt";
 import { setUser } from "../utils/auth.js";
+import { checkAuthHard } from "../middlewares/user.js";
 
 const router = express.Router();
+
+router.get("/", checkAuthHard, async (req, res) => {
+  return res.json({
+    user: {
+      fullName: req.user.fullName,
+      email: req.user.email,
+      userId: req.user._id,
+    },
+  });
+});
 
 router.post("/login", async (req, res) => {
   try {
@@ -43,6 +54,7 @@ router.post("/login", async (req, res) => {
       secure: process.env.NODE_ENV === "production",
       httpOnly: true,
     });
+
     return res.status(200).json({ msg: "Login successful" });
   } catch (err) {
     console.log(err.message);

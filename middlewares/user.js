@@ -38,6 +38,6 @@ export async function checkAuthHard(req, res, next) {
     return next();
   } catch (err) {
     console.log(err.message);
-    return res.status(500).json({ err: "Not Logged In" });
+    return res.status(401).json({ err: "Not Logged In" });
   }
 }
