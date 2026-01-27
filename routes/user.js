@@ -17,6 +17,16 @@ router.get("/", checkAuthHard, async (req, res) => {
   });
 });
 
+router.post("/logout", async (req, res) => {
+  req.user = null;
+  res.clearCookie("token", {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+  });
+  return res.status(200).json({ msg: "Logged Out" });
+});
+
 router.post("/login", async (req, res) => {
   try {
     const body = req.body;
@@ -55,7 +65,12 @@ router.post("/login", async (req, res) => {
       httpOnly: true,
     });
 
-    return res.status(200).json({ msg: "Login successful" });
+    return res
+      .status(200)
+      .json({
+        msg: "Login successful",
+        user: { email: user.email, userId: user._id, fullName: user.fullName },
+      });
   } catch (err) {
     console.log(err.message);
     return res.status(500).json({ err: "Login Failed" });
