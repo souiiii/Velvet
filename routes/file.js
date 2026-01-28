@@ -6,6 +6,8 @@ import { Readable } from "stream";
 import File from "../models/File.js";
 import { checkAuthHard } from "../middlewares/user.js";
 import mongoose from "mongoose";
+import Link from "../models/Link.js";
+import { hash } from "bcrypt";
 
 cloudinary.config({
   cloud_name: "velvet",
@@ -149,6 +151,72 @@ router.delete("/delete-file/:id", checkAuthHard, async (req, res) => {
   } catch (err) {
     console.log(err.message);
     return res.status(500).json({ err: "File cannot be deleted" });
+  }
+});
+
+router.post("/create-link/:id", checkAuthHard, async (req, res) => {
+  try {
+    const id = req.params.id;
+    const body = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ err: "Invalid request" });
+    }
+
+    const maxDownloads = body.maxDownloads?.trim() ?? null;
+    if (
+      maxDownloads === "" ||
+      (maxDownloads && !isFinite(maxDownloads)) ||
+      (maxDownloads && Number(maxDownloads) <= 0)
+    ) {
+      return res.status(400).json({ err: "Enter valid download limit" });
+    }
+
+    const now = new Date();
+
+    const expiresAt = body.expiresAt?.trim() ?? null;
+    if (
+      (expiresAt && isNaN(new Date(expiresAt))) ||
+      (expiresAt && new Date(expiresAt) < now)
+    ) {
+      return res.status(400).json({ err: "Enter valid expiry" });
+    }
+
+    const password = body.password?.trim() ?? null;
+    if (password && password.length < 3) {
+      return res
+        .status(400)
+        .json({ err: "Password cannot be smaller than 3 characters" });
+    }
+
+    const rounds = 10;
+    const hashedPassword = password ? await hash(password, rounds) : null;
+
+    const file = await File.findById(id);
+
+    if (!file) {
+      return res.status(404).json({ err: "Invalid request" });
+    }
+
+    if (file.userId.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ err: "Invalid request" });
+    }
+
+    const random = (await randomBytes(20)).toString("hex");
+    let payload = {
+      fileId: file._id,
+      publicId: random,
+    };
+
+    if (hashedPassword) payload.password = hashedPassword;
+    if (maxDownloads) payload.maxDownloads = Number(maxDownloads);
+    if (expiresAt) payload.expiresAt = new Date(expiresAt);
+
+    await Link.create(payload);
+    return res.status(201).json({ msg: "Link created" });
+  } catch (err) {
+    console.log(err.message);
+    return res.status(500).json({ err: "Cannot create link" });
   }
 });
 

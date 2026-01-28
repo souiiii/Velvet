@@ -26,6 +26,11 @@ const linkSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
+    isRevoked: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
   },
   { timestamps: true },
 );
