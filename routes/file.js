@@ -146,7 +146,10 @@ router.delete("/delete-file/:id", checkAuthHard, async (req, res) => {
       );
     });
 
-    await File.deleteOne({ _id: file._id });
+    await Promise.all([
+      File.deleteOne({ _id: file._id }),
+      Link.deleteMany({ fileId: file._id }),
+    ]);
     return res.status(200).json({ msg: "File is successfully deleted" });
   } catch (err) {
     console.log(err.message);
@@ -217,6 +220,41 @@ router.post("/create-link/:id", checkAuthHard, async (req, res) => {
   } catch (err) {
     console.log(err.message);
     return res.status(500).json({ err: "Cannot create link" });
+  }
+});
+
+router.post("/revoke-link/:publicId", checkAuthHard, async (req, res) => {
+  try {
+    const publicId = req.params.publicId;
+
+    const link = await Link.findOne({ publicId })
+      .populate("fileId", "_id userId")
+      .lean();
+
+    if (!link) {
+      return res.status(404).json({ err: "Invalid request" });
+    }
+
+    if (link.fileId.userId.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ err: "Invalid request" });
+    }
+
+    if (link.isRevoked) return res.status(400).json({ err: "Invalid request" });
+
+    const updatedLink = await Link.findOneAndUpdate(
+      { publicId },
+      { $set: { isRevoked: true } },
+      { runValidators: true, new: true },
+    );
+
+    if (!updatedLink) {
+      return res.status(400).json({ err: "Link cannot be revoked" });
+    }
+
+    return res.status(200).json({ msg: "Link revoked" });
+  } catch (err) {
+    console.log(err.message);
+    return res.status(500).json({ err: "Link cannot be revoked" });
   }
 });
 
