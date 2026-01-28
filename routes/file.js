@@ -209,6 +209,7 @@ router.post("/create-link/:id", checkAuthHard, async (req, res) => {
     let payload = {
       fileId: file._id,
       publicId: random,
+      userId: req.user._id,
     };
 
     if (hashedPassword) payload.password = hashedPassword;
@@ -255,6 +256,24 @@ router.post("/revoke-link/:publicId", checkAuthHard, async (req, res) => {
   } catch (err) {
     console.log(err.message);
     return res.status(500).json({ err: "Link cannot be revoked" });
+  }
+});
+
+router.get("/all", checkAuthHard, async (req, res) => {
+  try {
+    const allFilesAndLinks = await Link.find().populate("fileId").lean();
+
+    const relevantFilesAndLinks = allFilesAndLinks.filter(
+      (l) => l.fileId.userId.toString() === req.user._id.toString(),
+    );
+
+    return res.status(200).json({
+      msg: "All user files and links returned successfully",
+      filesAndLinks: relevantFilesAndLinks,
+    });
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).json({ err: "Could not fetch files and links" });
   }
 });
 

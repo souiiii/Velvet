@@ -7,6 +7,12 @@ const linkSchema = new mongoose.Schema(
       ref: "files",
       required: true,
     },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "users",
+      required: true,
+      index: true,
+    },
     expiresAt: {
       type: Date,
     },
