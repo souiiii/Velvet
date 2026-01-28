@@ -261,15 +261,26 @@ router.post("/revoke-link/:publicId", checkAuthHard, async (req, res) => {
 
 router.get("/all", checkAuthHard, async (req, res) => {
   try {
-    const allFilesAndLinks = await Link.find().populate("fileId").lean();
+    const [relevantFiles, relevantLinks] = await Promise.all([
+      File.find({ userId: req.user._id }).lean(),
+      Link.find({ userId: req.user._id }).lean(),
+    ]);
 
-    const relevantFilesAndLinks = allFilesAndLinks.filter(
-      (l) => l.fileId.userId.toString() === req.user._id.toString(),
-    );
+    const fileLink = Object.create(null);
+
+    relevantLinks.forEach((l) => {
+      const fileId = l.fileId.toString();
+      if (!fileLink[fileId]) fileLink[fileId] = [];
+      fileLink[fileId].push(l);
+    });
+
+    relevantFiles.forEach((f) => {
+      f.links = fileLink[f._id.toString()] || [];
+    });
 
     return res.status(200).json({
       msg: "All user files and links returned successfully",
-      filesAndLinks: relevantFilesAndLinks,
+      filesAndLinks: relevantFiles,
     });
   } catch (err) {
     console.log(err.message);
