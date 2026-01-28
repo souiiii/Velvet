@@ -20,9 +20,15 @@ const fileSchema = new mongoose.Schema(
     },
     storage: {
       type: {
-        provider: { type: String },
-        publicId: { type: String },
-        secureUrl: { type: String },
+        provider: {
+          type: String,
+          default: "cloudinary",
+          enum: ["cloudinary"],
+          required: true,
+        },
+        publicId: { type: String, required: true },
+        secureUrl: { type: String, required: true },
+        resourceType: { type: String, required: true, enum: ["raw", "image"] },
       },
       required: true,
     },

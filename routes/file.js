@@ -3,8 +3,9 @@ import multer from "multer";
 import { v2 as cloudinary } from "cloudinary";
 import randomBytes from "random-bytes";
 import { Readable } from "stream";
-import File from "../models/File";
-import { checkAuthHard } from "../middlewares/user";
+import File from "../models/File.js";
+import { checkAuthHard } from "../middlewares/user.js";
+import mongoose from "mongoose";
 
 cloudinary.config({
   cloud_name: "velvet",
@@ -106,5 +107,49 @@ router.post(
     }
   },
 );
+
+router.delete("/delete-file/:id", checkAuthHard, async (req, res) => {
+  try {
+    const fileId = req.params.id;
+
+    if (!mongoose.Types.ObjectId.isValid(fileId))
+      return res.status(400).json({ err: "Invalid request" });
+
+    const file = await File.findById(fileId);
+
+    if (!file) {
+      return res.status(404).json({ err: "File not found" });
+    }
+
+    if (file.userId.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ err: "Invalid request" });
+    }
+
+    await new Promise((resolve, reject) => {
+      cloudinary.uploader.destroy(
+        file.storage.publicId,
+        {
+          resource_type: file.storage.resourceType,
+        },
+        (error, result) => {
+          if (error) {
+            console.log(error);
+            reject(error);
+          } else if (result.result === "ok" || result.result === "not found") {
+            resolve(result);
+          } else {
+            reject(new Error("File cannot be deleted"));
+          }
+        },
+      );
+    });
+
+    await File.deleteOne({ _id: file._id });
+    return res.status(200).json({ msg: "File is successfully deleted" });
+  } catch (err) {
+    console.log(err.message);
+    return res.status(500).json({ err: "File cannot be deleted" });
+  }
+});
 
 export default router;
