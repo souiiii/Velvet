@@ -7,7 +7,8 @@ import File from "../models/File.js";
 import { checkAuthHard } from "../middlewares/user.js";
 import mongoose from "mongoose";
 import Link from "../models/Link.js";
-import { hash } from "bcrypt";
+import { compare, hash } from "bcrypt";
+import request from "request";
 
 cloudinary.config({
   cloud_name: "velvet",
@@ -293,7 +294,10 @@ router.get("/link/:publicId", async (req, res) => {
     const publicId = req.params.publicId;
 
     const link = await Link.findOne({ publicId })
-      .populate("fileId", "_id userId fileName size mimeType")
+      .populate(
+        "fileId",
+        "_id userId fullName size mimeType maxDownloads downloads",
+      )
       .populate("userId", "_id fullName")
       .lean();
 
@@ -317,5 +321,91 @@ router.get("/link/:publicId", async (req, res) => {
     return res.status(500).json({ err: "Cannot fetch link metadata" });
   }
 });
+
+router.get("/download-public/:publicId", async (req, res) => {
+  try {
+    const publicId = req.params.publicId;
+    const password = req.query.password?.trim();
+
+    const link = await Link.findOne({ publicId }).populate("fileId").lean();
+
+    if (!link) {
+      return res.status(404).json({ err: "Invalid request" });
+    }
+
+    const now = new Date();
+
+    if (link.expiresAt && link.expiresAt < now) {
+      return res.status(410).json({ err: "Invalid request" });
+    }
+
+    if (link.isRevoked) {
+      return res.status(403).json({ err: "Invalid request" });
+    }
+
+    if (link.password && !password) {
+      return res.status(411).json({ err: "Password required" });
+    }
+
+    if (link.password && !(await compare(password, link.password))) {
+      return res.status(412).json({ err: "Wrong password" });
+    }
+
+    if (link.maxDownloads !== undefined && link.maxDownloads <= 0) {
+      return res.status(413).json({ err: "Invalid max downloads value" });
+    }
+
+    if (link.maxDownloads) {
+      const updatedLink = await Link.findOneAndUpdate(
+        {
+          publicId,
+          downloads: { $lt: link.maxDownloads },
+        },
+        { $inc: { downloads: 1 } },
+        { runValidators: true, new: true },
+      ).lean();
+
+      if (!updatedLink)
+        return res.status(414).json({ err: "Download limit reached" });
+    }
+
+    const originalUrl = link.fileId.storage.secureUrl;
+
+    if (!originalUrl) {
+      return res.status(415).json({ err: "Missing Cloudinary URL parameter" });
+    }
+
+    const customDownloadName = link.fileId.fullName;
+    const cloudinaryUrl = originalUrl.replace(
+      "/upload/",
+      `/upload/fl_attachment:${customDownloadName}/`,
+    );
+
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename="${customDownloadName}"`,
+    );
+
+    const downloadStream = request.get(cloudinaryUrl);
+    downloadStream.on("error", (err) => {
+      console.error("Cloudinary Stream Error:", err);
+      if (!res.headersSent) {
+        return res
+          .status(500)
+          .json({ err: "Failed to fetch file from storage" });
+      }
+    });
+
+    return downloadStream.pipe(res).on("error", (err) => {
+      console.error("Browser Pipe Error:", err);
+      res.end();
+    });
+  } catch (err) {
+    console.log(err.message);
+    return res.status(500).json({ err: "Download failed" });
+  }
+});
+
+router.get("/download-private/:fileId", checkAuthHard, async (req, res) => {});
 
 export default router;
