@@ -378,13 +378,14 @@ router.get("/download-public/:publicId", async (req, res) => {
     const customDownloadName = link.fileId.fullName;
     const cloudinaryUrl = originalUrl.replace(
       "/upload/",
-      `/upload/fl_attachment:${customDownloadName}/`,
+      `/upload/fl_attachment:${encodeURIComponent(customDownloadName)}/`,
     );
 
     res.setHeader(
       "Content-Disposition",
       `attachment; filename="${customDownloadName}"`,
     );
+    res.setHeader("Content-Type", link.fileId.mimeType);
 
     const downloadStream = request.get(cloudinaryUrl);
     downloadStream.on("error", (err) => {
@@ -406,6 +407,59 @@ router.get("/download-public/:publicId", async (req, res) => {
   }
 });
 
-router.get("/download-private/:fileId", checkAuthHard, async (req, res) => {});
+router.get("/download-private/:fileId", checkAuthHard, async (req, res) => {
+  try {
+    const fileId = req.params.fileId;
+
+    if (!mongoose.Types.ObjectId.isValid(fileId)) {
+      return res.status(400).json({ err: "Invalid request" });
+    }
+
+    const file = await File.findOne({
+      _id: fileId,
+      userId: req.user._id,
+    }).lean();
+
+    if (!file) {
+      return res.status(404).json({ err: "Invalid request" });
+    }
+
+    const originalUrl = file.storage.secureUrl;
+
+    if (!originalUrl) {
+      return res.status(415).json({ err: "Missing Cloudinary URL parameter" });
+    }
+
+    const customDownloadName = file.fullName;
+    const cloudinaryUrl = originalUrl.replace(
+      "/upload/",
+      `/upload/fl_attachment:${encodeURIComponent(customDownloadName)}/`,
+    );
+
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename="${customDownloadName}"`,
+    );
+    res.setHeader("Content-Type", file.mimeType);
+
+    const downloadStream = request.get(cloudinaryUrl);
+    downloadStream.on("error", (err) => {
+      console.error("Cloudinary Stream Error:", err);
+      if (!res.headersSent) {
+        return res
+          .status(500)
+          .json({ err: "Failed to fetch file from storage" });
+      }
+    });
+
+    return downloadStream.pipe(res).on("error", (err) => {
+      console.error("Browser Pipe Error:", err);
+      res.end();
+    });
+  } catch (err) {
+    console.log(err.message);
+    return res.status(500).json({ err: "Download failed" });
+  }
+});
 
 export default router;
