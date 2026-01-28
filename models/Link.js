@@ -37,6 +37,11 @@ const linkSchema = new mongoose.Schema(
       required: true,
       default: false,
     },
+    isAnonymous: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
   },
   { timestamps: true },
 );

@@ -288,4 +288,34 @@ router.get("/all", checkAuthHard, async (req, res) => {
   }
 });
 
+router.get("/link/:publicId", async (req, res) => {
+  try {
+    const publicId = req.params.publicId;
+
+    const link = await Link.findOne({ publicId })
+      .populate("fileId", "_id userId fileName size mimeType")
+      .populate("userId", "_id fullName")
+      .lean();
+
+    if (!link) {
+      return res.status(404).json({ err: "Invalid request" });
+    }
+
+    const now = new Date();
+
+    if (link.expiresAt && link.expiresAt < now) {
+      return res.status(410).json({ err: "Invalid request" });
+    }
+
+    if (link.isRevoked) {
+      return res.status(403).json({ err: "Invalid request" });
+    }
+
+    return res.status(200).json({ msg: "Link metadata sent", link });
+  } catch (err) {
+    console.log(err.message);
+    return res.status(500).json({ err: "Cannot fetch link metadata" });
+  }
+});
+
 export default router;
