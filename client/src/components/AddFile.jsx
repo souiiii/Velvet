@@ -17,6 +17,8 @@ function AddFile() {
         body: formData,
       });
       console.log(res);
+    } catch (err) {
+      console.log(err.message);
     } finally {
       setLoading(false);
     }

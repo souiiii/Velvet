@@ -65,12 +65,10 @@ router.post("/login", async (req, res) => {
       httpOnly: true,
     });
 
-    return res
-      .status(200)
-      .json({
-        msg: "Login successful",
-        user: { email: user.email, userId: user._id, fullName: user.fullName },
-      });
+    return res.status(200).json({
+      msg: "Login successful",
+      user: { email: user.email, userId: user._id, fullName: user.fullName },
+    });
   } catch (err) {
     console.log(err.message);
     return res.status(500).json({ err: "Login Failed" });

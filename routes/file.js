@@ -1,3 +1,5 @@
+import dotenv from "dotenv";
+dotenv.config();
 import express from "express";
 import multer from "multer";
 import { v2 as cloudinary } from "cloudinary";
@@ -9,12 +11,15 @@ import mongoose from "mongoose";
 import Link from "../models/Link.js";
 import { compare, hash } from "bcrypt";
 import request from "request";
+import path from "path";
 
 cloudinary.config({
-  cloud_name: "velvet",
-  api_key: "fsdfaddf",
-  api_secret: "fsdfdasfdf",
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET,
 });
+
+console.log(process.env.API_KEY);
 
 const router = express.Router();
 
@@ -41,6 +46,9 @@ const ALLOWED_MIME_TYPES = [
   "application/zip",
   "application/x-rar",
   "application/x-7z-compressed",
+  "application/x-zip-compressed",
+  "application/x-rar-compressed",
+  "application/octet-stream",
 ];
 
 const imageTypes = [
@@ -67,6 +75,12 @@ router.post(
     const mimeType = req.file.mimetype;
     if (!ALLOWED_MIME_TYPES.includes(mimeType)) {
       return res.status(400).json({ err: "File type not supported" });
+    }
+    if (
+      mimeType === "application/octet-stream" &&
+      imageTypes.includes(mimeType)
+    ) {
+      return res.status(400).json({ err: "Invalid image upload" });
     }
     let uploadResult;
     try {
@@ -98,7 +112,7 @@ router.post(
         },
         userId: req.user._id,
         size: uploadResult.bytes,
-        fileName: uploadResult.original_filename,
+        fileName: req.file.originalname,
         mimeType,
       };
       await File.create(metadata);

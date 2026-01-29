@@ -12,7 +12,7 @@ function AuthProvider({ children }) {
     async function setCurrUser() {
       try {
         setLoading(true);
-        const res = await fetch("/api/user");
+        const res = await fetch("/api/user", { credentials: "include" });
         if (res.status === 401) {
           setUser(null);
           return;

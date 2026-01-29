@@ -19,11 +19,11 @@ const MONGO_URI = process.env.MONGO_URI;
 
 // app.use(express.static(path.join(__dirname, "client", "dist")));
 
-app.use(checkAuthSoft);
+app.use(cookieParser());
 
+app.use(checkAuthSoft);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 
 app.use("/api/user", userRouter);
 app.use("/api/file", fileRouter);
