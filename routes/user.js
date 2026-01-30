@@ -17,14 +17,19 @@ router.get("/", checkAuthHard, async (req, res) => {
   });
 });
 
-router.post("/logout", async (req, res) => {
-  req.user = null;
-  res.clearCookie("token", {
-    httpOnly: true,
-    sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
-  });
-  return res.status(200).json({ msg: "Logged Out" });
+router.post("/logout", checkAuthHard, async (req, res) => {
+  try {
+    req.user = null;
+    res.clearCookie("token", {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+    });
+    return res.status(200).json({ msg: "Logged Out" });
+  } catch (err) {
+    console.log(err.message);
+    return res.status(500).json({ msg: "Cannot log out" });
+  }
 });
 
 router.post("/login", async (req, res) => {
