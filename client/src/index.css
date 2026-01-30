@@ -342,4 +342,8 @@ body {
   background-color: var(--accent-transparent);
   gap: 0.5rem;
   border-radius: var(--border-radius);
+  font-size: 0.75rem;
+  line-height: 1rem;
+  width: 100%;
+  color: var(--accent-col);
 }

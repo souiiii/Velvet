@@ -12,6 +12,7 @@ import Link from "../models/Link.js";
 import { compare, hash } from "bcrypt";
 import request from "request";
 import path from "path";
+import User from "../models/User.js";
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
@@ -82,6 +83,11 @@ router.post(
     ) {
       return res.status(400).json({ err: "Invalid image upload" });
     }
+
+    if (req.user.storageUsed + req.file.size > 100000000) {
+      return res.status(400).json({ err: "Insufficent space" });
+    }
+
     let uploadResult;
     try {
       const random = (await randomBytes(12)).toString("hex");
@@ -115,7 +121,12 @@ router.post(
         fileName: req.file.originalname,
         mimeType,
       };
-      await File.create(metadata);
+      await Promise.all([
+        File.create(metadata),
+        User.findByIdAndUpdate(req.user._id, {
+          $inc: { storageUsed: uploadResult.bytes },
+        }),
+      ]);
       console.log("done");
       return res.json({ msg: "uploaded" });
     } catch (err) {
@@ -164,6 +175,9 @@ router.delete("/delete-file/:id", checkAuthHard, async (req, res) => {
     await Promise.all([
       File.deleteOne({ _id: file._id }),
       Link.deleteMany({ fileId: file._id }),
+      User.findByIdAndUpdate(req.user._id, {
+        $inc: { storageUsed: 0 - file.size },
+      }),
     ]);
     return res.status(200).json({ msg: "File is successfully deleted" });
   } catch (err) {

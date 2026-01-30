@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../contexts/useAuth";
-import { LogOut, Settings } from "lucide-react";
+import { LogOut, Settings, Shield } from "lucide-react";
 
 function LeftPanel({ name, email }) {
   const nameSplit = name.trim().split(" ");
@@ -65,10 +65,16 @@ function LeftPanel({ name, email }) {
               <LogOut size={16} />
             </button>
           </div>
-          <div className="label">Security You Control</div>
+          <div className="label">
+            <Shield size={16} />
+            <span>Security You Control</span>
+          </div>
         </div>
       </div>
-      <div className="box"></div>
+      <div className="box">
+        <h1 className="storage-heading">Storage</h1>
+        {/* <button>Upgrade S</button> */}
+      </div>
       <div className="box"></div>
     </div>
   );

@@ -80,7 +80,7 @@ function HomePage() {
           </AnimatePresence>
         </motion.div>
       </LayoutGroup>
-      {/* <AddFile /> */}
+      <AddFile />
     </div>
   );
 }
