@@ -179,7 +179,9 @@ router.delete("/delete-file/:id", checkAuthHard, async (req, res) => {
         $inc: { storageUsed: 0 - file.size },
       }),
     ]);
-    return res.status(200).json({ msg: "File is successfully deleted" });
+    return res.status(200).json({
+      msg: "File is successfully deleted",
+    });
   } catch (err) {
     console.log(err.message);
     return res.status(500).json({ err: "File cannot be deleted" });

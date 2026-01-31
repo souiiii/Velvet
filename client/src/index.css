@@ -54,6 +54,7 @@
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
 }
 
 .loading {
@@ -346,4 +347,91 @@ body {
   line-height: 1rem;
   width: 100%;
   color: var(--accent-col);
+}
+
+.storage-heading {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  color: var(--graytext);
+}
+
+.storage-meter-outer-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.storage-meter-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 7rem;
+  height: 7rem;
+  margin-inline: auto;
+}
+
+.percentage {
+  color: var(--white-text);
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-family: "Noto Sans";
+  line-height: 2rem;
+}
+
+.used {
+  font-size: 0.75rem;
+  color: var(--graytext);
+  line-height: 1rem;
+  font-weight: 500;
+}
+
+.storage-info-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.storageInfo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--white-text);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.25rem;
+}
+
+.storageInfo > span {
+  color: var(--graytext);
+}
+
+.remaining-storage {
+  margin-top: 0.25rem;
+  color: var(--graytext);
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 500;
+}
+
+.upgrade-storage {
+  justify-content: center;
+  align-items: center;
+}
+
+.upgrade-storage span {
+  width: auto;
+  display: flex;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  padding-block: 0.125rem;
+  padding-inline: 1rem;
+  cursor: pointer;
 }

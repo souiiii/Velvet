@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Loading from "./Loading";
 
-function AddFile() {
+function AddFile({ setRefresh }) {
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -16,7 +16,9 @@ function AddFile() {
         method: "POST",
         body: formData,
       });
-      console.log(res);
+      const data = await res.json();
+      console.log(data);
+      setRefresh((r) => r + 1);
     } catch (err) {
       console.log(err.message);
     } finally {

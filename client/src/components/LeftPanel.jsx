@@ -1,12 +1,17 @@
 import { useState } from "react";
 import { useAuth } from "../contexts/useAuth";
 import { LogOut, Settings, Shield } from "lucide-react";
+import { CircularProgressbarWithChildren } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
+import { useEffect } from "react";
+import { motion } from "motion/react";
 
-function LeftPanel({ name, email }) {
+function LeftPanel({ name, email, storageUsed }) {
   const nameSplit = name.trim().split(" ");
   const firstLetter = nameSplit[0].slice(0, 1);
   const values = useAuth();
   const [loading, setLoading] = useState(false);
+  const [percent, setPercent] = useState(0);
   const lastLetter =
     nameSplit.length > 1 ? nameSplit[nameSplit.length - 1].slice(0, 1) : "";
 
@@ -18,6 +23,77 @@ function LeftPanel({ name, email }) {
       ? lastLetter.toUpperCase() + nameSplit[nameSplit.length - 1].slice(1)
       : "")
   ).trim();
+
+  const storage =
+    storageUsed < 100000
+      ? Math.floor(storageUsed / 1000) + " KB"
+      : Math.floor(storageUsed / 100000) % 10 === 0
+        ? Math.floor(Math.floor(storageUsed / 100000) / 10)
+        : Math.floor(storageUsed / 100000) / 10 + " MB";
+
+  const leftStorage =
+    storageUsed > 99000000
+      ? Math.ceil((100000000 - storageUsed) / 1000) + " KB"
+      : Math.ceil(storageUsed / 100000) % 10 === 0
+        ? Math.ceil(Math.ceil((100000000 - storageUsed) / 100000) / 10)
+        : Math.ceil((100000000 - storageUsed) / 100000) / 10 + " MB";
+
+  const percentage = Math.floor(storageUsed / 1000000);
+
+  const storageMeterStyles = {
+    // Customize the root svg element
+    root: {},
+    // Customize the path, i.e. the "completed progress"
+    path: {
+      // Path color
+      stroke: `#e14848`,
+      // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
+      strokeLinecap: "rounded",
+      // Customize transition animation
+      transition: "stroke-dashoffset 1.5s ease-out 0s",
+      // Rotate the path
+      //   transform: "rotate(0.25turn)",
+      transformOrigin: "center center",
+    },
+    // Customize the circle behind the path, i.e. the "total progress"
+    trail: {
+      // Trail color
+      stroke: "#1E2229",
+      // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
+      strokeLinecap: "round",
+      // Rotate the trail
+      //   transform: "rotate(0.25turn)",
+      transformOrigin: "center center",
+    },
+    // Customize the text
+    text: {
+      // Text color
+      fill: "#f0f2f5",
+      // Text size
+      fontSize: "1.4rem",
+      fontWeight: 700,
+      fontFamily: "Noto Sans",
+      lineHeight: "2rem",
+      transform: "translateY(-5%)",
+    },
+    // Customize background - only used when the `background` prop is true
+    background: {
+      fill: "#df3939",
+    },
+  };
+
+  useEffect(
+    function meter() {
+      if (percent === percentage) return;
+      setTimeout(
+        () => {
+          setPercent((p) => p + 1);
+        },
+        150 * (1 - (1 - percent / 100) * (1 - percent / 100)),
+      );
+    },
+    [percentage, percent],
+  );
 
   async function handleLogout() {
     try {
@@ -73,9 +149,67 @@ function LeftPanel({ name, email }) {
       </div>
       <div className="box">
         <h1 className="storage-heading">Storage</h1>
-        {/* <button>Upgrade S</button> */}
+        <div className="storage-meter-outer-div">
+          <div className="storage-meter-div">
+            <CircularProgressbarWithChildren
+              value={percentage}
+              styles={storageMeterStyles}
+            >
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1.5 }}
+                className="percentage"
+              >
+                {percent}%
+              </motion.div>
+              <div className="used">Used</div>
+            </CircularProgressbarWithChildren>
+          </div>
+          <div className="storage-info-div">
+            <div className="storageInfo">
+              {storage} <span>&nbsp;of&nbsp;</span> 100 MB
+            </div>
+            <div className="remaining-storage">{leftStorage} available</div>
+          </div>
+        </div>
+
+        <button className="label upgrade-storage">
+          <span>Upgrade Storage</span>
+        </button>
       </div>
-      <div className="box"></div>
+      <div className="box">
+        <div className="quick-stats-div">
+          <div className="quick-stats-heading">Quick Stats</div>
+          <div className="stats-div">
+            <div className="stat">
+              <div className="stat-block">
+                <div className="stat-block-heading">Total Files</div>
+              </div>
+            </div>
+            <div className="stat">
+              <div className="stat-block">
+                <div className="stat-block-heading">Active Links</div>
+              </div>
+            </div>
+            <div className="stat">
+              <div className="stat-block">
+                <div className="stat-block-heading">Total Downloads</div>
+              </div>
+            </div>
+            <div className="stat">
+              <div className="stat-block">
+                <div className="stat-block-heading">Expired Links</div>
+              </div>
+            </div>
+            <div className="stat">
+              <div className="stat-block">
+                <div className="stat-block-heading">Revoked Links</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

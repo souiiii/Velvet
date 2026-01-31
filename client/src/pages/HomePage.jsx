@@ -9,6 +9,9 @@ function HomePage() {
   const [globalLoading, setGlobalLoading] = useState(false);
   const [rightOpen, setRightOpen] = useState(false);
   const [filesAndLinks, setFilesAndLinks] = useState(null);
+  const [refresh, setRefresh] = useState(0);
+
+  const storageUsed = filesAndLinks?.reduce((acc, f) => acc + f.size, 0) || 0;
 
   useEffect(() => {
     const controller = new AbortController();
@@ -42,7 +45,7 @@ function HomePage() {
     getFilesAndLinks();
 
     return () => controller.abort();
-  }, []);
+  }, [refresh]);
   return (
     <div className="main">
       <div className="navbar">
@@ -57,7 +60,11 @@ function HomePage() {
       <LayoutGroup>
         <motion.div layout className="container">
           <motion.div layout className="leftPanel">
-            <LeftPanel name={values.user.fullName} email={values.user.email} />
+            <LeftPanel
+              storageUsed={storageUsed}
+              name={values.user.fullName}
+              email={values.user.email}
+            />
           </motion.div>
           <motion.div
             layout
@@ -80,7 +87,7 @@ function HomePage() {
           </AnimatePresence>
         </motion.div>
       </LayoutGroup>
-      <AddFile />
+      {/* <AddFile setRefresh={setRefresh} /> */}
     </div>
   );
 }
