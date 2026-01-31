@@ -1,6 +1,16 @@
 import { useState } from "react";
 import { useAuth } from "../contexts/useAuth";
-import { LogOut, Settings, Shield } from "lucide-react";
+import {
+  AlarmClockOff,
+  Ban,
+  CloudDownload,
+  FileText,
+  Link,
+  Link2,
+  LogOut,
+  Settings,
+  Shield,
+} from "lucide-react";
 import { CircularProgressbarWithChildren } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { useEffect } from "react";
@@ -183,28 +193,48 @@ function LeftPanel({ name, email, storageUsed }) {
           <div className="quick-stats-heading">Quick Stats</div>
           <div className="stats-div">
             <div className="stat">
+              <div className="stat-logo-div">
+                <FileText size={16} />
+              </div>
               <div className="stat-block">
                 <div className="stat-block-heading">Total Files</div>
+                <div className="value-stat">24</div>
               </div>
             </div>
             <div className="stat">
+              <div className="stat-logo-div">
+                <Link2 size={16} />
+              </div>
               <div className="stat-block">
                 <div className="stat-block-heading">Active Links</div>
+                <div className="value-stat">8</div>
               </div>
             </div>
             <div className="stat">
+              <div className="stat-logo-div">
+                <CloudDownload size={16} />
+              </div>
               <div className="stat-block">
                 <div className="stat-block-heading">Total Downloads</div>
+                <div className="value-stat">1,247</div>
               </div>
             </div>
             <div className="stat">
+              <div className="stat-logo-div">
+                <AlarmClockOff size={16} />
+              </div>
               <div className="stat-block">
                 <div className="stat-block-heading">Expired Links</div>
+                <div className="value-stat">2</div>
               </div>
             </div>
-            <div className="stat">
-              <div className="stat-block">
+            <div className="stat last">
+              <div className="stat-logo-div">
+                <Ban size={16} />
+              </div>
+              <div className="stat-block ">
                 <div className="stat-block-heading">Revoked Links</div>
+                <div className="value-stat">7</div>
               </div>
             </div>
           </div>

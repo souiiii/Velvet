@@ -24,6 +24,7 @@
   --accent-profile: #40191d;
   --accent-border: #461a1e;
   --accent-transparent: #26171c;
+  --accent-button-highligh: #3b191d;
 
   --green: #1cca5b;
   --green-transparent: #122e2a;
@@ -46,7 +47,23 @@
 
   --border-radius: 0.75rem;
 }
+::-webkit-scrollbar {
+  display: none;
+  width: 2px;
+  height: 2px;
+}
 
+::-webkit-scrollbar-track {
+  background: var(--shadow-color);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--accent-logout);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+}
 * {
   margin: 0;
   padding: 0;
@@ -159,6 +176,7 @@ body {
   justify-content: center;
   align-items: start;
   padding: 1rem;
+  overflow-y: scroll;
 }
 
 .centerPanel {
@@ -423,6 +441,9 @@ body {
 .upgrade-storage {
   justify-content: center;
   align-items: center;
+  margin-top: 1rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
 }
 
 .upgrade-storage span {
@@ -433,5 +454,87 @@ body {
   line-height: 1.25rem;
   padding-block: 0.125rem;
   padding-inline: 1rem;
-  cursor: pointer;
+}
+
+.upgrade-storage:hover {
+  background-color: var(--accent-button-highligh);
+}
+
+.quick-stats-div {
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  width: 100%;
+  flex-direction: column;
+}
+
+.quick-stats-heading {
+  font-weight: 500;
+  line-height: 1.25rem;
+  font-size: 0.875rem;
+  color: var(--graytext);
+  margin-bottom: 0.75rem;
+}
+
+.stats-div {
+  display: flex;
+  width: 100%;
+  justify-content: start;
+  align-items: center;
+  flex-direction: column;
+}
+
+.stat {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  width: 100%;
+  padding-top: 0.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--margins);
+  gap: 0.75rem;
+}
+
+.last {
+  margin-bottom: 0;
+  border-bottom: 0;
+}
+
+.stat-logo-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--graytext);
+  min-width: 2.25rem;
+  min-height: 2.25rem;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 0.75rem;
+  background-color: var(--boxground);
+}
+
+.stat-block {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  align-items: start;
+}
+
+.stat-block-heading {
+  font-size: 0.875rem;
+  color: var(--graytext);
+  line-height: 1.25rem;
+}
+
+.value-stat {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  color: var(--white-text);
+}
+
+@media (max-width: 1280px) {
+  .leftPanel {
+    width: 18rem;
+  }
 }
