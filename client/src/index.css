@@ -86,6 +86,30 @@
   margin-inline: auto;
 }
 
+.uploading-now {
+  display: flex;
+  justify-content: center;
+  max-width: 300px;
+  /* width: 300px; */
+  width: auto;
+  padding: 1rem 1.5rem;
+  border-radius: var(--border-radius);
+  color: var(--white-text);
+  background-color: var(--boxground);
+  font-size: 0.875rem;
+  position: absolute;
+  left: 50%;
+  top: 1rem;
+  overflow: hidden;
+}
+
+.uploading-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+}
+
 html,
 body {
   overflow: hidden;
@@ -114,6 +138,7 @@ body {
   align-items: center;
   overflow: hidden;
   max-width: 2500px;
+  position: relative;
 }
 
 .navbar {

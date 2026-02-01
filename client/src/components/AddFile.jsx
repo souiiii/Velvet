@@ -1,51 +1,88 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Loading from "./Loading";
-import { motion } from "motion/react";
+import UploadDownload from "./UploadDownload";
 
-function AddFile({ setRefresh }) {
-  const [file, setFile] = useState(null);
-  const [loading, setLoading] = useState(false);
+function AddFile({ setRefresh, uploading, setUploading }) {
+  const [files, setFiles] = useState([]);
+  const fileInputRef = useRef(null);
+
+  function handleFileChange(e) {
+    const selected = Array.from(e.target.files);
+
+    if (selected.length > 5) {
+      alert("Maximum 5 files allowed");
+      return;
+    }
+
+    setFiles(selected);
+  }
+
+  async function uploadSingleFile(file) {
+    const formData = new FormData();
+
+    formData.append("file", file);
+
+    const res = await fetch("/api/file/add-file", {
+      method: "POST",
+      credentials: "include",
+      body: formData,
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.err || "Upload failed");
+    }
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
+    if (!files.length) return;
+
     try {
-      setLoading(true);
-      const formData = new FormData();
-      formData.append("file", file);
-      const res = await fetch("/api/file/add-file", {
-        credentials: "include",
-        method: "POST",
-        body: formData,
-      });
-      const data = await res.json();
-      console.log(data);
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+
+        setUploading({ name: file.name, index: i + 1 });
+        await new Promise(requestAnimationFrame);
+
+        await uploadSingleFile(file);
+      }
+
       setRefresh((r) => r + 1);
+      setFiles([]);
     } catch (err) {
-      console.log(err.message);
+      console.error(err.message);
+      alert(err.message);
     } finally {
-      setLoading(false);
+      setUploading(null);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
     }
   }
-  if (loading) return <Loading />;
-  else
-    return (
-      <div>
-        <div>Add File</div>
-        <form onSubmit={handleSubmit}>
-          <label>
-            <p>Add new file</p>
-            <input
-              id="upload"
-              type="file"
-              required
-              name="file"
-              onChange={(e) => setFile(e.target.files[0])}
-            />
-          </label>
-          <button type="submit">Upload file</button>
-        </form>
-      </div>
-    );
+
+  return (
+    <div>
+      <div>Add File</div>
+
+      <form onSubmit={handleSubmit}>
+        <label>
+          <p>Add new files (max 5)</p>
+          <input
+            type="file"
+            ref={fileInputRef}
+            multiple
+            required
+            onChange={handleFileChange}
+          />
+        </label>
+
+        <button type="submit">
+          Upload {files.length ? `(${files.length})` : ""}
+        </button>
+      </form>
+    </div>
+  );
 }
 
 export default AddFile;

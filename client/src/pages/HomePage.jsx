@@ -4,6 +4,7 @@ import LeftPanel from "../components/LeftPanel";
 import { AnimatePresence, motion, LayoutGroup } from "motion/react";
 import { useAuth } from "../contexts/useAuth";
 import CenterPanel from "../components/CenterPanel";
+import UploadDownload from "../components/UploadDownload";
 
 function HomePage() {
   const values = useAuth();
@@ -11,6 +12,7 @@ function HomePage() {
   const [rightOpen, setRightOpen] = useState(false);
   const [filesAndLinks, setFilesAndLinks] = useState(null);
   const [refresh, setRefresh] = useState(0);
+  const [uploading, setUploading] = useState(null);
 
   const storageUsed = filesAndLinks?.reduce((acc, f) => acc + f.size, 0) || 0;
   const numberOfFiles = filesAndLinks?.length || 0;
@@ -52,6 +54,9 @@ function HomePage() {
   }, [refresh]);
   return (
     <div className="main">
+      <AnimatePresence>
+        {uploading && <UploadDownload uploading={uploading} />}
+      </AnimatePresence>
       <div className="navbar">
         <div className="logo-div">Velvet</div>
         <div className="utility-div">
@@ -60,7 +65,7 @@ function HomePage() {
           </label>
         </div>
       </div>
-      {globalLoading && <div>Loading..</div>}
+      {/* {globalLoading && <div>Loading..</div>} */}
       <LayoutGroup>
         <motion.div layout className="container">
           <motion.div layout className="leftPanel">
@@ -79,6 +84,8 @@ function HomePage() {
             <CenterPanel
               setRefresh={setRefresh}
               filesAndLinks={filesAndLinks}
+              uploading={uploading}
+              setUploading={setUploading}
             />
           </motion.div>
 
