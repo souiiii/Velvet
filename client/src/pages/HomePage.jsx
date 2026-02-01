@@ -18,6 +18,16 @@ function HomePage() {
   const storageUsed = filesAndLinks?.reduce((acc, f) => acc + f.size, 0) || 0;
   const numberOfFiles = filesAndLinks?.length || 0;
 
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      videoRef.current?.play();
+    }, 8000); // delay in ms (800ms = 0.8s)
+
+    return () => clearTimeout(timer);
+  }, []);
+
   // const activeLinks = filesAndLinks?.reduce((acc, f)=>acc+f.links.reduce((a, l)=>(!l.isRevoked && !),0),0)
 
   useEffect(() => {
@@ -118,6 +128,7 @@ function HomePage() {
               >
                 <div className="video-player">
                   <video
+                    ref={videoRef}
                     style={{ width: "100%" }}
                     autoPlay
                     loop
