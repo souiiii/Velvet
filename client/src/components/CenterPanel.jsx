@@ -4,7 +4,13 @@ import { motion } from "motion/react";
 import { useState } from "react";
 import File from "./File";
 
-function CenterPanel({ setRefresh, filesAndLinks, uploading, setUploading }) {
+function CenterPanel({
+  setRefresh,
+  filesAndLinks,
+  uploading,
+  setUploading,
+  app,
+}) {
   const [searchQuery, setSearchQuery] = useState("");
 
   const filteredFilesAndLinks = filesAndLinks
@@ -46,6 +52,7 @@ function CenterPanel({ setRefresh, filesAndLinks, uploading, setUploading }) {
         </motion.button>
       </motion.div>
       <AddFile
+        app={app}
         setRefresh={setRefresh}
         uploading={uploading}
         setUploading={setUploading}

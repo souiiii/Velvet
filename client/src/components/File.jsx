@@ -78,7 +78,7 @@ function File({ file }) {
     ? file.size < 100000
       ? Math.floor(file.size / 1000) + " KB"
       : Math.floor(file.size / 100000) % 10 === 0
-        ? Math.floor(Math.floor(file.size / 100000) / 10)
+        ? Math.floor(Math.floor(file.size / 100000) / 10) + " MB"
         : Math.floor(file.size / 100000) / 10 + " MB"
     : "0 MB";
 

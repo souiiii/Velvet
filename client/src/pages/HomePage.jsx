@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import AddFile from "../components/AddFile";
 import LeftPanel from "../components/LeftPanel";
 import { AnimatePresence, motion, LayoutGroup } from "motion/react";
@@ -13,6 +13,7 @@ function HomePage() {
   const [filesAndLinks, setFilesAndLinks] = useState(null);
   const [refresh, setRefresh] = useState(0);
   const [uploading, setUploading] = useState(null);
+  const app = useRef(null);
 
   const storageUsed = filesAndLinks?.reduce((acc, f) => acc + f.size, 0) || 0;
   const numberOfFiles = filesAndLinks?.length || 0;
@@ -53,7 +54,7 @@ function HomePage() {
     return () => controller.abort();
   }, [refresh]);
   return (
-    <div className="main">
+    <div ref={app} className="main">
       <AnimatePresence>
         {uploading && <UploadDownload uploading={uploading} />}
       </AnimatePresence>
@@ -61,7 +62,7 @@ function HomePage() {
         <div className="logo-div">Velvet</div>
         <div className="utility-div">
           <label htmlFor="upload" className="action-button">
-            <span>+</span>&nbsp; New Upload
+            <span>+</span>&nbsp;New Upload
           </label>
         </div>
       </div>
@@ -86,6 +87,7 @@ function HomePage() {
               filesAndLinks={filesAndLinks}
               uploading={uploading}
               setUploading={setUploading}
+              app={app}
             />
           </motion.div>
 

@@ -38,14 +38,14 @@ function LeftPanel({ name, email, storageUsed, numberOfFiles }) {
     storageUsed < 100000
       ? Math.floor(storageUsed / 1000) + " KB"
       : Math.floor(storageUsed / 100000) % 10 === 0
-        ? Math.floor(Math.floor(storageUsed / 100000) / 10)
+        ? Math.floor(Math.floor(storageUsed / 100000) / 10) + " MB"
         : Math.floor(storageUsed / 100000) / 10 + " MB";
 
   const leftStorage =
     storageUsed > 99000000
       ? Math.ceil((100000000 - storageUsed) / 1000) + " KB"
       : Math.ceil(storageUsed / 100000) % 10 === 0
-        ? Math.ceil(Math.ceil((100000000 - storageUsed) / 100000) / 10)
+        ? Math.ceil(Math.ceil((100000000 - storageUsed) / 100000) / 10) + " MB"
         : Math.ceil((100000000 - storageUsed) / 100000) / 10 + " MB";
 
   const percentage = Math.floor(storageUsed / 1000000);

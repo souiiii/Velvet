@@ -1,20 +1,30 @@
-import { useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Loading from "./Loading";
 import UploadDownload from "./UploadDownload";
+import { Cloud, Lock, Upload } from "lucide-react";
 
-function AddFile({ setRefresh, uploading, setUploading }) {
+function AddFile({ setRefresh, uploading, setUploading, app }) {
   const [files, setFiles] = useState([]);
+  // const [isDragOver, setIsDragOver] = useState(false);
   const fileInputRef = useRef(null);
+  const drop = useRef(null);
 
   function handleFileChange(e) {
     const selected = Array.from(e.target.files);
-
-    if (selected.length > 5) {
-      alert("Maximum 5 files allowed");
-      return;
-    }
-
+    if (selected.length > 5) return alert("Max 5 files");
     setFiles(selected);
+  }
+
+  function handleDrop(e) {
+    e.preventDefault();
+    setFiles(e.dataTransfer.files);
+    console.log(e.dataTransfer.files);
+    app.current.classList.remove("drag-over");
+  }
+  function handleDragOver(e) {
+    e.preventDefault();
+    // setIsDragOver(true);
+    app.current.classList.add("drag-over");
   }
 
   async function uploadSingleFile(file) {
@@ -34,54 +44,83 @@ function AddFile({ setRefresh, uploading, setUploading }) {
     }
   }
 
-  async function handleSubmit(e) {
-    e.preventDefault();
+  const handleSubmit = useCallback(
+    async (e) => {
+      e.preventDefault();
+      if (!files.length) return;
+
+      try {
+        for (let i = 0; i < files.length; i++) {
+          const file = files[i];
+
+          setUploading({ name: file.name, index: i + 1 });
+          await new Promise(requestAnimationFrame);
+          await uploadSingleFile(file);
+        }
+
+        setRefresh((r) => r + 1);
+        setFiles([]);
+      } catch (err) {
+        console.error(err.message);
+        alert(err.message);
+      } finally {
+        setUploading(null);
+        if (fileInputRef.current) {
+          fileInputRef.current.value = "";
+        }
+      }
+    },
+    [files, setUploading, setRefresh],
+  );
+
+  useEffect(() => {
     if (!files.length) return;
-
-    try {
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-
-        setUploading({ name: file.name, index: i + 1 });
-        await new Promise(requestAnimationFrame);
-
-        await uploadSingleFile(file);
-      }
-
-      setRefresh((r) => r + 1);
-      setFiles([]);
-    } catch (err) {
-      console.error(err.message);
-      alert(err.message);
-    } finally {
-      setUploading(null);
-      if (fileInputRef.current) {
-        fileInputRef.current.value = "";
-      }
-    }
-  }
+    handleSubmit(new Event("submit"));
+  }, [files, handleSubmit]);
 
   return (
-    <div>
-      <div>Add File</div>
+    <label
+      ref={drop}
+      onDragOver={handleDragOver}
+      onDrop={handleDrop}
+      onDragLeave={() => {
+        // setIsDragOver(false);
+        app.current.classList.remove("drag-over");
+      }}
+      className="upload-files-div-box"
+    >
+      <form className="upload-files-div-form" onSubmit={handleSubmit}>
+        <div className="upload-logo-div">
+          <Upload size={28} />
+        </div>
+        <p className="upload-files-prompt-text">Upload Files (max 5)</p>
+        <p className="upload-files-drag-instruction">
+          Drag and drop or <span>browse</span>
+        </p>
+        <div className="upload-files-feature-div">
+          <div className="upload-files-storage-claim-div">
+            <Cloud size={14} />
+            <span>Up to 100MB</span>
+          </div>
+          <div className="upload-files-encryption-claim-div">
+            <Lock size={14} />
+            <span>Encrypted in Transit (TLS)</span>
+          </div>
+        </div>
+        <input
+          type="file"
+          ref={fileInputRef}
+          multiple
+          hidden
+          required
+          onChange={handleFileChange}
+        />
 
-      <form onSubmit={handleSubmit}>
-        <label>
-          <p>Add new files (max 5)</p>
-          <input
-            type="file"
-            ref={fileInputRef}
-            multiple
-            required
-            onChange={handleFileChange}
-          />
-        </label>
-
-        <button type="submit">
+        {/* <button type="submit">
           Upload {files.length ? `(${files.length})` : ""}
-        </button>
+        </button> */}
       </form>
-    </div>
+    </label>
   );
 }
 
