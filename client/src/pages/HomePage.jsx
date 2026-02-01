@@ -116,7 +116,17 @@ function HomePage() {
                 transition={{ ease: "easeInOut", duration: 0.4 }}
                 className="rightPanel"
               >
-                Right default
+                <div className="video-player">
+                  <video
+                    style={{ width: "100%" }}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                  >
+                    <source src="/velvet2.mp4" type="video/mp4" />
+                  </video>
+                </div>
               </motion.div>
             )}
           </AnimatePresence>

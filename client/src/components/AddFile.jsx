@@ -109,6 +109,7 @@ function AddFile({ setRefresh, uploading, setUploading, app }) {
         </div>
         <input
           type="file"
+          id="upload"
           ref={fileInputRef}
           multiple
           hidden
