@@ -16,7 +16,7 @@ import "react-circular-progressbar/dist/styles.css";
 import { useEffect } from "react";
 import { motion } from "motion/react";
 
-function LeftPanel({ name, email, storageUsed }) {
+function LeftPanel({ name, email, storageUsed, numberOfFiles }) {
   const nameSplit = name.trim().split(" ");
   const firstLetter = nameSplit[0].slice(0, 1);
   const values = useAuth();
@@ -198,7 +198,7 @@ function LeftPanel({ name, email, storageUsed }) {
               </div>
               <div className="stat-block">
                 <div className="stat-block-heading">Total Files</div>
-                <div className="value-stat">24</div>
+                <div className="value-stat">{numberOfFiles}</div>
               </div>
             </div>
             <div className="stat">

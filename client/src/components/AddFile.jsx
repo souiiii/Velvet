@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Loading from "./Loading";
+import { motion } from "motion/react";
 
 function AddFile({ setRefresh }) {
   const [file, setFile] = useState(null);
@@ -34,6 +35,7 @@ function AddFile({ setRefresh }) {
           <label>
             <p>Add new file</p>
             <input
+              id="upload"
               type="file"
               required
               name="file"

@@ -309,6 +309,8 @@ router.get("/all", checkAuthHard, async (req, res) => {
       f.links = fileLink[f._id.toString()] || [];
     });
 
+    console.log(relevantFiles);
+
     return res.status(200).json({
       msg: "All user files and links returned successfully",
       filesAndLinks: relevantFiles,
