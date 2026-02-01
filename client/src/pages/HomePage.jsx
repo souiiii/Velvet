@@ -79,7 +79,10 @@ function HomePage() {
       {/* {globalLoading && <div>Loading..</div>} */}
       <LayoutGroup>
         <motion.div layout className="container">
-          <motion.div layout className="leftPanel">
+          <motion.div
+            // layout
+            className="leftPanel"
+          >
             <LeftPanel
               storageUsed={storageUsed}
               name={values.user.fullName}
@@ -88,7 +91,7 @@ function HomePage() {
             />
           </motion.div>
           <motion.div
-            layout
+            // layout
             className="centerPanel"
             onClick={() => setRightOpen((o) => !o)}
           >

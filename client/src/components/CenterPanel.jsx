@@ -28,14 +28,26 @@ function CenterPanel({
 
   const numOfFiles = filteredFilesAndLinks ? filteredFilesAndLinks.length : 0;
   return (
-    <motion.div className="center-panel-inner-div" layout="position">
+    <div
+      className="center-panel-inner-div"
+      // layout="position"
+    >
       <motion.div className="search-div">
-        <motion.div layout className="search-bar">
-          <motion.div className="search-icon" layout>
-            <Search layout="position" size={16} />
-          </motion.div>
-          <motion.input
-            layout="position"
+        <div
+          // layout
+          className="search-bar"
+        >
+          <div
+            className="search-icon"
+            // layout
+          >
+            <Search
+              //  layout="position"
+              size={16}
+            />
+          </div>
+          <input
+            // layout="position"
             className="search-field"
             type="text"
             maxLength={200}
@@ -45,11 +57,14 @@ function CenterPanel({
             onChange={(e) => setSearchQuery(e.target.value)}
             id="search"
           />
-        </motion.div>
-        <motion.button className="filter-button" layout>
+        </div>
+        <button
+          className="filter-button"
+          // layout
+        >
           <SlidersHorizontal size={16} />
           <span>Filters</span>
-        </motion.button>
+        </button>
       </motion.div>
       <AddFile
         app={app}
@@ -69,7 +84,7 @@ function CenterPanel({
           ))}
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }
 

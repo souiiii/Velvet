@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useAuth } from "../contexts/useAuth";
 import {
   AlarmClockOff,
@@ -22,6 +22,7 @@ function LeftPanel({ name, email, storageUsed, numberOfFiles }) {
   const values = useAuth();
   const [loading, setLoading] = useState(false);
   const [percent, setPercent] = useState(0);
+  const percentRef = useRef(null);
   const lastLetter =
     nameSplit.length > 1 ? nameSplit[nameSplit.length - 1].slice(0, 1) : "";
 
@@ -107,7 +108,12 @@ function LeftPanel({ name, email, storageUsed, numberOfFiles }) {
         const t = Math.min(elapsed / duration, 1);
         const eased = easeOutCubic(t);
 
-        setPercent(Math.round(eased * percentage));
+        // OLD (Causes Lag): setPercent(Math.round(eased * percentage));
+
+        // NEW (Smooth): Direct DOM update
+        if (percentRef.current) {
+          percentRef.current.innerText = `${Math.round(eased * percentage)}%`;
+        }
 
         if (t < 1) {
           raf = requestAnimationFrame(animate);
@@ -186,8 +192,9 @@ function LeftPanel({ name, email, storageUsed, numberOfFiles }) {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1.5 }}
                 className="percentage"
+                ref={percentRef}
               >
-                {percent}%
+                0%
               </motion.div>
               <div className="used">Used</div>
             </CircularProgressbarWithChildren>
