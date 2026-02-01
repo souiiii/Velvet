@@ -92,17 +92,33 @@ function LeftPanel({ name, email, storageUsed, numberOfFiles }) {
     },
   };
 
+  function easeOutCubic(t) {
+    return 1 - Math.pow(1 - t, 3);
+  }
+
   useEffect(
     function meter() {
-      if (percent === percentage) return;
-      setTimeout(
-        () => {
-          setPercent((p) => p + 1);
-        },
-        150 * (1 - (1 - percent / 100) * (1 - percent / 100)),
-      );
+      let raf;
+      const duration = 1800;
+      const start = performance.now();
+
+      function animate(now) {
+        const elapsed = now - start;
+        const t = Math.min(elapsed / duration, 1);
+        const eased = easeOutCubic(t);
+
+        setPercent(Math.round(eased * percentage));
+
+        if (t < 1) {
+          raf = requestAnimationFrame(animate);
+        }
+      }
+
+      raf = requestAnimationFrame(animate);
+
+      return () => cancelAnimationFrame(raf);
     },
-    [percentage, percent],
+    [percentage],
   );
 
   async function handleLogout() {
@@ -178,7 +194,8 @@ function LeftPanel({ name, email, storageUsed, numberOfFiles }) {
           </div>
           <div className="storage-info-div">
             <div className="storageInfo">
-              {storage} <span>&nbsp;of&nbsp;</span> 100 MB
+              {storage === "0 KB" ? "0 MB" : storage}{" "}
+              <span>&nbsp;of&nbsp;</span> 100 MB
             </div>
             <div className="remaining-storage">{leftStorage} available</div>
           </div>

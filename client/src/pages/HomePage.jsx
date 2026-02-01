@@ -76,7 +76,10 @@ function HomePage() {
             className="centerPanel"
             onClick={() => setRightOpen((o) => !o)}
           >
-            <CenterPanel setRefresh={setRefresh} />
+            <CenterPanel
+              setRefresh={setRefresh}
+              filesAndLinks={filesAndLinks}
+            />
           </motion.div>
 
           <AnimatePresence mode="popLayout">
