@@ -100,7 +100,7 @@ function LeftPanel({ name, email, storageUsed, numberOfFiles }) {
   useEffect(
     function meter() {
       let raf;
-      const duration = 1700;
+      const duration = 1600;
       const start = performance.now();
 
       function animate(now) {

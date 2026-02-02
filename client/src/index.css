@@ -971,7 +971,7 @@ body {
   transition: all 0.2s ease-in-out;
 }
 
-.right-panel-tab-div:hover:not(.active) {
+.right-panel-tab-div:hover:has(.right-panel-tab:not(.active-tab)) {
   background-color: var(--boxground);
 }
 
@@ -982,6 +982,7 @@ body {
   align-items: center;
   height: 100%;
   width: 100%;
+  border-radius: var(--border-radius);
   /* font-weight: 400; */
   transition: all 0.3s ease-out;
 }
@@ -1002,9 +1003,6 @@ body {
   /* color: var(--white-text); */
 }
 
-.right-panel-tab:hover {
-  background-color: var(--boxground);
-}
 @media (max-width: 1280px) {
   .leftPanel {
     width: 18rem;
