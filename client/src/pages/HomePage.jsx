@@ -5,6 +5,7 @@ import { AnimatePresence, motion, LayoutGroup } from "motion/react";
 import { useAuth } from "../contexts/useAuth";
 import CenterPanel from "../components/CenterPanel";
 import UploadDownload from "../components/UploadDownload";
+import RightDefaultPanel from "../components/RightDefaultPanel";
 
 function HomePage() {
   const values = useAuth();
@@ -129,18 +130,7 @@ function HomePage() {
                 transition={{ ease: "easeInOut", duration: 0.4 }}
                 className="rightPanel"
               >
-                <div className="video-player">
-                  <video
-                    ref={videoRef}
-                    style={{ width: "100%" }}
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                  >
-                    <source src="/velvet2.mp4" type="video/mp4" />
-                  </video>
-                </div>
+                <RightDefaultPanel videoRef={videoRef} />
               </motion.div>
             )}
           </AnimatePresence>
