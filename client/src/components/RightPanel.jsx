@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion } from "motion/react";
 import { AlarmClockOff, Ban, Link2 } from "lucide-react";
 import CreateLink from "./CreateLink";
+import Link from "./Link";
 
 function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
   const [tab, setTab] = useState("active");
@@ -9,15 +10,16 @@ function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
 
   const now = new Date();
 
-  const numberOfLinks = (
+  const relavantLinks =
     links?.filter(
       tab === "active"
-        ? (l) => !l.isRevoked && now > new Date(l.expiresAt)
+        ? (l) => !l.isRevoked && now < new Date(l.expiresAt)
         : tab === "revoked"
           ? (l) => l.isRevoked
-          : (l) => now <= new Date(l.expiresAt),
-    ) || []
-  ).length;
+          : (l) => now >= new Date(l.expiresAt),
+    ) || [];
+
+  const numberOfLinks = relavantLinks.length;
 
   return (
     <div className="right-panel-div">
@@ -85,6 +87,11 @@ function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
               ></motion.div>
             )}
           </div>
+        </div>
+        <div className="right-panel-link-list-scrollable-div">
+          {relavantLinks.map((l) => (
+            <Link key={"34ra" + l._id + "33534"} link={l} />
+          ))}
         </div>
       </div>
     </div>

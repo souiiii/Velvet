@@ -13,8 +13,8 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import { useEffect, useState, useRef } from "react";
 
-const MotionChevronUp = motion(ChevronUp);
-const MotionChevronDown = motion(ChevronDown);
+const MotionChevronUp = motion.create(ChevronUp);
+const MotionChevronDown = motion.create(ChevronDown);
 
 dayjs.extend(utc);
 

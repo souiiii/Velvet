@@ -1,5 +1,5 @@
 function Link() {
-  return <div></div>;
+  return <div className="box"></div>;
 }
 
 export default Link;
