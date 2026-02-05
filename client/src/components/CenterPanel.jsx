@@ -7,6 +7,7 @@ import File from "./File";
 function CenterPanel({
   setRefresh,
   filesAndLinks,
+  setRightOpen,
   uploading,
   setUploading,
   app,
@@ -80,7 +81,7 @@ function CenterPanel({
         </div>
         <div className="file-display-list">
           {filteredFilesAndLinks.map((f) => (
-            <File key={f._id} file={f} />
+            <File setRightOpen={setRightOpen} key={f._id} file={f} />
           ))}
         </div>
       </div>

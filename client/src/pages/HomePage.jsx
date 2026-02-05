@@ -6,11 +6,12 @@ import { useAuth } from "../contexts/useAuth";
 import CenterPanel from "../components/CenterPanel";
 import UploadDownload from "../components/UploadDownload";
 import RightDefaultPanel from "../components/RightDefaultPanel";
+import RightPanel from "../components/RightPanel";
 
 function HomePage() {
   const values = useAuth();
   const [globalLoading, setGlobalLoading] = useState(false);
-  const [rightOpen, setRightOpen] = useState(false);
+  const [rightOpen, setRightOpen] = useState("");
   const [filesAndLinks, setFilesAndLinks] = useState(null);
   const [refresh, setRefresh] = useState(0);
   const [uploading, setUploading] = useState(null);
@@ -18,6 +19,10 @@ function HomePage() {
 
   const storageUsed = filesAndLinks?.reduce((acc, f) => acc + f.size, 0) || 0;
   const numberOfFiles = filesAndLinks?.length || 0;
+
+  const selectedFile = filesAndLinks?.find(
+    (f) => rightOpen === f._id.toString(),
+  );
 
   const videoRef = useRef(null);
 
@@ -64,6 +69,7 @@ function HomePage() {
 
     return () => controller.abort();
   }, [refresh]);
+
   return (
     <div ref={app} className="main">
       <AnimatePresence>
@@ -94,9 +100,9 @@ function HomePage() {
           <motion.div
             // layout
             className="centerPanel"
-            onClick={() => setRightOpen((o) => !o)}
           >
             <CenterPanel
+              setRightOpen={setRightOpen}
               setRefresh={setRefresh}
               filesAndLinks={filesAndLinks}
               uploading={uploading}
@@ -114,9 +120,13 @@ function HomePage() {
                 animate={{ x: 0, opacity: 1 }}
                 exit={{ x: 400, opacity: 0 }}
                 transition={{ ease: "easeInOut", duration: 0.4 }}
-                className="rightPanel"
+                className="rightPanel notDefault"
               >
-                right
+                <RightPanel
+                  selectedFile={selectedFile}
+                  setRefresh={setRefresh}
+                  setRightOpen={setRightOpen}
+                />
               </motion.div>
             )}
           </AnimatePresence>

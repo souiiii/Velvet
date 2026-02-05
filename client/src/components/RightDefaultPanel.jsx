@@ -15,7 +15,7 @@ function RightDefaultPanel({ videoRef }) {
           muted
           playsInline
         >
-          <source src="/velvet2.mp4" type="video/mp4" />
+          <source src="/hillclimb.mp4" type="video/mp4" />
         </video>
       </div>
       <div className="right-panel-link-list-div">

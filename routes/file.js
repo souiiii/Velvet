@@ -212,7 +212,6 @@ router.post("/create-link/:id", checkAuthHard, async (req, res) => {
 
     const maxDownloads = body.maxDownloads?.trim() ?? null;
     if (
-      maxDownloads === "" ||
       (maxDownloads && !isFinite(maxDownloads)) ||
       (maxDownloads && Number(maxDownloads) <= 0)
     ) {
@@ -323,7 +322,7 @@ router.get("/all", checkAuthHard, async (req, res) => {
       f.storage = {};
     });
 
-    console.log(relevantFiles);
+    // console.log(relevantFiles);
 
     return res.status(200).json({
       msg: "All user files and links returned successfully",

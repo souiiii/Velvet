@@ -64,7 +64,7 @@ const compressedTypes = [
 
 const otherTypes = ["application/octet-stream"];
 
-function File({ file }) {
+function File({ file, setRightOpen }) {
   const [timeAgo, setTimeAgo] = useState(() =>
     DateTime.fromISO(file.createdAt, {
       zone: "utc",
@@ -73,7 +73,7 @@ function File({ file }) {
 
   const backElement = useRef(null);
 
-  console.log(file.createdAt);
+  // console.log(file.createdAt);
   const size = file.size
     ? file.size < 100000
       ? Math.floor(file.size / 1000) + " KB"
@@ -169,7 +169,10 @@ function File({ file }) {
         </div>
       </div>
       <div className="your-file-actions-div ">
-        <div className="your-file-generate-link-button label">
+        <div
+          onClick={() => setRightOpen(file._id.toString())}
+          className="your-file-generate-link-button label"
+        >
           <Link2 size={14} />
           <span>Generate Link</span>
         </div>
