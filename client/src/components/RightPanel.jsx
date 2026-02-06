@@ -10,16 +10,23 @@ function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
 
   const now = new Date();
 
-  const relavantLinks =
-    links?.filter(
-      tab === "active"
-        ? (l) => !l.isRevoked && now < new Date(l.expiresAt)
-        : tab === "revoked"
-          ? (l) => l.isRevoked
-          : (l) => now >= new Date(l.expiresAt),
-    ) || [];
+  const relevantLinks = (
+    links?.filter((l) => {
+      const expiresAt = l.expiresAt ? new Date(l.expiresAt) : null;
 
-  const numberOfLinks = relavantLinks.length;
+      if (tab === "active") {
+        return !l.isRevoked && (!expiresAt || now < expiresAt);
+      }
+
+      if (tab === "revoked") {
+        return l.isRevoked;
+      }
+
+      return expiresAt && now >= expiresAt;
+    }) || []
+  ).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+  const numberOfLinks = relevantLinks.length;
 
   return (
     <div className="right-panel-div">
@@ -89,8 +96,12 @@ function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
           </div>
         </div>
         <div className="right-panel-link-list-scrollable-div">
-          {relavantLinks.map((l) => (
-            <Link key={"34ra" + l._id + "33534"} link={l} />
+          {relevantLinks.map((l) => (
+            <Link
+              key={"34ra" + l._id + "33534"}
+              link={l}
+              fileName={selectedFile.fileName}
+            />
           ))}
         </div>
       </div>

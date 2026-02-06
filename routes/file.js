@@ -248,7 +248,7 @@ router.post("/create-link/:id", checkAuthHard, async (req, res) => {
       return res.status(403).json({ err: "Invalid request" });
     }
 
-    const random = (await randomBytes(20)).toString("hex");
+    const random = (await randomBytes(10)).toString("hex");
     let payload = {
       fileId: file._id,
       publicId: random,

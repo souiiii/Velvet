@@ -84,7 +84,7 @@ function CreateLink({ setRightOpen, selectedFile, setRefresh }) {
     if (expiry !== "never") payload.expiresAt = getExpiresAt();
     if (password) payload.password = password;
     try {
-      setLoading(false);
+      setLoading(true);
       const res = await fetch(`/api/file/create-link/${selectedFile._id}`, {
         method: "POST",
         credentials: "include",
