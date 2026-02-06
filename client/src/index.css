@@ -824,7 +824,6 @@ body {
 
 .file-display-list {
   display: flex;
-  /* overflow-y: scroll; */
   overflow-y: auto;
   flex: 1;
   flex-shrink: 0;
