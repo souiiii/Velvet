@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { DateTime } from "luxon";
 import { useEffect, useRef, useState } from "react";
+import truncateFilename from "../utilities/truncate";
 
 const imageTypes = [
   "image/jpeg",
@@ -64,14 +65,12 @@ const compressedTypes = [
 
 const otherTypes = ["application/octet-stream"];
 
-function File({ file, setRightOpen }) {
-  const [timeAgo, setTimeAgo] = useState(() =>
-    DateTime.fromISO(file.createdAt, {
-      zone: "utc",
-    }).toRelative(),
-  );
-
+function File({ file, setRightOpen, tick }) {
   const backElement = useRef(null);
+
+  const timeAgo = DateTime.fromISO(file.createdAt, {
+    zone: "utc",
+  }).toRelative();
 
   // console.log(file.createdAt);
   const size = file.size
@@ -82,12 +81,14 @@ function File({ file, setRightOpen }) {
         : Math.floor(file.size / 100000) / 10 + " MB"
     : "0 MB";
 
-  const fileType = file.mimeType || '"application/pdf"';
+  const fileType = file.mimeType || "application/pdf";
 
-  const title = file.fileName
+  const rawTitle = file.fileName
     ? file.fileName.trim().slice(0, 1).toUpperCase() +
       file.fileName.trim().slice(1)
     : "File.fileType";
+
+  const title = truncateFilename(rawTitle, 80);
 
   let background = fileType
     ? documentTypes.includes(fileType)
@@ -123,18 +124,6 @@ function File({ file, setRightOpen }) {
 
   useEffect(
     function () {
-      setTimeout(() => {
-        const getAgo = DateTime.fromISO(file.createdAt, {
-          zone: "utc",
-        }).toRelative();
-        setTimeAgo(getAgo);
-      }, 60000);
-    },
-    [timeAgo, file.createdAt],
-  );
-
-  useEffect(
-    function () {
       if (!background) return;
       backElement.current.style.backgroundColor = background;
     },
@@ -164,7 +153,8 @@ function File({ file, setRightOpen }) {
         <div className="your-file-title">{title}</div>
         <div className="your-file-sub-title-div">
           <div className="your-file-size">
-            {size === "0 KB" ? "1 KB" : size}&nbsp;•&nbsp;{timeAgo}
+            {size === "0 KB" ? "1 KB" : size}&nbsp;•&nbsp;
+            {timeAgo === "0 seconds ago" ? "Just now" : timeAgo}
           </div>
         </div>
       </div>

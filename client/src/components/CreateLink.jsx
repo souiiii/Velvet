@@ -12,6 +12,7 @@ import {
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import { useEffect, useState, useRef } from "react";
+import truncateFilename from "../utilities/truncate";
 
 const MotionChevronUp = motion.create(ChevronUp);
 const MotionChevronDown = motion.create(ChevronDown);
@@ -30,10 +31,12 @@ function CreateLink({ setRightOpen, selectedFile, setRefresh }) {
 
   // const expiresAt =
 
-  const title = selectedFile.fileName
+  const rawTitle = selectedFile.fileName
     ? selectedFile.fileName.trim().slice(0, 1).toUpperCase() +
       selectedFile.fileName.trim().slice(1)
     : "File.fileType";
+
+  const title = truncateFilename(rawTitle, 40);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -113,7 +116,13 @@ function CreateLink({ setRightOpen, selectedFile, setRefresh }) {
   }
 
   return (
-    <div className="box">
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleSubmit(e);
+      }}
+      className="box"
+    >
       <div className="create-link-heading-div">
         <div className="create-link-heading-inner-div">
           <div className="create-link-heading-logo-div">
@@ -140,6 +149,7 @@ function CreateLink({ setRightOpen, selectedFile, setRefresh }) {
           </div>
           <div ref={dropdownRef} className="create-link-select">
             <button
+              type="button"
               onClick={() => setClickOnDropDown((o) => !o)}
               className="select-trigger"
             >
@@ -281,13 +291,13 @@ function CreateLink({ setRightOpen, selectedFile, setRefresh }) {
         />
       </div>
       <button
+        type="submit"
         disabled={loading}
-        onClick={handleSubmit}
         className={`action-button create-butt ${loading && "disabled-create-button"}`}
       >
         <span>+</span>&nbsp;{loading ? "Creating Link..." : "Create Link"}
       </button>
-    </div>
+    </form>
   );
 }
 

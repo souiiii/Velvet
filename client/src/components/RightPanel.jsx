@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { AlarmClockOff, Ban, Link2 } from "lucide-react";
 import CreateLink from "./CreateLink";
 import Link from "./Link";
 
 function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
+  const [tick, setTick] = useState(0);
+
   const [tab, setTab] = useState("active");
   const links = selectedFile.links;
 
@@ -27,6 +29,13 @@ function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
   ).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
   const numberOfLinks = relevantLinks.length;
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTick((t) => t + 1);
+    }, 60000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="right-panel-div">
@@ -100,7 +109,10 @@ function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
             <Link
               key={"34ra" + l._id + "33534"}
               link={l}
+              tab={tab}
+              setRefresh={setRefresh}
               fileName={selectedFile.fileName}
+              tick={tick}
             />
           ))}
         </div>

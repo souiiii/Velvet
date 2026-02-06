@@ -1,7 +1,7 @@
 import { Search, SlidersHorizontal } from "lucide-react";
 import AddFile from "./AddFile";
 import { motion } from "motion/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import File from "./File";
 
 function CenterPanel({
@@ -13,6 +13,7 @@ function CenterPanel({
   app,
 }) {
   const [searchQuery, setSearchQuery] = useState("");
+  const [tick, setTick] = useState(0);
 
   const filteredFilesAndLinks = filesAndLinks
     ? filesAndLinks
@@ -28,6 +29,12 @@ function CenterPanel({
     : [];
 
   const numOfFiles = filteredFilesAndLinks ? filteredFilesAndLinks.length : 0;
+  useEffect(function () {
+    const interval = setInterval(() => {
+      setTick((t) => t + 1);
+    }, 60000);
+    return () => clearInterval(interval);
+  }, []);
   return (
     <div
       className="center-panel-inner-div"
@@ -81,7 +88,12 @@ function CenterPanel({
         </div>
         <div className="file-display-list">
           {filteredFilesAndLinks.map((f) => (
-            <File setRightOpen={setRightOpen} key={f._id} file={f} />
+            <File
+              tick={tick}
+              setRightOpen={setRightOpen}
+              key={f._id}
+              file={f}
+            />
           ))}
         </div>
       </div>
