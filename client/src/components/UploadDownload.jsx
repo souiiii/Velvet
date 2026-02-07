@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
 
-function UploadDownload({ uploading }) {
+function UploadDownload({ uploading, downloading, deleting }) {
   return (
     <motion.div
       initial={{ x: "-50%", y: "-4rem", opacity: 0 }}
@@ -10,13 +10,15 @@ function UploadDownload({ uploading }) {
       className="uploading-now"
     >
       <motion.span
-        key={uploading.name}
+        key={uploading?.name || downloading?.name || deleting?.name}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.2 }}
         className="uploading-text"
       >
-        Uploading {uploading.name.trim()}
+        {uploading && `Uploading ${uploading?.name.trim()}`}
+        {downloading && `Downloading ${downloading?.name.trim()}`}
+        {deleting && `Deleting ${deleting?.name.trim()}`}
       </motion.span>
     </motion.div>
   );

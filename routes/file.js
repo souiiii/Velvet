@@ -170,6 +170,7 @@ router.delete("/delete-file/:id", checkAuthHard, async (req, res) => {
       cloudinary.uploader.destroy(
         file.storage.publicId,
         {
+          invalidate: true,
           resource_type: file.storage.resourceType,
         },
         (error, result) => {

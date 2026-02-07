@@ -6,14 +6,19 @@ import File from "./File";
 
 function CenterPanel({
   setRefresh,
+  downloading,
+  setDownloading,
   filesAndLinks,
   setRightOpen,
   uploading,
+  deleting,
+  setDeleting,
   setUploading,
   app,
 }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [tick, setTick] = useState(0);
+  const [selectedOp, setSelectedOp] = useState("");
 
   const filteredFilesAndLinks = filesAndLinks
     ? filesAndLinks
@@ -89,7 +94,12 @@ function CenterPanel({
         <div className="file-display-list">
           {filteredFilesAndLinks.map((f) => (
             <File
+              setUploading={setUploading}
+              setDeleting={setDeleting}
+              selectedOp={selectedOp}
+              setSelectedOp={setSelectedOp}
               tick={tick}
+              setRefresh={setRefresh}
               setRightOpen={setRightOpen}
               key={f._id}
               file={f}

@@ -15,6 +15,8 @@ function HomePage() {
   const [filesAndLinks, setFilesAndLinks] = useState(null);
   const [refresh, setRefresh] = useState(0);
   const [uploading, setUploading] = useState(null);
+  const [downloading, setDownloading] = useState(null);
+  const [deleting, setDeleting] = useState(null);
   const app = useRef(null);
 
   const storageUsed = filesAndLinks?.reduce((acc, f) => acc + f.size, 0) || 0;
@@ -74,6 +76,8 @@ function HomePage() {
     <div ref={app} className="main">
       <AnimatePresence>
         {uploading && <UploadDownload uploading={uploading} />}
+        {downloading && <UploadDownload downloading={downloading} />}
+        {deleting && <UploadDownload deleting={deleting} />}
       </AnimatePresence>
       <div className="navbar">
         <div className="logo-div">Velvet</div>
@@ -102,10 +106,14 @@ function HomePage() {
             className="centerPanel"
           >
             <CenterPanel
+              deleting={deleting}
+              setDeleting={setDeleting}
               setRightOpen={setRightOpen}
               setRefresh={setRefresh}
               filesAndLinks={filesAndLinks}
               uploading={uploading}
+              downloading={downloading}
+              setDownloading={setDownloading}
               setUploading={setUploading}
               app={app}
             />

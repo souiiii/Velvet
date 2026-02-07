@@ -10,7 +10,7 @@ import {
   SquarePen,
 } from "lucide-react";
 import { DateTime } from "luxon";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import truncateFilename from "../utilities/truncate";
 import { AnimatePresence } from "motion/react";
 

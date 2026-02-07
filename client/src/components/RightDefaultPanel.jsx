@@ -9,8 +9,6 @@ function RightDefaultPanel({ videoRef, files, setRefresh }) {
   const [layoutReady, setLayoutReady] = useState(false);
   const [tab, setTab] = useState("active");
 
-  const now = new Date();
-
   const links = useMemo(() => {
     if (!files) return [];
 
