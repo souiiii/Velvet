@@ -7,6 +7,7 @@ import Link from "./Link";
 
 function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
   const [tick, setTick] = useState(0);
+  const [layoutReady, setLayoutReady] = useState(false);
 
   const [tab, setTab] = useState("active");
   const links = selectedFile.links;
@@ -30,6 +31,12 @@ function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
   ).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
   const numberOfLinks = relevantLinks.length;
+
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      setLayoutReady(true);
+    });
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -71,12 +78,17 @@ function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
       <div className="right-panel-link-list-div">
         <div className="file-display-heading-div link-display-right-panel-heading-div">
           <div className="file-display-heading link-display-right-panel-heading">
-            Your Links
+            File Links
           </div>
           <div className="file-display-file-count">{numberOfLinks} links</div>
         </div>
-        <div className="right-panel-link-tab-div">
-          <div onClick={() => setTab("active")} className="right-panel-tab-div">
+        <motion.div className="right-panel-link-tab-div">
+          <div
+            onClick={() => {
+              setTab("active");
+            }}
+            className="right-panel-tab-div"
+          >
             <div
               className={`right-panel-tab ${tab === "active" ? "active-tab" : ""}`}
             >
@@ -92,7 +104,9 @@ function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
             )}
           </div>
           <div
-            onClick={() => setTab("revoked")}
+            onClick={() => {
+              setTab("revoked");
+            }}
             className="right-panel-tab-div"
           >
             <div
@@ -110,7 +124,9 @@ function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
             )}
           </div>
           <div
-            onClick={() => setTab("expired")}
+            onClick={() => {
+              setTab("expired");
+            }}
             className="right-panel-tab-div"
           >
             <div
@@ -127,7 +143,7 @@ function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
               ></motion.div>
             )}
           </div>
-        </div>
+        </motion.div>
         <AnimatePresence mode="wait">
           <motion.div
             key={tab}
@@ -141,6 +157,7 @@ function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
               {relevantLinks.map((l) => (
                 <Link
                   key={l._id}
+                  layoutReady={layoutReady}
                   link={l}
                   tab={tab}
                   setRefresh={setRefresh}

@@ -140,7 +140,11 @@ function HomePage() {
                 transition={{ ease: "easeInOut", duration: 0.4 }}
                 className="rightPanel"
               >
-                <RightDefaultPanel videoRef={videoRef} />
+                <RightDefaultPanel
+                  files={filesAndLinks}
+                  setRefresh={setRefresh}
+                  videoRef={videoRef}
+                />
               </motion.div>
             )}
           </AnimatePresence>

@@ -14,7 +14,16 @@ import { useEffect, useState } from "react";
 import truncateFilename from "../utilities/truncate";
 import { AnimatePresence } from "motion/react";
 
-function Link({ link, fileName, tab, setRefresh, tick }) {
+function Link({
+  link,
+  fileName,
+  tab,
+  setRefresh,
+  tick,
+  layoutReady,
+  page = "",
+  i = 0,
+}) {
   const [copySuccess, setCopySuccess] = useState("");
   const [loading, setLoading] = useState(false);
   const expiresIn = link.expiresAt
@@ -40,28 +49,6 @@ function Link({ link, fileName, tab, setRefresh, tick }) {
       : link.maxDownloads
         ? "Limited"
         : "Unlimited";
-
-  //   useEffect(() => {
-  //     if (tab !== "active") return;
-  //     if (!link.expiresAt) return;
-
-  //     const expiresAt = DateTime.fromISO(link.expiresAt, {
-  //       zone: "utc",
-  //     }).toMillis();
-  //     const now = Date.now();
-  //     const delay = expiresAt - now;
-
-  //     if (delay <= 0) {
-  //       setRefresh((r) => r + 1);
-  //       return;
-  //     }
-
-  //     const timeout = setTimeout(() => {
-  //       setRefresh((r) => r + 1);
-  //     }, delay);
-
-  //     return () => clearTimeout(timeout);
-  //   }, [link.expiresAt, tab, setRefresh]);
 
   const copyToClipboard = async () => {
     try {
@@ -98,12 +85,12 @@ function Link({ link, fileName, tab, setRefresh, tick }) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20, x: 0 }}
-      animate={{ opacity: 1, x: 0, y: 0 }}
-      exit={{ opacity: 0, y: -20, x: 0 }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.2, ease: "easeIn" }}
       className="box link-box"
-      layout
+      layout={layoutReady}
     >
       <div className="link-top-heading-div">
         <div className="link-top-heading-inner-div">
@@ -175,15 +162,19 @@ function Link({ link, fileName, tab, setRefresh, tick }) {
       </div>
       {tab === "active" && (
         <div className="link-display-edit-revoke-div">
-          <button className="settings link-display-edit-button">
+          <button
+            className={`settings link-display-edit-button ${page === "default" ? "none-display" : ""}`}
+          >
             <SquarePen size={14} />
             Edit Link
           </button>
           <button
             onClick={handleRevoke}
-            className={`link-display-revoke-button ${loading ? "banning" : ""}`}
+            disabled={loading}
+            className={`link-display-revoke-button ${loading ? "banning" : ""} ${page === "default" ? "label upgrade-storage take-all-space-button" : ""}`}
           >
             <Ban size={16} />
+            {page === "default" && <span>Revoke Link {i}</span>}
           </button>
         </div>
       )}
