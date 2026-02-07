@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
+import { DateTime } from "luxon";
 import { AlarmClockOff, Ban, Link2 } from "lucide-react";
 import CreateLink from "./CreateLink";
 import Link from "./Link";
@@ -36,10 +37,33 @@ function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
     }, 60000);
     return () => clearInterval(interval);
   }, []);
+  useEffect(() => {
+    if (tab !== "active") return;
+    if (!links || links.length === 0) return;
+
+    const now = Date.now();
+
+    const nextExpiry = links
+      .filter((l) => !l.isRevoked && l.expiresAt)
+      .map((l) => DateTime.fromISO(l.expiresAt, { zone: "utc" }).toMillis())
+      .filter((t) => t > now)
+      .sort((a, b) => a - b)[0];
+
+    if (!nextExpiry) return;
+
+    const delay = nextExpiry - now;
+
+    const timeout = setTimeout(() => {
+      setRefresh((r) => r + 1);
+    }, delay);
+
+    return () => clearTimeout(timeout);
+  }, [links, tab, setRefresh]);
 
   return (
     <div className="right-panel-div">
       <CreateLink
+        setTab={setTab}
         setRefresh={setRefresh}
         setRightOpen={setRightOpen}
         selectedFile={selectedFile}
@@ -104,18 +128,29 @@ function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
             )}
           </div>
         </div>
-        <div className="right-panel-link-list-scrollable-div">
-          {relevantLinks.map((l) => (
-            <Link
-              key={"34ra" + l._id + "33534"}
-              link={l}
-              tab={tab}
-              setRefresh={setRefresh}
-              fileName={selectedFile.fileName}
-              tick={tick}
-            />
-          ))}
-        </div>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={tab}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            transition={{ duration: 0.2, ease: "easeInOut" }}
+            className="right-panel-link-list-scrollable-div"
+          >
+            <AnimatePresence initial={false} mode="popLayout">
+              {relevantLinks.map((l) => (
+                <Link
+                  key={l._id}
+                  link={l}
+                  tab={tab}
+                  setRefresh={setRefresh}
+                  fileName={selectedFile.fileName}
+                  tick={tick}
+                />
+              ))}
+            </AnimatePresence>
+          </motion.div>
+        </AnimatePresence>
       </div>
     </div>
   );

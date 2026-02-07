@@ -19,7 +19,7 @@ const MotionChevronDown = motion.create(ChevronDown);
 
 dayjs.extend(utc);
 
-function CreateLink({ setRightOpen, selectedFile, setRefresh }) {
+function CreateLink({ setRightOpen, selectedFile, setRefresh, setTab }) {
   const [loading, setLoading] = useState(false);
   const [maxDownloads, setMaxDownloads] = useState("");
   const [password, setPassword] = useState("");
@@ -112,6 +112,7 @@ function CreateLink({ setRightOpen, selectedFile, setRefresh }) {
       setPassword("");
       setExpiry("never");
       setRefresh((r) => r + 1);
+      setTab("active");
     }
   }
 

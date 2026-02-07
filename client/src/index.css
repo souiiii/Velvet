@@ -134,7 +134,7 @@ input[type="number"] {
 
 html,
 body {
-  overflow: hidden;
+  /* overflow: hidden; */
   cursor: default;
 }
 
@@ -253,7 +253,7 @@ body {
   align-items: start;
   padding: 1rem 1rem 0rem 1rem;
   /* overflow-y: scroll; */
-  overflow-y: hidden;
+  /* overflow-y: hidden; */
   scrollbar-width: none;
 }
 /* 
@@ -633,6 +633,7 @@ body {
   background-color: var(--foreground);
   border-radius: var(--border-radius);
   border: 1px solid var(--margins);
+
   height: 2.75rem;
   transition: all 0.2s ease-in-out;
 }
@@ -661,7 +662,8 @@ body {
 }
 
 .search-bar:has(.search-field:focus) {
-  outline: 1px solid var(--accent-light-border);
+  border: 1px solid var(--accent-light-border);
+  outline: none;
 }
 
 .search-field:focus {
@@ -946,7 +948,7 @@ body {
   width: 100%;
   flex: 1;
   height: 100%;
-  overflow: hidden;
+  /* overflow-y: hidden; */
   flex-direction: column;
   gap: 2rem;
 }
@@ -1357,7 +1359,7 @@ body {
   font-size: 0.75rem;
   line-height: 1rem;
   margin-bottom: 0.75rem;
-  overflow: hidden;
+  /* overflow-x: hidden; */
 }
 
 .link-display {
@@ -1385,6 +1387,7 @@ body {
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   display: flex;
+  color: var(--graytext);
   justify-content: center;
   align-items: center;
 }
@@ -1392,6 +1395,41 @@ body {
 .link-action-copy:hover,
 .link-action-redirect:hover {
   color: var(--white-text);
+}
+
+.link-action-copy {
+  position: relative;
+}
+
+.copied-link {
+  position: absolute;
+  bottom: -150%;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--white-text);
+  background-color: var(--boxground-highlight);
+  padding: 0.25rem 1rem;
+  /* border: 1px solid var(--margins); */
+  box-shadow: 0 6px 6px var(--shadow-color);
+  border-radius: var(--border-radius);
+  z-index: 22222222;
+  border: 1px solid var(--thickmargin);
+  border-top: none;
+}
+
+.copied-link-arrow {
+  position: absolute;
+  bottom: -30px;
+
+  rotate: 45deg;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--boxground-highlight);
+  width: 1rem;
+  height: 1rem;
+  z-index: 22222221 !important;
+  border: 1px solid var(--thickmargin);
+  box-shadow: 0 6px 6px var(--shadow-color);
 }
 
 .link-display-action-downloads-expiry-div {
@@ -1431,6 +1469,11 @@ body {
   align-items: center;
   flex-shrink: 0;
   border-radius: 50%;
+}
+
+.banning {
+  background-color: var(--boxground);
+  color: gray;
 }
 
 .link-display-revoke-button:hover {
