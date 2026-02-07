@@ -972,6 +972,11 @@ body {
   color: var(--white-text);
 }
 
+.selected-file-action-download {
+  color: inherit;
+  text-decoration: none;
+}
+
 .selected-file-action-delete:hover {
   color: var(--accent-light);
 }

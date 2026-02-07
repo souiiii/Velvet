@@ -455,7 +455,7 @@ router.get("/download-public/:publicId", async (req, res) => {
 
 router.get("/download-private/:fileId", checkAuthHard, async (req, res) => {
   try {
-    const fileId = req.params.fileId;
+    const { fileId } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(fileId)) {
       return res.status(400).json({ err: "Invalid request" });
@@ -467,45 +467,53 @@ router.get("/download-private/:fileId", checkAuthHard, async (req, res) => {
     }).lean();
 
     if (!file) {
-      return res.status(404).json({ err: "Invalid request" });
+      return res.status(404).json({ err: "File not found" });
     }
 
-    const originalUrl = file.storage.secureUrl;
+    const cloudinaryUrl = file.storage?.secureUrl;
 
-    if (!originalUrl) {
-      return res.status(415).json({ err: "Missing Cloudinary URL parameter" });
+    if (!cloudinaryUrl) {
+      return res.status(415).json({ err: "Missing storage URL" });
     }
 
-    const customDownloadName = file.fullName;
-    const cloudinaryUrl = originalUrl.replace(
-      "/upload/",
-      `/upload/fl_attachment:${encodeURIComponent(customDownloadName)}/`,
-    );
+    const originalName = file.fileName || "download";
+    const asciiName = originalName
+      .replace(/\s+/g, "_")
+      .replace(/[^a-zA-Z0-9._-]/g, "");
 
-    res.setHeader(
-      "Content-Disposition",
-      `attachment; filename="${customDownloadName}"`,
-    );
-    res.setHeader("Content-Type", file.mimeType);
+    const encodedName = encodeURIComponent(originalName);
 
-    const downloadStream = request.get(cloudinaryUrl);
-    downloadStream.on("error", (err) => {
-      console.error("Cloudinary Stream Error:", err);
+    const cloudStream = request.get(cloudinaryUrl);
+
+    cloudStream.on("response", (cloudRes) => {
+      if (cloudRes.statusCode !== 200) {
+        return res.status(502).json({
+          err: "Failed to fetch file from storage",
+        });
+      }
+
+      res.setHeader(
+        "Content-Disposition",
+        `attachment; filename="${asciiName}"; filename*=UTF-8''${encodedName}`,
+      );
+
+      res.setHeader(
+        "Content-Type",
+        file.mimeType || "application/octet-stream",
+      );
+
+      cloudRes.pipe(res);
+    });
+
+    cloudStream.on("error", (err) => {
+      console.error("Cloudinary stream error:", err.message);
       if (!res.headersSent) {
-        return res
-          .status(500)
-          .json({ err: "Failed to fetch file from storage" });
+        return res.status(500).json({ err: "Download failed" });
       }
     });
-
-    return downloadStream.pipe(res).on("error", (err) => {
-      console.error("Browser Pipe Error:", err);
-      res.end();
-    });
   } catch (err) {
-    console.log(err.message);
+    console.error(err.message);
     return res.status(500).json({ err: "Download failed" });
   }
 });
-
 export default router;

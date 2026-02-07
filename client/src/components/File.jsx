@@ -181,6 +181,26 @@ function File({
     }
   }
 
+  // async function handleDownload() {
+  //   try {
+  //     const res = await fetch(`/api/file/download-private/${file._id}`, {
+  //       method: "GET",
+  //       credentials: "include",
+  //     });
+  //     if (res.ok) {
+  //       const data = await res.json();
+  //       console.log(data);
+  //     } else {
+  //       const data = await res.json();
+  //       throw new Error(data.err);
+  //     }
+  //   } catch (err) {
+  //     console.log(err.message);
+  //   } finally {
+  //     setRefresh((r) => r + 1);
+  //   }
+  // }
+
   return (
     <div className="your-file-div">
       <div ref={backElement} className="your-file-logo-div">
@@ -242,10 +262,13 @@ function File({
                 transition={{ ease: "easeInOut", duration: 0.2 }}
                 className="selected-file-action-div"
               >
-                <div className="selected-file-action-download">
+                <a
+                  href={`/api/file/download-private/${file._id}`}
+                  className="selected-file-action-download"
+                >
                   <Download size={16} />
                   &nbsp;<span>Download</span>
-                </div>
+                </a>
                 <div
                   onClick={handleDelete}
                   className="selected-file-action-delete"
