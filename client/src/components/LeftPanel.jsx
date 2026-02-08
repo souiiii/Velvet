@@ -236,8 +236,8 @@ function LeftPanel({
                 <Link2 size={16} />
               </div>
               <div className="stat-block">
-                <div className="stat-block-heading">{activeLinks}</div>
-                <div className="value-stat">8</div>
+                <div className="stat-block-heading">Active Links</div>
+                <div className="value-stat">{activeLinks}</div>
               </div>
             </div>
             <div className="stat">
@@ -245,8 +245,8 @@ function LeftPanel({
                 <CloudDownload size={16} />
               </div>
               <div className="stat-block">
-                <div className="stat-block-heading">{totalDownloads}</div>
-                <div className="value-stat">1,247</div>
+                <div className="stat-block-heading">Total Downloads</div>
+                <div className="value-stat">{totalDownloads}</div>
               </div>
             </div>
             <div className="stat">
@@ -254,8 +254,8 @@ function LeftPanel({
                 <AlarmClockOff size={16} />
               </div>
               <div className="stat-block">
-                <div className="stat-block-heading">{expiredLinks}</div>
-                <div className="value-stat">2</div>
+                <div className="stat-block-heading">Expired Links</div>
+                <div className="value-stat">{expiredLinks}</div>
               </div>
             </div>
             <div className="stat last">
@@ -263,8 +263,8 @@ function LeftPanel({
                 <Ban size={16} />
               </div>
               <div className="stat-block ">
-                <div className="stat-block-heading">{revokedLinks}</div>
-                <div className="value-stat">7</div>
+                <div className="stat-block-heading">Revoked Links</div>
+                <div className="value-stat">{revokedLinks}</div>
               </div>
             </div>
           </div>

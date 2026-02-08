@@ -27,14 +27,14 @@ function HomePage() {
   const activeLinks = links.filter((l) => {
     const expiresAt = l.expiresAt ? new Date(l.expiresAt) : null;
     return !l.isRevoked && (!expiresAt || now < expiresAt);
-  });
+  }).length;
 
-  const revokedLinks = links.filter((l) => l.isRevoked);
+  const revokedLinks = links.filter((l) => l.isRevoked).length;
 
   const expiredLinks = links.filter((l) => {
     const expiresAt = l.expiresAt ? new Date(l.expiresAt) : null;
     return !l.isRevoked && expiresAt && now >= expiresAt;
-  });
+  }).length;
 
   const totalDownloads = links.reduce((acc, l) => acc + l.downloads, 0);
 
