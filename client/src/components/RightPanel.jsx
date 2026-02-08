@@ -4,10 +4,12 @@ import { DateTime } from "luxon";
 import { AlarmClockOff, Ban, Link2 } from "lucide-react";
 import CreateLink from "./CreateLink";
 import Link from "./Link";
+import EditLink from "./EditLink";
 
 function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
   const [tick, setTick] = useState(0);
   const [layoutReady, setLayoutReady] = useState(false);
+  const [editLink, setEditLink] = useState(null);
 
   const [tab, setTab] = useState("active");
   const links = selectedFile.links;
@@ -69,12 +71,24 @@ function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
 
   return (
     <div className="right-panel-div">
-      <CreateLink
-        setTab={setTab}
-        setRefresh={setRefresh}
-        setRightOpen={setRightOpen}
-        selectedFile={selectedFile}
-      />
+      {editLink ? (
+        <EditLink
+          setTab={setTab}
+          setRefresh={setRefresh}
+          setRightOpen={setRightOpen}
+          selectedFile={selectedFile}
+          link={editLink}
+          setLink={setEditLink}
+        />
+      ) : (
+        <CreateLink
+          setTab={setTab}
+          setRefresh={setRefresh}
+          setRightOpen={setRightOpen}
+          selectedFile={selectedFile}
+        />
+      )}
+
       <div className="right-panel-link-list-div">
         <div className="file-display-heading-div link-display-right-panel-heading-div">
           <div className="file-display-heading link-display-right-panel-heading">
@@ -156,9 +170,11 @@ function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
             <AnimatePresence initial={false} mode="popLayout">
               {relevantLinks.map((l) => (
                 <Link
+                  setEditLink={setEditLink}
                   key={l._id}
                   layoutReady={layoutReady}
                   link={l}
+                  editLink={editLink}
                   tab={tab}
                   setRefresh={setRefresh}
                   fileName={selectedFile.fileName}

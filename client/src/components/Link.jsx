@@ -17,8 +17,10 @@ import { useAuth } from "../contexts/useAuth";
 
 function Link({
   link,
+  setEditLink,
   fileName,
   tab,
+  editLink,
   setRefresh,
   tick,
   layoutReady,
@@ -93,8 +95,9 @@ function Link({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.2, ease: "easeIn" }}
-      className="box link-box"
+      className={`box link-box ${editLink?._id?.toString() === link?._id?.toString() ? "editing-curr-link" : ""}`}
       layout={layoutReady}
+      // layout
     >
       <div className="link-top-heading-div">
         <div className="link-top-heading-inner-div">
@@ -167,6 +170,7 @@ function Link({
       {tab === "active" && (
         <div className="link-display-edit-revoke-div">
           <button
+            onClick={() => setEditLink(link)}
             className={`settings link-display-edit-button ${page === "default" ? "none-display" : ""}`}
           >
             <SquarePen size={14} />

@@ -211,7 +211,7 @@ router.post("/create-link/:id", checkAuthHard, async (req, res) => {
       return res.status(400).json({ err: "Invalid request" });
     }
 
-    const maxDownloads = body.maxDownloads?.trim() ?? null;
+    const maxDownloads = body.maxDownloads ?? null;
     if (
       (maxDownloads && !isFinite(maxDownloads)) ||
       (maxDownloads && Number(maxDownloads) <= 0)
@@ -272,7 +272,7 @@ router.post("/edit-link/:publicId", checkAuthHard, async (req, res) => {
   try {
     const publicId = req.params.publicId;
 
-    const maxDownloads = req.body.maxDownloads?.trim() ?? null;
+    const maxDownloads = req.body.maxDownloads ?? null;
     const expiresAt = req.body.expiresAt?.trim() ?? null;
     const password = req.body.password?.trim() ?? null;
 
