@@ -268,9 +268,15 @@ router.post("/create-link/:id", checkAuthHard, async (req, res) => {
   }
 });
 
-router.post("/revoke-link/:publicId", checkAuthHard, async (req, res) => {
+router.post("/edit-link/:publicId", checkAuthHard, async (req, res) => {
   try {
     const publicId = req.params.publicId;
+
+    const maxDownloads = req.body.maxDownloads?.trim() ?? null;
+    const expiresAt = req.body.expiresAt?.trim() ?? null;
+    const password = req.body.password?.trim() ?? null;
+
+    if (!publicId) return res.status(400).json({ err: "Invalid Request" });
 
     const link = await Link.findOne({ publicId })
       .populate("fileId", "_id userId")
@@ -285,6 +291,90 @@ router.post("/revoke-link/:publicId", checkAuthHard, async (req, res) => {
     }
 
     if (link.isRevoked) return res.status(400).json({ err: "Invalid request" });
+
+    const now = new Date();
+
+    if (link.expiresAt && link.expiresAt < now) {
+      return res.status(400).json({ err: "Invalid request" });
+    }
+
+    if (
+      (expiresAt && isNaN(new Date(expiresAt))) ||
+      (expiresAt && new Date(expiresAt) < now)
+    ) {
+      return res.status(400).json({ err: "Enter valid expiry" });
+    }
+
+    if (expiresAt && link.expiresAt && new Date(expiresAt) < link.expiresAt) {
+      return res.status(400).json({ err: "Expiry can only be extended" });
+    }
+
+    if (
+      maxDownloads &&
+      (isNaN(maxDownloads) ||
+        Number(maxDownloads) < 1 ||
+        maxDownloads < link.downloads)
+    ) {
+      return res.status(400).json({ err: "Invalid max downloads" });
+    }
+
+    if (password && password.length < 3) {
+      return res
+        .status(400)
+        .json({ err: "Password cannot be smaller than 3 characters" });
+    }
+
+    const rounds = 10;
+    const hashedPassword = password ? await hash(password, rounds) : null;
+
+    let payload = {};
+
+    if (hashedPassword) payload.password = hashedPassword;
+    if (maxDownloads) payload.maxDownloads = Number(maxDownloads);
+    if (expiresAt) payload.expiresAt = new Date(expiresAt);
+
+    const updatedLink = await Link.findOneAndUpdate(
+      { userId: req.user._id, _id: link._id },
+      { $set: payload },
+      { new: true, runValidators: true },
+    );
+
+    if (!updatedLink) {
+      return res.status(400).json({ err: "Could not edit link" });
+    }
+
+    return res.status(200).json({ msg: "Link edited successfully" });
+  } catch (err) {
+    console.log(err.message);
+    return res.status(500).json({ err: "Cannot create link" });
+  }
+});
+
+router.post("/revoke-link/:publicId", checkAuthHard, async (req, res) => {
+  try {
+    const publicId = req.params.publicId;
+
+    if (!publicId) return res.status(400).json({ err: "Invalid Request" });
+
+    const link = await Link.findOne({ publicId })
+      .populate("fileId", "_id userId")
+      .lean();
+
+    if (!link) {
+      return res.status(404).json({ err: "Invalid request" });
+    }
+
+    if (link.fileId.userId.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ err: "Invalid request" });
+    }
+
+    if (link.isRevoked) return res.status(400).json({ err: "Invalid request" });
+
+    const now = new Date();
+
+    if (link.expiresAt && link.expiresAt < now) {
+      return res.status(400).json({ err: "Invalid request" });
+    }
 
     const updatedLink = await Link.findOneAndUpdate(
       { publicId },
