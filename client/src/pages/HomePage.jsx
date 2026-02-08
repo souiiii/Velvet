@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import AddFile from "../components/AddFile";
 import LeftPanel from "../components/LeftPanel";
 import { AnimatePresence, motion, LayoutGroup } from "motion/react";
@@ -21,6 +21,22 @@ function HomePage() {
 
   const storageUsed = filesAndLinks?.reduce((acc, f) => acc + f.size, 0) || 0;
   const numberOfFiles = filesAndLinks?.length || 0;
+  const now = new Date();
+
+  const links = filesAndLinks?.flatMap((f) => f?.links ?? []) ?? [];
+  const activeLinks = links.filter((l) => {
+    const expiresAt = l.expiresAt ? new Date(l.expiresAt) : null;
+    return !l.isRevoked && (!expiresAt || now < expiresAt);
+  });
+
+  const revokedLinks = links.filter((l) => l.isRevoked);
+
+  const expiredLinks = links.filter((l) => {
+    const expiresAt = l.expiresAt ? new Date(l.expiresAt) : null;
+    return !l.isRevoked && expiresAt && now >= expiresAt;
+  });
+
+  const totalDownloads = links.reduce((acc, l) => acc + l.downloads, 0);
 
   const selectedFile = filesAndLinks?.find(
     (f) => rightOpen === f._id.toString(),
@@ -97,6 +113,10 @@ function HomePage() {
           >
             <LeftPanel
               storageUsed={storageUsed}
+              totalDownloads={totalDownloads}
+              expiredLinks={expiredLinks}
+              revokedLinks={revokedLinks}
+              activeLinks={activeLinks}
               name={values.user.fullName}
               email={values.user.email}
               numberOfFiles={numberOfFiles}

@@ -16,7 +16,7 @@ function RightDefaultPanel({ videoRef, files, setRefresh }) {
 
     return files
       .flatMap((f) =>
-        (f.links || [])
+        (f.links ?? [])
           .filter((l) => {
             const expiresAt = l.expiresAt ? new Date(l.expiresAt) : null;
 
@@ -28,7 +28,7 @@ function RightDefaultPanel({ videoRef, files, setRefresh }) {
               return l.isRevoked;
             }
 
-            return expiresAt && now >= expiresAt;
+            return !l.isRevoked && expiresAt && now >= expiresAt;
           })
           .map((l) => ({
             ...l,
@@ -38,10 +38,7 @@ function RightDefaultPanel({ videoRef, files, setRefresh }) {
       .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
   }, [files, tab]);
 
-  links.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-  console.log(links);
-
-  const numberOfLinks = links?.length;
+  const numberOfLinks = links.length;
 
   useEffect(() => {
     requestAnimationFrame(() => {

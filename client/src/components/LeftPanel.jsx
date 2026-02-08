@@ -16,7 +16,16 @@ import "react-circular-progressbar/dist/styles.css";
 import { useEffect } from "react";
 import { motion } from "motion/react";
 
-function LeftPanel({ name, email, storageUsed, numberOfFiles }) {
+function LeftPanel({
+  name,
+  email,
+  storageUsed,
+  numberOfFiles,
+  activeLinks,
+  revokedLinks,
+  expiredLinks,
+  totalDownloads,
+}) {
   const nameSplit = name.trim().split(" ");
   const firstLetter = nameSplit[0].slice(0, 1);
   const values = useAuth();
@@ -108,9 +117,6 @@ function LeftPanel({ name, email, storageUsed, numberOfFiles }) {
         const t = Math.min(elapsed / duration, 1);
         const eased = easeOutCubic(t);
 
-        // OLD (Causes Lag): setPercent(Math.round(eased * percentage));
-
-        // NEW (Smooth): Direct DOM update
         if (percentRef.current) {
           percentRef.current.innerText = `${Math.round(eased * percentage)}%`;
         }
@@ -230,7 +236,7 @@ function LeftPanel({ name, email, storageUsed, numberOfFiles }) {
                 <Link2 size={16} />
               </div>
               <div className="stat-block">
-                <div className="stat-block-heading">Active Links</div>
+                <div className="stat-block-heading">{activeLinks}</div>
                 <div className="value-stat">8</div>
               </div>
             </div>
@@ -239,7 +245,7 @@ function LeftPanel({ name, email, storageUsed, numberOfFiles }) {
                 <CloudDownload size={16} />
               </div>
               <div className="stat-block">
-                <div className="stat-block-heading">Total Downloads</div>
+                <div className="stat-block-heading">{totalDownloads}</div>
                 <div className="value-stat">1,247</div>
               </div>
             </div>
@@ -248,7 +254,7 @@ function LeftPanel({ name, email, storageUsed, numberOfFiles }) {
                 <AlarmClockOff size={16} />
               </div>
               <div className="stat-block">
-                <div className="stat-block-heading">Expired Links</div>
+                <div className="stat-block-heading">{expiredLinks}</div>
                 <div className="value-stat">2</div>
               </div>
             </div>
@@ -257,7 +263,7 @@ function LeftPanel({ name, email, storageUsed, numberOfFiles }) {
                 <Ban size={16} />
               </div>
               <div className="stat-block ">
-                <div className="stat-block-heading">Revoked Links</div>
+                <div className="stat-block-heading">{revokedLinks}</div>
                 <div className="value-stat">7</div>
               </div>
             </div>

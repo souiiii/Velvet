@@ -28,7 +28,7 @@ function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
         return l.isRevoked;
       }
 
-      return expiresAt && now >= expiresAt;
+      return !l.isRevoked && expiresAt && now >= expiresAt;
     }) || []
   ).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
