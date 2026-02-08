@@ -1,6 +1,25 @@
 import { motion } from "motion/react";
+import truncateFilename from "../utilities/truncate";
 
 function UploadDownload({ uploading, downloading, deleting }) {
+  const rawTitle =
+    uploading || downloading || deleting
+      ? (
+          uploading?.name ||
+          downloading?.name ||
+          deleting?.name ||
+          "File.fileType"
+        )
+          .trim()
+          .slice(0, 1)
+          .toUpperCase() +
+        (uploading?.name || downloading?.name || deleting?.name)
+          ?.trim()
+          .slice(1)
+          .toLowerCase()
+      : "File.fileType";
+
+  const title = truncateFilename(rawTitle, 20);
   return (
     <motion.div
       initial={{ x: "-50%", y: "-4rem", opacity: 0 }}
@@ -16,9 +35,9 @@ function UploadDownload({ uploading, downloading, deleting }) {
         transition={{ duration: 0.2 }}
         className="uploading-text"
       >
-        {uploading && `Uploading ${uploading?.name.trim()}`}
-        {downloading && `Downloading ${downloading?.name.trim()}`}
-        {deleting && `Deleting ${deleting?.name.trim()}`}
+        {uploading && `Uploading ${title?.trim()}`}
+        {downloading && `Downloading ${title?.trim()}`}
+        {deleting && `Deleting ${title?.trim()}`}
       </motion.span>
     </motion.div>
   );

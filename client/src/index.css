@@ -156,7 +156,7 @@ body {
   background-position: top;
   background-repeat: no-repeat;
   background-size: cover; */
-  /* background-color: var(--background); */
+  background-color: var(--background);
 
   color: var(--white-text);
   /* letter-spacing: 0.25px; */
