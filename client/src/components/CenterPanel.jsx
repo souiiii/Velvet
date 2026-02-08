@@ -3,6 +3,7 @@ import AddFile from "./AddFile";
 import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 import File from "./File";
+import Nothing from "./Nothing";
 
 function CenterPanel({
   setRefresh,
@@ -91,22 +92,30 @@ function CenterPanel({
           <div className="file-display-heading">Your Files</div>
           <div className="file-display-file-count">{numOfFiles} files</div>
         </div>
-        <div className="file-display-list">
-          {filteredFilesAndLinks.map((f) => (
-            <File
-              setUploading={setUploading}
-              setDeleting={setDeleting}
-              deleting={deleting}
-              selectedOp={selectedOp}
-              setSelectedOp={setSelectedOp}
-              tick={tick}
-              setRefresh={setRefresh}
-              setRightOpen={setRightOpen}
-              key={f._id}
-              file={f}
-            />
-          ))}
-        </div>
+        {numOfFiles ? (
+          <>
+            <div className="file-display-list">
+              {filteredFilesAndLinks.map((f) => (
+                <File
+                  setUploading={setUploading}
+                  setDeleting={setDeleting}
+                  deleting={deleting}
+                  selectedOp={selectedOp}
+                  setSelectedOp={setSelectedOp}
+                  tick={tick}
+                  setRefresh={setRefresh}
+                  setRightOpen={setRightOpen}
+                  key={f._id}
+                  file={f}
+                />
+              ))}
+            </div>
+          </>
+        ) : searchQuery.length ? (
+          <Nothing message="No results found" pic="ufo" />
+        ) : (
+          <Nothing message="Add files to create links" pic="ufo" />
+        )}
       </div>
     </div>
   );

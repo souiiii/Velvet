@@ -3,6 +3,7 @@ import { DateTime } from "luxon";
 import { AnimatePresence, motion } from "motion/react";
 import { AlarmClockOff, Ban, Link2 } from "lucide-react";
 import Link from "./Link";
+import Nothing from "./Nothing";
 
 function RightDefaultPanel({ videoRef, files, setRefresh }) {
   const [tick, setTick] = useState(0);
@@ -168,21 +169,27 @@ function RightDefaultPanel({ videoRef, files, setRefresh }) {
             transition={{ duration: 0.2, ease: "easeInOut" }}
             className="right-panel-link-list-scrollable-div"
           >
-            <AnimatePresence initial={false} mode="popLayout">
-              {links.map((l, index) => (
-                <Link
-                  key={l._id}
-                  layoutReady={layoutReady}
-                  link={l}
-                  tab={tab}
-                  setRefresh={setRefresh}
-                  fileName={l.fileName}
-                  tick={tick}
-                  page="default"
-                  i={index + 1}
-                />
-              ))}
-            </AnimatePresence>
+            {numberOfLinks ? (
+              <>
+                <AnimatePresence initial={false} mode="popLayout">
+                  {links.map((l, index) => (
+                    <Link
+                      key={l._id}
+                      layoutReady={layoutReady}
+                      link={l}
+                      tab={tab}
+                      setRefresh={setRefresh}
+                      fileName={l.fileName}
+                      tick={tick}
+                      page="default"
+                      i={index + 1}
+                    />
+                  ))}
+                </AnimatePresence>
+              </>
+            ) : (
+              <Nothing message="No links to view" pic="cat" />
+            )}
           </motion.div>
         </AnimatePresence>
       </div>

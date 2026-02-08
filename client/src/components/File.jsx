@@ -205,8 +205,10 @@ function File({
   //   }
   // }
 
+  const isDeleting = deleting?.name === title ? true : false;
+
   return (
-    <div className="your-file-div">
+    <div className={`your-file-div ${isDeleting ? "opacity-nill" : ""}`}>
       <div ref={backElement} className="your-file-logo-div">
         {color === "#60a5fa" ? (
           <FileText color={color} size={20} />

@@ -5,6 +5,7 @@ import { AlarmClockOff, Ban, Link2 } from "lucide-react";
 import CreateLink from "./CreateLink";
 import Link from "./Link";
 import EditLink from "./EditLink";
+import Nothing from "./Nothing";
 
 function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
   const [tick, setTick] = useState(0);
@@ -174,22 +175,28 @@ function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
             transition={{ duration: 0.2, ease: "easeInOut" }}
             className="right-panel-link-list-scrollable-div"
           >
-            <AnimatePresence initial={false} mode="popLayout">
-              {relevantLinks.map((l, i) => (
-                <Link
-                  i={i}
-                  setEditLink={setEditLink}
-                  key={l._id}
-                  // layoutReady={layoutReady}
-                  link={l}
-                  editLink={editLink}
-                  tab={tab}
-                  setRefresh={setRefresh}
-                  fileName={selectedFile.fileName}
-                  tick={tick}
-                />
-              ))}
-            </AnimatePresence>
+            {numberOfLinks ? (
+              <>
+                <AnimatePresence initial={false} mode="popLayout">
+                  {relevantLinks.map((l, i) => (
+                    <Link
+                      i={i}
+                      setEditLink={setEditLink}
+                      key={l._id}
+                      // layoutReady={layoutReady}
+                      link={l}
+                      editLink={editLink}
+                      tab={tab}
+                      setRefresh={setRefresh}
+                      fileName={selectedFile.fileName}
+                      tick={tick}
+                    />
+                  ))}
+                </AnimatePresence>
+              </>
+            ) : (
+              <Nothing message="Create links to view" pic="dog" />
+            )}
           </motion.div>
         </AnimatePresence>
       </div>

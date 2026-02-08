@@ -126,6 +126,7 @@ button {
   position: absolute;
   left: 50%;
   top: 1rem;
+  z-index: 10000000;
   overflow: hidden;
 }
 
@@ -155,7 +156,7 @@ body {
   background-position: top;
   background-repeat: no-repeat;
   background-size: cover; */
-  background-color: var(--background);
+  /* background-color: var(--background); */
 
   color: var(--white-text);
   /* letter-spacing: 0.25px; */
@@ -166,7 +167,16 @@ body {
   margin-inline: auto;
   width: 100%;
   max-height: 100vh;
-
+  background-color: #0b0f14;
+  background-image:
+    radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size:
+    24px 24px,
+    48px 48px;
+  background-position:
+    0 0,
+    12px 12px;
   height: 100vh;
   min-height: 100vh;
   flex-direction: column;
@@ -176,6 +186,23 @@ body {
   max-width: 2500px;
   transition: opacity 0.2s ease;
   position: relative;
+}
+
+@keyframes floatDots {
+  from {
+    background-position:
+      0 0,
+      12px 12px;
+  }
+  to {
+    background-position:
+      40px 40px,
+      52px 52px;
+  }
+}
+
+.main {
+  animation: floatDots 7s linear alternate-reverse infinite;
 }
 
 .navbar {
@@ -236,7 +263,7 @@ body {
   width: 100%;
   z-index: 10;
   overflow: hidden;
-  background-color: #0b0f14;
+  /* background-color: #0b0f14; */
 }
 
 .leftPanel {
@@ -1644,8 +1671,59 @@ body {
   opacity: 1;
 }
 
+.opacity-nill {
+  opacity: 0.6;
+  transition: all 0.2s ease-in-out;
+}
+
 .white-col {
   color: var(--white-text);
+}
+
+.nothing-view {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  border: 2px dashed var(--thickmargin);
+  gap: 3rem;
+  height: 100%;
+  min-width: 250px;
+  margin-bottom: 1rem;
+  border-radius: var(--border-radius);
+  overflow: visible;
+  padding-block: 2rem;
+}
+
+.nothing-view-image-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40%;
+  height: 250px;
+  overflow: visible;
+  flex-shrink: 0;
+}
+
+.nothing-image {
+  min-width: 200px;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  flex-shrink: 0;
+  flex: 1;
+  overflow: visible;
+}
+
+.nothing-message {
+  color: #4d5055;
+  font-size: 1rem;
+  display: flex;
+  justify-self: center;
+  align-items: center;
 }
 
 @media (max-width: 1280px) {
