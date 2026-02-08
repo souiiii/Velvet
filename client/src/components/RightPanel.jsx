@@ -69,6 +69,13 @@ function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
     return () => clearTimeout(timeout);
   }, [links, tab, setRefresh]);
 
+  useEffect(
+    function () {
+      setEditLink(null);
+    },
+    [tab, selectedFile],
+  );
+
   return (
     <div className="right-panel-div">
       {editLink ? (
@@ -172,7 +179,7 @@ function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
                 <Link
                   setEditLink={setEditLink}
                   key={l._id}
-                  layoutReady={layoutReady}
+                  // layoutReady={layoutReady}
                   link={l}
                   editLink={editLink}
                   tab={tab}

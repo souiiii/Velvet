@@ -180,6 +180,7 @@ function File({
     } finally {
       setDeleting(null);
       setRefresh((r) => r + 1);
+      setRightOpen("");
     }
   }
 

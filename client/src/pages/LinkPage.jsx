@@ -1,5 +1,5 @@
 function LinkPage() {
-  return <div></div>;
+  return <div>Link Page</div>;
 }
 
 export default LinkPage;

@@ -73,7 +73,7 @@ function EditLink({
   useEffect(
     function () {
       setMaxDownloads(link.maxDownloads || "");
-      setIsChecked(link.password?.trim() ? true : false);
+      setIsChecked(link.isPassEnabled ?? false);
     },
     [link],
   );
@@ -106,6 +106,7 @@ function EditLink({
     if (maxDownloads) payload.maxDownloads = maxDownloads;
 
     if (expiry !== "never") payload.expiresAt = getExpiresAt();
+    payload.isPassEnabled = isChecked;
     if (password) payload.password = password;
     try {
       setLoading(true);
@@ -296,7 +297,12 @@ function EditLink({
         </div>
         <label htmlFor="password-input" className="password-message">
           <Lock size={12} />
-          &nbsp;<span>Password</span>
+          &nbsp;
+          <span>
+            {!isChecked && link.password
+              ? `Old password will be removed`
+              : "Password"}
+          </span>
         </label>
         <input
           id="password-input"

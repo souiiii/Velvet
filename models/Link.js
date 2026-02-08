@@ -27,6 +27,11 @@ const linkSchema = new mongoose.Schema(
     password: {
       type: String,
     },
+    isPassEnabled: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
     publicId: {
       type: String,
       required: true,

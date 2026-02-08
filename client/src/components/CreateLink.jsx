@@ -85,6 +85,7 @@ function CreateLink({ setRightOpen, selectedFile, setRefresh, setTab }) {
     if (maxDownloads) payload.maxDownloads = maxDownloads;
 
     if (expiry !== "never") payload.expiresAt = getExpiresAt();
+    payload.isPassEnabled = isChecked;
     if (password) payload.password = password;
     try {
       setLoading(true);

@@ -206,6 +206,7 @@ router.post("/create-link/:id", checkAuthHard, async (req, res) => {
   try {
     const id = req.params.id;
     const body = req.body;
+    const isPassEnabled = req.body.isPassEnabled ?? false;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ err: "Invalid request" });
@@ -230,14 +231,16 @@ router.post("/create-link/:id", checkAuthHard, async (req, res) => {
     }
 
     const password = body.password?.trim() ?? null;
-    if (password && password.length < 3) {
-      return res
-        .status(400)
-        .json({ err: "Password cannot be smaller than 3 characters" });
+    if (isPassEnabled && (!password || password.length < 3)) {
+      return res.status(400).json({
+        err: "Password must be at least 3 characters",
+      });
     }
-
-    const rounds = 10;
-    const hashedPassword = password ? await hash(password, rounds) : null;
+    let hashedPassword;
+    if (isPassEnabled) {
+      const rounds = 10;
+      hashedPassword = password ? await hash(password, rounds) : null;
+    }
 
     const file = await File.findById(id);
 
@@ -256,7 +259,12 @@ router.post("/create-link/:id", checkAuthHard, async (req, res) => {
       userId: req.user._id,
     };
 
-    if (hashedPassword) payload.password = hashedPassword;
+    if (isPassEnabled && hashedPassword) {
+      payload.password = hashedPassword;
+    } else {
+      payload.password = null;
+    }
+    payload.isPassEnabled = isPassEnabled;
     if (maxDownloads) payload.maxDownloads = Number(maxDownloads);
     if (expiresAt) payload.expiresAt = new Date(expiresAt);
 
@@ -275,6 +283,7 @@ router.post("/edit-link/:publicId", checkAuthHard, async (req, res) => {
     const maxDownloads = req.body.maxDownloads ?? null;
     const expiresAt = req.body.expiresAt?.trim() ?? null;
     const password = req.body.password?.trim() ?? null;
+    const isPassEnabled = req.body.isPassEnabled ?? false;
 
     if (!publicId) return res.status(400).json({ err: "Invalid Request" });
 
@@ -318,18 +327,23 @@ router.post("/edit-link/:publicId", checkAuthHard, async (req, res) => {
       return res.status(400).json({ err: "Invalid max downloads" });
     }
 
-    if (password && password.length < 3) {
-      return res
-        .status(400)
-        .json({ err: "Password cannot be smaller than 3 characters" });
+    if (isPassEnabled && (!password || password.length < 3)) {
+      return res.status(400).json({
+        err: "Password must be at least 3 characters",
+      });
     }
 
-    const rounds = 10;
-    const hashedPassword = password ? await hash(password, rounds) : null;
+    let hashedPassword;
+    if (isPassEnabled) {
+      const rounds = 10;
+      hashedPassword = password ? await hash(password, rounds) : null;
+    }
 
     let payload = {};
 
-    if (hashedPassword) payload.password = hashedPassword;
+    if (isPassEnabled && hashedPassword) payload.password = hashedPassword;
+    else payload.password = null;
+    payload.isPassEnabled = isPassEnabled;
     if (maxDownloads) payload.maxDownloads = Number(maxDownloads);
     if (expiresAt) payload.expiresAt = new Date(expiresAt);
 

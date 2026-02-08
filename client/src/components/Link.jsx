@@ -23,7 +23,7 @@ function Link({
   editLink,
   setRefresh,
   tick,
-  layoutReady,
+  // layoutReady,
   page = "",
   i = 0,
 }) {
@@ -35,7 +35,7 @@ function Link({
     ? DateTime.fromISO(link.expiresAt, { zone: "utc" }).toRelative()
     : "never";
   const bee = tick;
-  const valueToCopy = link.publicId;
+  const valueToCopy = `localhost:5173/link/${link.publicId}`;
 
   const timeAgo =
     DateTime.fromISO(link.createdAt, {
@@ -96,8 +96,8 @@ function Link({
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.2, ease: "easeIn" }}
       className={`box link-box ${editLink?._id?.toString() === link?._id?.toString() ? "editing-curr-link" : ""}`}
-      layout={layoutReady}
-      // layout
+      // layout={layoutReady}
+      layout
     >
       <div className="link-top-heading-div">
         <div className="link-top-heading-inner-div">
@@ -122,7 +122,7 @@ function Link({
         )}
       </div>
       <div className="link-display-action-div">
-        <div className="link-display">{link.publicId}</div>
+        <div className="link-display">localhost:5173/link/{link.publicId}</div>
         <div className="link-action-inner-div">
           <div onClick={copyToClipboard} className="link-action-copy">
             <Copy size={14} />
@@ -150,7 +150,7 @@ function Link({
             </AnimatePresence>
           </div>
           <a
-            href={`${link.publicId}`}
+            href={`http:/link/${link.publicId}`}
             target="_blank"
             className="link-action-redirect"
           >
