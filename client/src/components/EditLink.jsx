@@ -44,7 +44,7 @@ function EditLink({
 
   const rawTitle = selectedFile.fileName
     ? selectedFile.fileName.trim().slice(0, 1).toUpperCase() +
-      selectedFile.fileName.trim().slice(1)
+      selectedFile.fileName.trim().slice(1).toLowerCase()
     : "File.fileType";
 
   const title = truncateFilename(rawTitle, 40);
@@ -327,7 +327,7 @@ function EditLink({
         className={`action-button create-butt ${loading && "disabled-create-button"}`}
       >
         <Cog size={18} />
-        &nbsp;{loading ? "Editing Link..." : "Edit Link"}
+        &nbsp;{loading ? "Editing Link..." : "Edit Link"}&nbsp;{link.i + 1}
       </button>
     </form>
   );

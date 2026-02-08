@@ -96,6 +96,7 @@ function CenterPanel({
             <File
               setUploading={setUploading}
               setDeleting={setDeleting}
+              deleting={deleting}
               selectedOp={selectedOp}
               setSelectedOp={setSelectedOp}
               tick={tick}

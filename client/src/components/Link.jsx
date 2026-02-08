@@ -43,7 +43,8 @@ function Link({
     }).toRelative() || "Some time ago";
 
   const rawTitle = fileName
-    ? fileName.trim().slice(0, 1).toUpperCase() + fileName.trim().slice(1)
+    ? fileName.trim().slice(0, 1).toUpperCase() +
+      fileName.trim().slice(1).toLowerCase()
     : "File";
 
   const title = truncateFilename(rawTitle, 24);
@@ -170,11 +171,11 @@ function Link({
       {tab === "active" && (
         <div className="link-display-edit-revoke-div">
           <button
-            onClick={() => setEditLink(link)}
+            onClick={() => setEditLink({ ...link, i: i })}
             className={`settings link-display-edit-button ${page === "default" ? "none-display" : ""}`}
           >
-            <SquarePen size={14} />
-            Edit Link
+            <SquarePen size={16} />
+            Edit Link {i + 1}
           </button>
           <button
             onClick={handleRevoke}

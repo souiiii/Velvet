@@ -76,6 +76,7 @@ function File({
   selectedOp,
   setSelectedOp,
   setRefresh,
+  deleting,
   setUploading,
   setDeleting,
 }) {
@@ -99,7 +100,7 @@ function File({
 
   const rawTitle = file.fileName
     ? file.fileName.trim().slice(0, 1).toUpperCase() +
-      file.fileName.trim().slice(1)
+      file.fileName.trim().slice(1).toLowerCase()
     : "File.fileType";
 
   const title = truncateFilename(rawTitle, 80);
@@ -272,13 +273,14 @@ function File({
                   <Download size={16} />
                   &nbsp;<span>Download</span>
                 </a>
-                <div
+                <button
                   onClick={handleDelete}
-                  className="selected-file-action-delete"
+                  className={`selected-file-action-delete ${deleting ? "delete-disabled-button" : ""}`}
+                  disabled={deleting}
                 >
                   <Trash2 size={16} />
                   &nbsp;<span>Delete</span>
-                </div>
+                </button>
               </motion.div>
             )}
           </AnimatePresence>

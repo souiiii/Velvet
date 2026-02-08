@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ProtectedPages from "./pages/ProtectedPages";
 import LinkPage from "./pages/LinkPage";
+// import CosmicBackground from "./components/CosmicBackground";
 
 function App() {
   return (

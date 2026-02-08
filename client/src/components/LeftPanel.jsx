@@ -37,10 +37,11 @@ function LeftPanel({
 
   const normalizedName = (
     firstLetter.toUpperCase() +
-    nameSplit[0].slice(1) +
+    nameSplit[0].slice(1).toLowerCase() +
     " " +
     (nameSplit.length > 1
-      ? lastLetter.toUpperCase() + nameSplit[nameSplit.length - 1].slice(1)
+      ? lastLetter.toUpperCase() +
+        nameSplit[nameSplit.length - 1].slice(1).toLowerCase()
       : "")
   ).trim();
 

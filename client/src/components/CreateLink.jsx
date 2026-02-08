@@ -33,7 +33,7 @@ function CreateLink({ setRightOpen, selectedFile, setRefresh, setTab }) {
 
   const rawTitle = selectedFile.fileName
     ? selectedFile.fileName.trim().slice(0, 1).toUpperCase() +
-      selectedFile.fileName.trim().slice(1)
+      selectedFile.fileName.trim().slice(1).toLowerCase()
     : "File.fileType";
 
   const title = truncateFilename(rawTitle, 40);

@@ -175,8 +175,9 @@ function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
             className="right-panel-link-list-scrollable-div"
           >
             <AnimatePresence initial={false} mode="popLayout">
-              {relevantLinks.map((l) => (
+              {relevantLinks.map((l, i) => (
                 <Link
+                  i={i}
                   setEditLink={setEditLink}
                   key={l._id}
                   // layoutReady={layoutReady}
