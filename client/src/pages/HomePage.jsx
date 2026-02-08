@@ -1,5 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import AddFile from "../components/AddFile";
+import { useEffect, useRef, useState } from "react";
 import LeftPanel from "../components/LeftPanel";
 import { AnimatePresence, motion, LayoutGroup } from "motion/react";
 import { useAuth } from "../contexts/useAuth";
@@ -7,6 +6,7 @@ import CenterPanel from "../components/CenterPanel";
 import UploadDownload from "../components/UploadDownload";
 import RightDefaultPanel from "../components/RightDefaultPanel";
 import RightPanel from "../components/RightPanel";
+import NavBar from "../components/NavBar";
 
 function HomePage() {
   const values = useAuth();
@@ -96,14 +96,8 @@ function HomePage() {
         {downloading && <UploadDownload downloading={downloading} />}
         {deleting && <UploadDownload deleting={deleting} />}
       </AnimatePresence>
-      <div className="navbar">
-        <div className="logo-div">Velvet</div>
-        <div className="utility-div">
-          <label htmlFor="upload" className="action-button">
-            <span>+</span>&nbsp;New Upload
-          </label>
-        </div>
-      </div>
+
+      <NavBar />
       {/* {globalLoading && <div>Loading..</div>} */}
       <LayoutGroup>
         <motion.div layout className="container">
