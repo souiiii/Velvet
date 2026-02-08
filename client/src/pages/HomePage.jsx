@@ -161,7 +161,7 @@ function HomePage() {
                 animate={{ x: 0, opacity: 1 }}
                 exit={{ x: 400, opacity: 0 }}
                 transition={{ ease: "easeInOut", duration: 0.4 }}
-                className="rightPanel"
+                className="rightPanel  right-default-panel-div"
               >
                 <RightDefaultPanel
                   files={filesAndLinks}

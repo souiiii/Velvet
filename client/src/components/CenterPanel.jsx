@@ -1,6 +1,6 @@
 import { Search, SlidersHorizontal } from "lucide-react";
 import AddFile from "./AddFile";
-import { motion } from "motion/react";
+import { AnimatePresence, motion, number } from "motion/react";
 import { useEffect, useState } from "react";
 import File from "./File";
 import Nothing from "./Nothing";
@@ -94,7 +94,10 @@ function CenterPanel({
         </div>
         {numOfFiles ? (
           <>
-            <div className="file-display-list">
+            <motion.div
+              layout
+              className={`${numOfFiles !== 1 ? "file-display-list" : "lisstttt"}`}
+            >
               {filteredFilesAndLinks.map((f) => (
                 <File
                   setUploading={setUploading}
@@ -109,7 +112,7 @@ function CenterPanel({
                   file={f}
                 />
               ))}
-            </div>
+            </motion.div>
           </>
         ) : searchQuery.length ? (
           <Nothing message="No results found" pic="ufo" />

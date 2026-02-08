@@ -103,7 +103,7 @@ function File({
       file.fileName.trim().slice(1).toLowerCase()
     : "File.fileType";
 
-  const title = truncateFilename(rawTitle, 80);
+  const title = truncateFilename(rawTitle, 25);
 
   let background = fileType
     ? documentTypes.includes(fileType)
@@ -163,7 +163,7 @@ function File({
 
   async function handleDelete() {
     try {
-      setDeleting({ name: title });
+      setDeleting({ name: title, _id: file?._id?.toString() });
       const res = await fetch(`/api/file/delete-file/${file._id}`, {
         method: "DELETE",
         credentials: "include",
@@ -205,10 +205,17 @@ function File({
   //   }
   // }
 
-  const isDeleting = deleting?.name === title ? true : false;
+  const isDeleting = deleting?._id === file?._id?.toString() ? true : false;
 
   return (
-    <div className={`your-file-div ${isDeleting ? "opacity-nill" : ""}`}>
+    <motion.div
+      layout
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2, ease: "easeInOut" }}
+      className={`your-file-div ${isDeleting ? "opacity-nill" : ""}`}
+    >
       <div ref={backElement} className="your-file-logo-div">
         {color === "#60a5fa" ? (
           <FileText color={color} size={20} />
@@ -239,7 +246,7 @@ function File({
         className={`your-file-actions-div ${selectedOp === file._id.toString() ? "opacity-full" : ""}`}
       >
         <div
-          onClick={() => setRightOpen(file._id.toString())}
+          onClick={() => setRightOpen(file?._id?.toString())}
           className="your-file-generate-link-button label"
         >
           <Link2 size={14} />
@@ -250,7 +257,7 @@ function File({
           onClick={(e) => {
             e.stopPropagation();
             setSelectedOp((f) =>
-              f === file._id.toString() ? "" : file._id.toString(),
+              f === file?._id?.toString() ? "" : file?._id?.toString(),
             );
           }}
           className="your-file-action-button"
@@ -277,8 +284,8 @@ function File({
                 </a>
                 <button
                   onClick={handleDelete}
-                  className={`selected-file-action-delete ${deleting ? "delete-disabled-button" : ""}`}
-                  disabled={deleting}
+                  className={`selected-file-action-delete ${isDeleting ? "delete-disabled-button" : ""}`}
+                  disabled={isDeleting}
                 >
                   <Trash2 size={16} />
                   &nbsp;<span>Delete</span>
@@ -288,7 +295,7 @@ function File({
           </AnimatePresence>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
