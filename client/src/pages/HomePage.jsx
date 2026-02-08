@@ -53,6 +53,7 @@ function HomePage() {
 
         if (!res.ok) {
           const errData = await res.json().catch(() => ({}));
+          if (res.status === 401) values.setUser(null);
           throw new Error(errData.err || "Failed to fetch files");
         }
 

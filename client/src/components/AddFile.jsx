@@ -2,9 +2,11 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Loading from "./Loading";
 import UploadDownload from "./UploadDownload";
 import { Cloud, Lock, Upload } from "lucide-react";
+import { useAuth } from "../contexts/useAuth";
 
 function AddFile({ setRefresh, uploading, setUploading, app }) {
   const [files, setFiles] = useState([]);
+  const values = useAuth();
   // const [isDragOver, setIsDragOver] = useState(false);
   const fileInputRef = useRef(null);
   const drop = useRef(null);
@@ -40,6 +42,7 @@ function AddFile({ setRefresh, uploading, setUploading, app }) {
 
     if (!res.ok) {
       const err = await res.json();
+      if (res.status === 401) values.setUser(null);
       throw new Error(err.err || "Upload failed");
     }
   }

@@ -27,7 +27,13 @@ function Login() {
         const data = await res.json();
         values.setUser(data.user);
         navigate("/");
+      } else {
+        const data = await res.json();
+        if (res.status === 401) values.setUser(null);
+        throw new Error(data.err);
       }
+    } catch (err) {
+      console.log(err.message);
     } finally {
       setLoading(false);
     }

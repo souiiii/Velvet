@@ -16,6 +16,7 @@ import { DateTime } from "luxon";
 import { useEffect, useRef, useState } from "react";
 import truncateFilename from "../utilities/truncate";
 import { AnimatePresence, motion } from "motion/react";
+import { useAuth } from "../contexts/useAuth";
 
 const imageTypes = [
   "image/jpeg",
@@ -80,7 +81,7 @@ function File({
 }) {
   const backElement = useRef(null);
   const fileBox = useRef(null);
-
+  const values = useAuth();
   const timeAgo = DateTime.fromISO(file.createdAt, {
     zone: "utc",
   }).toRelative();
@@ -171,6 +172,7 @@ function File({
         console.log(data.msg);
       } else {
         const data = await res.json();
+        if (res.status === 401) values.setUser(null);
         throw new Error(data.err);
       }
     } catch (err) {

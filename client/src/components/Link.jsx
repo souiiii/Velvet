@@ -13,6 +13,7 @@ import { DateTime } from "luxon";
 import { useState } from "react";
 import truncateFilename from "../utilities/truncate";
 import { AnimatePresence } from "motion/react";
+import { useAuth } from "../contexts/useAuth";
 
 function Link({
   link,
@@ -26,6 +27,8 @@ function Link({
 }) {
   const [copySuccess, setCopySuccess] = useState("");
   const [loading, setLoading] = useState(false);
+  const values = useAuth();
+
   const expiresIn = link.expiresAt
     ? DateTime.fromISO(link.expiresAt, { zone: "utc" }).toRelative()
     : "never";
@@ -74,6 +77,7 @@ function Link({
         setRefresh((r) => r + 1);
       } else {
         const data = await res.json();
+        if (res.status === 401) values.setUser(null);
         throw new Error(data.err);
       }
     } catch (err) {
