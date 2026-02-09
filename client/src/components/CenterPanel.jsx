@@ -16,7 +16,7 @@ function CenterPanel({
   setDeleting,
   setUploading,
   app,
-  isLayoutAnimating,
+  // isLayoutAnimating,
 }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [tick, setTick] = useState(0);
@@ -100,7 +100,7 @@ function CenterPanel({
             >
               {filteredFilesAndLinks.map((f) => (
                 <File
-                  isLayoutAnimating={isLayoutAnimating}
+                  // isLayoutAnimating={isLayoutAnimating}
                   setUploading={setUploading}
                   setDeleting={setDeleting}
                   deleting={deleting}

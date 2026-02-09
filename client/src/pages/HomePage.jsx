@@ -44,12 +44,12 @@ function HomePage() {
 
   const videoRef = useRef(null);
 
-  const [isLayoutAnimating, setIsLayoutAnimating] = useState(false);
+  // const [isLayoutAnimating, setIsLayoutAnimating] = useState(false);
 
   const handleRightOpen = (id) => {
-    setIsLayoutAnimating(true);
+    // setIsLayoutAnimating(true);
     setRightOpen(id);
-    setTimeout(() => setIsLayoutAnimating(false), 400); // match duration
+    // setTimeout(() => setIsLayoutAnimating(false), 400);
   };
 
   useEffect(() => {
@@ -95,7 +95,7 @@ function HomePage() {
     getFilesAndLinks();
 
     return () => controller.abort();
-  }, [refresh]);
+  }, [refresh, values]);
 
   return (
     <div ref={app} className="main">
@@ -129,7 +129,7 @@ function HomePage() {
           className="centerPanel"
         >
           <CenterPanel
-            isLayoutAnimating={isLayoutAnimating}
+            // isLayoutAnimating={isLayoutAnimating}
             deleting={deleting}
             setDeleting={setDeleting}
             setRightOpen={handleRightOpen}

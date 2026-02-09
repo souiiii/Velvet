@@ -79,7 +79,7 @@ function File({
   deleting,
   setUploading,
   setDeleting,
-  isLayoutAnimating,
+  // isLayoutAnimating,
 }) {
   const backElement = useRef(null);
   const fileBox = useRef(null);
