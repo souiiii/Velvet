@@ -98,7 +98,7 @@ function Link({
       transition={{ duration: 0.2, ease: "easeIn" }}
       className={`box link-box ${editLink?._id?.toString() === link?._id?.toString() ? "editing-curr-link" : ""}`}
       // layout={layoutReady}
-      layout
+      layout="position"
     >
       <div className="link-top-heading-div">
         <div className="link-top-heading-inner-div">

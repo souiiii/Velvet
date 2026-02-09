@@ -120,7 +120,10 @@ function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
             {tab === "active" && (
               <motion.div
                 layoutId="selected"
-                transition={{ ease: "ease", duration: 0.3 }}
+                transition={{
+                  layout: { duration: 0.3, ease: "easeOut" },
+                  default: { ease: "ease", duration: 0.3 },
+                }}
                 className="right-panel-tab-overlay"
               ></motion.div>
             )}
@@ -140,7 +143,10 @@ function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
             {tab === "revoked" && (
               <motion.div
                 layoutId="selected"
-                transition={{ ease: "ease", duration: 0.3 }}
+                transition={{
+                  layout: { duration: 0.3, ease: "easeOut" },
+                  default: { ease: "ease", duration: 0.3 },
+                }}
                 className="right-panel-tab-overlay"
               ></motion.div>
             )}
@@ -160,7 +166,10 @@ function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
             {tab === "expired" && (
               <motion.div
                 layoutId="selected"
-                transition={{ ease: "ease", duration: 0.3 }}
+                transition={{
+                  layout: { duration: 0.3, ease: "easeOut" },
+                  default: { ease: "ease", duration: 0.3 },
+                }}
                 className="right-panel-tab-overlay"
               ></motion.div>
             )}
@@ -169,6 +178,7 @@ function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
         <AnimatePresence mode="wait">
           <motion.div
             key={tab}
+            // layout="position"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}

@@ -113,7 +113,10 @@ function RightDefaultPanel({ videoRef, files, setRefresh }) {
             {tab === "active" && (
               <motion.div
                 layoutId="selected"
-                transition={{ ease: "ease", duration: 0.3 }}
+                transition={{
+                  layout: { duration: 0.3, ease: "easeOut" },
+                  default: { ease: "ease", duration: 0.3 },
+                }}
                 className="right-panel-tab-overlay"
               ></motion.div>
             )}
@@ -133,7 +136,10 @@ function RightDefaultPanel({ videoRef, files, setRefresh }) {
             {tab === "revoked" && (
               <motion.div
                 layoutId="selected"
-                transition={{ ease: "ease", duration: 0.3 }}
+                transition={{
+                  layout: { duration: 0.3, ease: "easeOut" },
+                  default: { ease: "ease", duration: 0.3 },
+                }}
                 className="right-panel-tab-overlay"
               ></motion.div>
             )}
@@ -153,7 +159,10 @@ function RightDefaultPanel({ videoRef, files, setRefresh }) {
             {tab === "expired" && (
               <motion.div
                 layoutId="selected"
-                transition={{ ease: "ease", duration: 0.3 }}
+                transition={{
+                  layout: { duration: 0.3, ease: "easeOut" },
+                  default: { ease: "ease", duration: 0.3 },
+                }}
                 className="right-panel-tab-overlay"
               ></motion.div>
             )}
@@ -182,7 +191,7 @@ function RightDefaultPanel({ videoRef, files, setRefresh }) {
                       fileName={l.fileName}
                       tick={tick}
                       page="default"
-                      i={index + 1}
+                      i={index}
                     />
                   ))}
                 </AnimatePresence>

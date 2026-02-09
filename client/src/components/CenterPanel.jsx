@@ -95,7 +95,7 @@ function CenterPanel({
         {numOfFiles ? (
           <>
             <motion.div
-              layout
+              layout="position"
               className={`${numOfFiles !== 1 ? "file-display-list" : "lisstttt"}`}
             >
               {filteredFilesAndLinks.map((f) => (

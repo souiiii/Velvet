@@ -209,7 +209,7 @@ function File({
 
   return (
     <motion.div
-      layout="size"
+      layout="position"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
