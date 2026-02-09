@@ -299,6 +299,7 @@ body {
   border-bottom: 1px solid var(--thickmargin);
   height: 4rem;
   background-color: var(--background);
+  flex-shrink: 0;
 }
 
 .logo-div {
