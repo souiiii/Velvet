@@ -45,6 +45,7 @@ function CenterPanel({
   }, []);
   return (
     <div
+      ref={app}
       className="center-panel-inner-div"
       // layout="position"
     >

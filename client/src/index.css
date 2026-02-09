@@ -96,6 +96,10 @@ input[type="number"] {
   font-family: var(--font), sans-serif;
 }
 
+* {
+  user-select: auto;
+}
+
 .loading {
   display: flex;
   justify-content: center;
@@ -779,7 +783,7 @@ body {
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   position: relative;
-  z-index: 2001;
+  z-index: 11111;
   flex-shrink: 0;
 }
 
@@ -787,18 +791,20 @@ body {
   position: relative;
 }
 
-.main::before {
+.center-panel-inner-div::before {
   content: "";
   position: absolute;
   inset: 0;
+  width: 100%;
+  height: 100%;
   background: rgba(0, 0, 0, 0.5);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s ease;
-  z-index: 2000;
+  z-index: 11111;
 }
 
-.main.drag-over::before {
+.center-panel-inner-div.drag-over::before {
   opacity: 1;
 }
 
@@ -1813,6 +1819,14 @@ body {
     background-color: #111318;
     border-right: 1px solid var(--thickmargin);
     box-shadow: 8px 0px 16px #0a0a0abe;
+  }
+
+  .upload-files-div-box {
+    z-index: 1111;
+  }
+
+  .center-panel-inner-div::before {
+    z-index: 1110;
   }
 
   .menu-logo {

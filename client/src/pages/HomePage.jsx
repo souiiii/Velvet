@@ -125,7 +125,7 @@ function HomePage() {
   }, [refresh, values]);
 
   return (
-    <div ref={app} className="main">
+    <div className="main">
       <AnimatePresence>
         {uploading && <UploadDownload uploading={uploading} />}
         {downloading && <UploadDownload downloading={downloading} />}

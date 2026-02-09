@@ -11,12 +11,16 @@ import {
   Link2,
   Music,
   Trash2,
+  X,
 } from "lucide-react";
 import { DateTime } from "luxon";
 import { useEffect, useRef, useState } from "react";
 import truncateFilename from "../utilities/truncate";
 import { AnimatePresence, motion } from "motion/react";
 import { useAuth } from "../contexts/useAuth";
+
+const Xmotion = motion(X);
+const Linkmotion = motion(Link2);
 
 const imageTypes = [
   "image/jpeg",
@@ -248,13 +252,25 @@ function File({
       <div
         className={`your-file-actions-div ${selectedOp === file._id.toString() ? "opacity-full" : ""}`}
       >
-        <div
-          onClick={() => setRightOpen(file?._id?.toString())}
+        <motion.div
+          onClick={() =>
+            setRightOpen((f) =>
+              f === file?._id?.toString() ? "" : file?._id?.toString(),
+            )
+          }
           className="your-file-generate-link-button label"
         >
-          <Link2 size={14} />
-          <span>Generate Link</span>
-        </div>
+          {selectedFile?._id?.toString() === file?._id?.toString() ? (
+            <>
+              <X size={14} /> <span>Close Panel</span>
+            </>
+          ) : (
+            <>
+              <Link2 size={14} />
+              <span>Generate Link</span>
+            </>
+          )}
+        </motion.div>
         <div
           ref={fileBox}
           onClick={(e) => {
