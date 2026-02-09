@@ -764,11 +764,61 @@ body {
   border-radius: var(--border-radius);
   transition: all 0.2s ease-in-out;
   gap: 0.5rem;
+  position: relative;
 }
 
 .filter-button:hover,
 .filter-button:focus {
   color: var(--white-text);
+}
+
+.filter-floater-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--foreground);
+  box-shadow: 0px 6px 12px var(--shadow-color);
+  border: 1px solid var(--thickmargin);
+  border-radius: var(--border-radius);
+  position: absolute;
+  top: 110%;
+  padding-block: 0.25rem;
+  right: 0;
+  z-index: 1000000;
+  overflow: hidden;
+}
+
+.selected-filter-option {
+  color: var(--white-text);
+  background-color: var(--boxground);
+  border-block: 1px solid var(--thickmargin);
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.filter-floater-list-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* width: 150px; */
+  flex-direction: column;
+}
+
+.filter-floater-options {
+  display: flex;
+  width: 100%;
+  border-block: 1px solid transparent;
+  justify-content: start;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+}
+
+.filter-floater-option-logo-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--graytext);
 }
 
 .upload-files-div-box {

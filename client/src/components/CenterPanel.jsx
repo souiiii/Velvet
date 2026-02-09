@@ -4,6 +4,7 @@ import { AnimatePresence, motion, number } from "motion/react";
 import { useEffect, useState } from "react";
 import File from "./File";
 import Nothing from "./Nothing";
+import Filter from "./Filter";
 
 function CenterPanel({
   setRefresh,
@@ -22,6 +23,7 @@ function CenterPanel({
   const [searchQuery, setSearchQuery] = useState("");
   const [tick, setTick] = useState(0);
   const [selectedOp, setSelectedOp] = useState("");
+  const [filtered, setFiltered] = useState("");
 
   const filteredFilesAndLinks = filesAndLinks
     ? filesAndLinks
@@ -79,6 +81,7 @@ function CenterPanel({
           className="filter-button"
           // layout
         >
+          <Filter filtered={filtered} setFiltered={setFiltered} />
           <SlidersHorizontal size={16} />
           <span>Filters</span>
         </button>

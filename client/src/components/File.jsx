@@ -2,11 +2,9 @@ import {
   Archive,
   Download,
   EllipsisVertical,
-  FileArchive,
   FileQuestion,
   FileText,
   Film,
-  FolderArchive,
   Image,
   Link2,
   Music,
@@ -18,9 +16,6 @@ import { useEffect, useRef, useState } from "react";
 import truncateFilename from "../utilities/truncate";
 import { AnimatePresence, motion } from "motion/react";
 import { useAuth } from "../contexts/useAuth";
-
-const Xmotion = motion(X);
-const Linkmotion = motion(Link2);
 
 const imageTypes = [
   "image/jpeg",
