@@ -112,7 +112,7 @@ function RightDefaultPanel({ videoRef, files, setRefresh }) {
             </div>
             {tab === "active" && (
               <motion.div
-                layoutId="selected"
+                layoutId="selectedd"
                 transition={{
                   layout: { duration: 0.3, ease: "easeOut" },
                   default: { ease: "ease", duration: 0.3 },
@@ -135,7 +135,7 @@ function RightDefaultPanel({ videoRef, files, setRefresh }) {
             </div>
             {tab === "revoked" && (
               <motion.div
-                layoutId="selected"
+                layoutId="selectedd"
                 transition={{
                   layout: { duration: 0.3, ease: "easeOut" },
                   default: { ease: "ease", duration: 0.3 },
@@ -158,7 +158,7 @@ function RightDefaultPanel({ videoRef, files, setRefresh }) {
             </div>
             {tab === "expired" && (
               <motion.div
-                layoutId="selected"
+                layoutId="selectedd"
                 transition={{
                   layout: { duration: 0.3, ease: "easeOut" },
                   default: { ease: "ease", duration: 0.3 },
@@ -190,6 +190,7 @@ function RightDefaultPanel({ videoRef, files, setRefresh }) {
                       setRefresh={setRefresh}
                       fileName={l.fileName}
                       tick={tick}
+                      layout="position"
                       page="default"
                       i={index}
                     />

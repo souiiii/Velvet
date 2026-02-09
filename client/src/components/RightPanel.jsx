@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, LayoutGroup, motion } from "motion/react";
 import { DateTime } from "luxon";
 import { AlarmClockOff, Ban, Link2 } from "lucide-react";
 import CreateLink from "./CreateLink";
@@ -9,7 +9,7 @@ import Nothing from "./Nothing";
 
 function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
   const [tick, setTick] = useState(0);
-  const [layoutReady, setLayoutReady] = useState(false);
+  const [animationsEnabled, setAnimationsEnabled] = useState(false);
   const [editLink, setEditLink] = useState(null);
 
   const [tab, setTab] = useState("active");
@@ -35,11 +35,11 @@ function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
 
   const numberOfLinks = relevantLinks.length;
 
-  useEffect(() => {
-    requestAnimationFrame(() => {
-      setLayoutReady(true);
-    });
-  }, []);
+  // useEffect(() => {
+  //   requestAnimationFrame(() => {
+  //     setLayoutReady(true);
+  //   });
+  // }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -77,140 +77,151 @@ function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
     [tab, selectedFile],
   );
 
-  return (
-    <div className="right-panel-div">
-      {editLink ? (
-        <EditLink
-          setTab={setTab}
-          setRefresh={setRefresh}
-          setRightOpen={setRightOpen}
-          selectedFile={selectedFile}
-          link={editLink}
-          setLink={setEditLink}
-        />
-      ) : (
-        <CreateLink
-          setTab={setTab}
-          setRefresh={setRefresh}
-          setRightOpen={setRightOpen}
-          selectedFile={selectedFile}
-        />
-      )}
+  useEffect(() => {
+    // Wait 400ms (slightly longer than your 0.3s transition)
+    const timer = setTimeout(() => {
+      setAnimationsEnabled(true);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, []);
 
-      <div className="right-panel-link-list-div">
-        <div className="file-display-heading-div link-display-right-panel-heading-div">
-          <div className="file-display-heading link-display-right-panel-heading">
-            File Links
-          </div>
-          <div className="file-display-file-count">{numberOfLinks} links</div>
-        </div>
-        <motion.div className="right-panel-link-tab-div">
-          <div
-            onClick={() => {
-              setTab("active");
-            }}
-            className="right-panel-tab-div"
-          >
-            <div
-              className={`right-panel-tab ${tab === "active" ? "active-tab" : ""}`}
-            >
-              <Link2 size={tab === "active" ? "18" : "14"} />
-              &nbsp;Active
+  return (
+    <LayoutGroup>
+      <div className="right-panel-div">
+        {editLink ? (
+          <EditLink
+            setTab={setTab}
+            setRefresh={setRefresh}
+            setRightOpen={setRightOpen}
+            selectedFile={selectedFile}
+            link={editLink}
+            setLink={setEditLink}
+          />
+        ) : (
+          <CreateLink
+            setTab={setTab}
+            setRefresh={setRefresh}
+            setRightOpen={setRightOpen}
+            selectedFile={selectedFile}
+          />
+        )}
+
+        <div className="right-panel-link-list-div">
+          <div className="file-display-heading-div link-display-right-panel-heading-div">
+            <div className="file-display-heading link-display-right-panel-heading">
+              File Links
             </div>
-            {tab === "active" && (
-              <motion.div
-                layoutId="selected"
-                transition={{
-                  layout: { duration: 0.3, ease: "easeOut" },
-                  default: { ease: "ease", duration: 0.3 },
-                }}
-                className="right-panel-tab-overlay"
-              ></motion.div>
-            )}
+            <div className="file-display-file-count">{numberOfLinks} links</div>
           </div>
-          <div
-            onClick={() => {
-              setTab("revoked");
-            }}
-            className="right-panel-tab-div"
-          >
+          <motion.div className="right-panel-link-tab-div">
             <div
-              className={`right-panel-tab ${tab === "revoked" ? "active-tab" : ""}`}
+              onClick={() => {
+                setTab("active");
+              }}
+              className="right-panel-tab-div"
             >
-              <Ban size={tab === "revoked" ? "18" : "14"} />
-              &nbsp;Revoked
+              <div
+                className={`right-panel-tab ${tab === "active" ? "active-tab" : ""}`}
+              >
+                <Link2 size={tab === "active" ? "18" : "14"} />
+                &nbsp;Active
+              </div>
+              {tab === "active" && (
+                <motion.div
+                  layoutId={animationsEnabled ? "selected" : false}
+                  transition={{
+                    layout: { duration: 0.3, ease: "easeOut" },
+                    default: { ease: "ease", duration: 0.3 },
+                  }}
+                  className="right-panel-tab-overlay"
+                ></motion.div>
+              )}
             </div>
-            {tab === "revoked" && (
-              <motion.div
-                layoutId="selected"
-                transition={{
-                  layout: { duration: 0.3, ease: "easeOut" },
-                  default: { ease: "ease", duration: 0.3 },
-                }}
-                className="right-panel-tab-overlay"
-              ></motion.div>
-            )}
-          </div>
-          <div
-            onClick={() => {
-              setTab("expired");
-            }}
-            className="right-panel-tab-div"
-          >
             <div
-              className={`right-panel-tab ${tab === "expired" ? "active-tab" : ""}`}
+              onClick={() => {
+                setTab("revoked");
+              }}
+              className="right-panel-tab-div"
             >
-              <AlarmClockOff size={tab === "expired" ? "18" : "14"} />
-              &nbsp;Expired
+              <div
+                className={`right-panel-tab ${tab === "revoked" ? "active-tab" : ""}`}
+              >
+                <Ban size={tab === "revoked" ? "18" : "14"} />
+                &nbsp;Revoked
+              </div>
+              {tab === "revoked" && (
+                <motion.div
+                  layoutId={animationsEnabled ? "selected" : false}
+                  transition={{
+                    layout: { duration: 0.3, ease: "easeOut" },
+                    default: { ease: "ease", duration: 0.3 },
+                  }}
+                  className="right-panel-tab-overlay"
+                ></motion.div>
+              )}
             </div>
-            {tab === "expired" && (
-              <motion.div
-                layoutId="selected"
-                transition={{
-                  layout: { duration: 0.3, ease: "easeOut" },
-                  default: { ease: "ease", duration: 0.3 },
-                }}
-                className="right-panel-tab-overlay"
-              ></motion.div>
-            )}
-          </div>
-        </motion.div>
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={tab}
-            // layout="position"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            transition={{ duration: 0.2, ease: "easeInOut" }}
-            className="right-panel-link-list-scrollable-div"
-          >
-            {numberOfLinks ? (
-              <>
-                <AnimatePresence initial={false} mode="popLayout">
-                  {relevantLinks.map((l, i) => (
-                    <Link
-                      i={i}
-                      setEditLink={setEditLink}
-                      key={l._id}
-                      // layoutReady={layoutReady}
-                      link={l}
-                      editLink={editLink}
-                      tab={tab}
-                      setRefresh={setRefresh}
-                      fileName={selectedFile.fileName}
-                      tick={tick}
-                    />
-                  ))}
-                </AnimatePresence>
-              </>
-            ) : (
-              <Nothing message="Create links to view" pic="dog" />
-            )}
+            <div
+              onClick={() => {
+                setTab("expired");
+              }}
+              className="right-panel-tab-div"
+            >
+              <div
+                className={`right-panel-tab ${tab === "expired" ? "active-tab" : ""}`}
+              >
+                <AlarmClockOff size={tab === "expired" ? "18" : "14"} />
+                &nbsp;Expired
+              </div>
+              {tab === "expired" && (
+                <motion.div
+                  layoutId={animationsEnabled ? "selected" : false}
+                  transition={{
+                    layout: { duration: 0.3, ease: "easeOut" },
+                    default: { ease: "ease", duration: 0.3 },
+                  }}
+                  className="right-panel-tab-overlay"
+                ></motion.div>
+              )}
+            </div>
           </motion.div>
-        </AnimatePresence>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={tab}
+              // layout="position"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              transition={{ duration: 0.2, ease: "easeInOut" }}
+              className="right-panel-link-list-scrollable-div"
+            >
+              {numberOfLinks ? (
+                <>
+                  <AnimatePresence initial={false} mode="popLayout">
+                    {relevantLinks.map((l, i) => (
+                      <Link
+                        i={i}
+                        setEditLink={setEditLink}
+                        key={l._id}
+                        // layoutReady={layoutReady}
+                        link={l}
+                        layout={animationsEnabled ? "position" : false}
+                        editLink={editLink}
+                        tab={tab}
+                        setRefresh={setRefresh}
+                        fileName={selectedFile.fileName}
+                        tick={tick}
+                      />
+                    ))}
+                  </AnimatePresence>
+                </>
+              ) : (
+                <Nothing message="Create links to view" pic="dog" />
+              )}
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </div>
-    </div>
+    </LayoutGroup>
   );
 }
 
