@@ -216,7 +216,7 @@ function File({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.2, delay: i * 0.1, ease: "easeInOut" }}
+      transition={{ duration: 0.3, delay: i * 0.1, ease: "easeInOut" }}
       className={`your-file-div ${selectedFile?._id?.toString() === file?._id?.toString() ? "selected-file-highlight" : ""} ${isDeleting ? "opacity-nill" : ""}`}
     >
       <div ref={backElement} className="your-file-logo-div">

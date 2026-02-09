@@ -15,6 +15,7 @@ import { CircularProgressbarWithChildren } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { useEffect } from "react";
 import { motion } from "motion/react";
+import BlackBackgound from "./BlackBackgound";
 
 function LeftPanel({
   name,
@@ -24,6 +25,8 @@ function LeftPanel({
   activeLinks,
   revokedLinks,
   expiredLinks,
+  isMobile,
+  leftOpen,
   totalDownloads,
 }) {
   const nameSplit = name.trim().split(" ");

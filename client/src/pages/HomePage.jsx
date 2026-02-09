@@ -7,16 +7,25 @@ import UploadDownload from "../components/UploadDownload";
 import RightDefaultPanel from "../components/RightDefaultPanel";
 import RightPanel from "../components/RightPanel";
 import NavBar from "../components/NavBar";
+import BlackBackgound from "../components/BlackBackgound";
 
 function HomePage() {
   const values = useAuth();
   const [globalLoading, setGlobalLoading] = useState(false);
   const [rightOpen, setRightOpen] = useState("");
+  const [leftOpen, setLeftOpen] = useState(false);
   const [filesAndLinks, setFilesAndLinks] = useState(null);
   const [refresh, setRefresh] = useState(0);
   const [uploading, setUploading] = useState(null);
   const [downloading, setDownloading] = useState(null);
   const [deleting, setDeleting] = useState(null);
+  const [isSmallMobile, setIsSmallMobile] = useState(
+    window.matchMedia("(max-width: 1338px)").matches,
+  );
+  const [isMobile, setIsMobile] = useState(
+    window.matchMedia("(max-width: 1338px)").matches,
+  );
+
   const app = useRef(null);
 
   const storageUsed = filesAndLinks?.reduce((acc, f) => acc + f.size, 0) || 0;
@@ -51,6 +60,15 @@ function HomePage() {
     setRightOpen(id);
     // setTimeout(() => setIsLayoutAnimating(false), 400);
   };
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 1338px)");
+
+    const handleChange = (e) => setIsMobile(e.matches);
+
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -105,25 +123,39 @@ function HomePage() {
         {deleting && <UploadDownload deleting={deleting} />}
       </AnimatePresence>
 
-      <NavBar />
+      <NavBar setRightOpen={setRightOpen} setLeftOpen={setLeftOpen} />
       {/* {globalLoading && <div>Loading..</div>} */}
       {/* <LayoutGroup> */}
       <motion.div className="container">
-        <motion.div
-          // layout
-          className="leftPanel"
-        >
-          <LeftPanel
-            storageUsed={storageUsed}
-            totalDownloads={totalDownloads}
-            expiredLinks={expiredLinks}
-            revokedLinks={revokedLinks}
-            activeLinks={activeLinks}
-            name={values.user.fullName}
-            email={values.user.email}
-            numberOfFiles={numberOfFiles}
-          />
-        </motion.div>
+        <AnimatePresence>
+          {isMobile && leftOpen && <BlackBackgound />}
+        </AnimatePresence>
+        <AnimatePresence>
+          {(!isMobile || leftOpen) && (
+            <motion.div
+              // layout
+              initial={{ opacity: 0, x: "-320px" }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: "-320px" }}
+              transition={{ ease: "easeInOut", duration: 0.3 }}
+              className="leftPanel"
+            >
+              <LeftPanel
+                leftOpen={leftOpen}
+
+                storageUsed={storageUsed}
+                totalDownloads={totalDownloads}
+                expiredLinks={expiredLinks}
+                revokedLinks={revokedLinks}
+                activeLinks={activeLinks}
+                name={values.user.fullName}
+                email={values.user.email}
+                numberOfFiles={numberOfFiles}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         <motion.div
           // layout
           className="centerPanel"
@@ -151,7 +183,7 @@ function HomePage() {
               initial={{ x: 400, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: 400, opacity: 0 }}
-              transition={{ ease: "easeInOut", duration: 0.4 }}
+              transition={{ ease: "easeInOut", duration: 0.3 }}
               className="rightPanel notDefault"
             >
               <RightPanel
@@ -166,7 +198,7 @@ function HomePage() {
               initial={{ x: 400, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: 400, opacity: 0 }}
-              transition={{ ease: "easeInOut", duration: 0.4 }}
+              transition={{ ease: "easeInOut", duration: 0.3 }}
               className="rightPanel  right-default-panel-div"
             >
               <RightDefaultPanel

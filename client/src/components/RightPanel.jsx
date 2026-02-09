@@ -128,7 +128,7 @@ function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
               </div>
               {tab === "active" && (
                 <motion.div
-                  layoutId={animationsEnabled ? "selected" : false}
+                  layoutId="selected"
                   transition={{
                     layout: { duration: 0.3, ease: "easeOut" },
                     default: { ease: "ease", duration: 0.3 },
@@ -151,7 +151,7 @@ function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
               </div>
               {tab === "revoked" && (
                 <motion.div
-                  layoutId={animationsEnabled ? "selected" : false}
+                  layoutId="selected"
                   transition={{
                     layout: { duration: 0.3, ease: "easeOut" },
                     default: { ease: "ease", duration: 0.3 },
@@ -174,7 +174,7 @@ function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
               </div>
               {tab === "expired" && (
                 <motion.div
-                  layoutId={animationsEnabled ? "selected" : false}
+                  layoutId="selected"
                   transition={{
                     layout: { duration: 0.3, ease: "easeOut" },
                     default: { ease: "ease", duration: 0.3 },
@@ -197,22 +197,21 @@ function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
               {numberOfLinks ? (
                 <>
                   <AnimatePresence initial={false} mode="popLayout">
-                    {animationsEnabled &&
-                      relevantLinks.map((l, i) => (
-                        <Link
-                          i={i}
-                          setEditLink={setEditLink}
-                          key={l._id}
-                          // layoutReady={layoutReady}
-                          link={l}
-                          layout="position"
-                          editLink={editLink}
-                          tab={tab}
-                          setRefresh={setRefresh}
-                          fileName={selectedFile.fileName}
-                          tick={tick}
-                        />
-                      ))}
+                    {relevantLinks.map((l, i) => (
+                      <Link
+                        i={i}
+                        setEditLink={setEditLink}
+                        key={l._id}
+                        // layoutReady={layoutReady}
+                        link={l}
+                        layout="position"
+                        editLink={editLink}
+                        tab={tab}
+                        setRefresh={setRefresh}
+                        fileName={selectedFile.fileName}
+                        tick={tick}
+                      />
+                    ))}
                   </AnimatePresence>
                 </>
               ) : (
