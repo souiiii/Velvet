@@ -9,7 +9,7 @@ import Nothing from "./Nothing";
 
 function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
   const [tick, setTick] = useState(0);
-  const [animationsEnabled, setAnimationsEnabled] = useState(false);
+  // const [animationsEnabled, setAnimationsEnabled] = useState(false);
   const [editLink, setEditLink] = useState(null);
 
   const [tab, setTab] = useState("active");
@@ -77,13 +77,12 @@ function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
     [tab, selectedFile],
   );
 
-  useEffect(() => {
-    // Wait 400ms (slightly longer than your 0.3s transition)
-    const timer = setTimeout(() => {
-      setAnimationsEnabled(true);
-    }, 450);
-    return () => clearTimeout(timer);
-  }, []);
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setAnimationsEnabled(true);
+  //   }, 450);
+  //   return () => clearTimeout(timer);
+  // }, []);
 
   return (
     <LayoutGroup>
