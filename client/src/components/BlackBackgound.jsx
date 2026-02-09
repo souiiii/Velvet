@@ -1,8 +1,13 @@
 import { motion } from "motion/react";
 
-function BlackBackgound() {
+function BlackBackgound({ setLeftOpen, setRightOpen }) {
+  function handleClick() {
+    setLeftOpen(false);
+    setRightOpen("");
+  }
   return (
     <motion.div
+      onClick={handleClick}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}

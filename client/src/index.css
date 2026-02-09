@@ -1780,6 +1780,23 @@ body {
   left: 0;
 }
 
+.button-div-action-edit {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.edit-butt-edit {
+  background-color: var(--boxground);
+  border: 1px solid var(--margins);
+}
+
+.edit-butt-edit:hover {
+  background-color: var(--boxground-highlight);
+}
+
 @media (max-width: 1800px) {
   .file-display-list {
     grid-template-columns: repeat(1, minmax(0, 1fr));
@@ -1830,7 +1847,7 @@ body {
     right: 0;
     top: 0;
     background-color: #0c0e12ee;
-    z-index: 2222;
+    z-index: 2222333;
     background-color: #111318;
     border-left: 1px solid var(--thickmargin);
     width: 22rem;

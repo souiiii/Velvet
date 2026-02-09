@@ -2,12 +2,14 @@ import { AnimatePresence, motion } from "motion/react";
 import {
   ChevronDown,
   ChevronUp,
+  CircleX,
   Clock,
   CloudDownload,
   Cog,
   FileText,
   Lock,
   PenLine,
+  SquareX,
   X,
 } from "lucide-react";
 import dayjs from "dayjs";
@@ -152,7 +154,7 @@ function EditLink({
           <div className="create-link-heading-logo-div">
             <PenLine size={14} />
           </div>
-          <span>Edit Selected Link</span>
+          <span>Edit Selected Link {link?.i + 1}</span>
         </div>
         <div
           onClick={() => setRightOpen("")}
@@ -321,14 +323,24 @@ function EditLink({
           maxLength={25}
         />
       </div>
-      <button
-        type="submit"
-        disabled={loading}
-        className={`action-button create-butt ${loading && "disabled-create-button"}`}
-      >
-        <Cog size={18} />
-        &nbsp;{loading ? "Editing Link..." : "Edit Link"}&nbsp;{link.i + 1}
-      </button>
+      <div className="button-div-action-edit">
+        <button
+          type="submit"
+          disabled={loading}
+          className={`action-button create-butt ${loading && "disabled-create-button"}`}
+        >
+          <Cog size={18} />
+          &nbsp;{loading ? "Editing Link..." : "Edit Link"}&nbsp;{link.i + 1}
+        </button>
+        <button
+          className="action-button create-butt edit-butt-edit"
+          type="button"
+          onClick={() => setLink(null)}
+        >
+          <CircleX size={18} />
+          &nbsp;Cancel Edit
+        </button>
+      </div>
     </form>
   );
 }

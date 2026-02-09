@@ -20,7 +20,7 @@ function HomePage() {
   const [downloading, setDownloading] = useState(null);
   const [deleting, setDeleting] = useState(null);
   const [isSmallMobile, setIsSmallMobile] = useState(
-    window.matchMedia("(max-width: 1338px)").matches,
+    window.matchMedia("(max-width: 1000px)").matches,
   );
   const [isMobile, setIsMobile] = useState(
     window.matchMedia("(max-width: 1338px)").matches,
@@ -65,6 +65,15 @@ function HomePage() {
     const mediaQuery = window.matchMedia("(max-width: 1338px)");
 
     const handleChange = (e) => setIsMobile(e.matches);
+
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, []);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 1000px)");
+
+    const handleChange = (e) => setIsSmallMobile(e.matches);
 
     mediaQuery.addEventListener("change", handleChange);
     return () => mediaQuery.removeEventListener("change", handleChange);
@@ -128,7 +137,12 @@ function HomePage() {
       {/* <LayoutGroup> */}
       <motion.div className="container">
         <AnimatePresence>
-          {isMobile && leftOpen && <BlackBackgound />}
+          {((isMobile && leftOpen) || (isSmallMobile && rightOpen)) && (
+            <BlackBackgound
+              setRightOpen={setRightOpen}
+              setLeftOpen={setLeftOpen}
+            />
+          )}
         </AnimatePresence>
         <AnimatePresence>
           {(!isMobile || leftOpen) && (
@@ -142,7 +156,6 @@ function HomePage() {
             >
               <LeftPanel
                 leftOpen={leftOpen}
-
                 storageUsed={storageUsed}
                 totalDownloads={totalDownloads}
                 expiredLinks={expiredLinks}

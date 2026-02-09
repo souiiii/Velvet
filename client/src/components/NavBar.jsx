@@ -20,7 +20,14 @@ function NavBar({ setLeftOpen, setRightOpen }) {
       </div>
       <div className="utility-div">
         {isHomePage && (
-          <label htmlFor="upload" className="action-button">
+          <label
+            onClick={() => {
+              setLeftOpen(false);
+              setRightOpen("");
+            }}
+            htmlFor="upload"
+            className="action-button"
+          >
             <span>+</span>&nbsp;New Upload
           </label>
         )}
