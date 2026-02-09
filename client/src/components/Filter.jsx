@@ -1,3 +1,4 @@
+import { motion } from "motion/react";
 import {
   Archive,
   FileQuestionMark,
@@ -8,60 +9,15 @@ import {
   Music,
 } from "lucide-react";
 
-const i = [
-  "image/jpeg",
-  "image/png",
-  "image/webp",
-  "image/gif",
-  "image/bmp",
-  "image/tiff",
-  "image/svg+xml",
-];
-
-const d = [
-  "application/pdf",
-  "application/msword",
-  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-  "application/vnd.ms-excel",
-  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-  "application/vnd.ms-powerpoint",
-  "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-  "text/plain",
-  "text/csv",
-];
-
-const a = [
-  "audio/mpeg",
-  "audio/mp3",
-  "audio/wav",
-  "audio/ogg",
-  "audio/webm",
-  "audio/aac",
-  "audio/flac",
-  "audio/mp4",
-];
-
-const v = [
-  "video/mp4",
-  "video/webm",
-  "video/ogg",
-  "video/x-matroska",
-  "video/quicktime",
-];
-
-const c = [
-  "application/zip",
-  "application/x-rar",
-  "application/x-7z-compressed",
-  "application/x-zip-compressed",
-  "application/x-rar-compressed",
-];
-
-const o = ["application/octet-stream"];
-
 function Filter({ filtered = "", setFiltered = () => {} }) {
   return (
-    <div className="filter-floater-div">
+    <motion.div
+      initial={{ opacity: 0, y: -140, scaleY: 0 }}
+      animate={{ opacity: 1, y: 2, scaleY: 1 }}
+      exit={{ opacity: 0, y: -140, scaleY: 0 }}
+      transition={{ duration: 0.15, ease: "easeOut" }}
+      className="filter-floater-div"
+    >
       <div className="filter-floater-list-div">
         <div
           onClick={() => setFiltered("")}
@@ -169,7 +125,7 @@ function Filter({ filtered = "", setFiltered = () => {} }) {
           <div className="filter-floater-option-text">Other</div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

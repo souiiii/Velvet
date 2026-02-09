@@ -115,6 +115,16 @@ button {
   border: unset;
 }
 
+.dot {
+  background-color: var(--white-text);
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
 .uploading-now {
   display: flex;
   justify-content: center;
@@ -767,8 +777,7 @@ body {
   position: relative;
 }
 
-.filter-button:hover,
-.filter-button:focus {
+.filter-button:hover:not(:has(> .filter-floater-div:hover)) {
   color: var(--white-text);
 }
 
@@ -782,18 +791,10 @@ body {
   border-radius: var(--border-radius);
   position: absolute;
   top: 110%;
-  padding-block: 0.25rem;
+  padding-block: 0.05rem;
   right: 0;
   z-index: 1000000;
   overflow: hidden;
-}
-
-.selected-filter-option {
-  color: var(--white-text);
-  background-color: var(--boxground);
-  border-block: 1px solid var(--thickmargin);
-  transition: all 0.2s ease-in-out;
-  cursor: pointer;
 }
 
 .filter-floater-list-div {
@@ -819,6 +820,33 @@ body {
   justify-content: center;
   align-items: center;
   color: var(--graytext);
+}
+
+.filter-floater-option-text {
+  color: var(--graytext);
+  transition: all 0.2s ease-in-out;
+  font-size: 0.875rem;
+}
+
+.selected-filter-option {
+  color: var(--white-text);
+  background-color: var(--boxground);
+  border-block: 1px solid var(--thickmargin);
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  transform: scale(1.05);
+}
+
+.selected-filter-option > .filter-floater-option-text {
+  color: var(--white-text);
+}
+
+.filter-floater-options:hover > .filter-floater-option-text {
+  color: var(--white-text);
+}
+
+.filter-floater-options:hover {
+  background-color: var(--boxground);
 }
 
 .upload-files-div-box {

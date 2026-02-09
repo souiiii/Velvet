@@ -1,7 +1,7 @@
 import { Search, SlidersHorizontal } from "lucide-react";
 import AddFile from "./AddFile";
 import { AnimatePresence, motion, number } from "motion/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import File from "./File";
 import Nothing from "./Nothing";
 import Filter from "./Filter";
@@ -24,6 +24,20 @@ function CenterPanel({
   const [tick, setTick] = useState(0);
   const [selectedOp, setSelectedOp] = useState("");
   const [filtered, setFiltered] = useState("");
+  const [filterOpen, setFilterOpen] = useState(false);
+
+  const filter = useRef(null);
+
+  useEffect(function () {
+    function handleClick(e) {
+      if (!filter.current) return;
+      if (!filter.current.contains(e.target)) {
+        setFilterOpen(false);
+      }
+    }
+    document.addEventListener("click", handleClick);
+    return () => document.removeEventListener("click", handleClick);
+  }, []);
 
   const filteredFilesAndLinks = filesAndLinks
     ? filesAndLinks
@@ -78,12 +92,19 @@ function CenterPanel({
           />
         </div>
         <button
-          className="filter-button"
+          ref={filter}
+          onClick={() => setFilterOpen((o) => !o)}
+          className={`filter-button ${filtered || filterOpen ? "white-col" : ""}`}
           // layout
         >
-          <Filter filtered={filtered} setFiltered={setFiltered} />
+          <AnimatePresence>
+            {filterOpen && (
+              <Filter filtered={filtered} setFiltered={setFiltered} />
+            )}
+          </AnimatePresence>
           <SlidersHorizontal size={16} />
-          <span>Filters</span>
+          {filtered && <div className="dot"></div>}
+          <span>Filter</span>
         </button>
       </motion.div>
       <AddFile
