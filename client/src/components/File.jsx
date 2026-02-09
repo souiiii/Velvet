@@ -71,6 +71,7 @@ const otherTypes = ["application/octet-stream"];
 
 function File({
   file,
+  selectedFile,
   setRightOpen,
   tick,
   selectedOp,
@@ -79,6 +80,7 @@ function File({
   deleting,
   setUploading,
   setDeleting,
+  i,
   // isLayoutAnimating,
 }) {
   const backElement = useRef(null);
@@ -210,12 +212,12 @@ function File({
 
   return (
     <motion.div
-      layout={"position"}
+      layout
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.2, ease: "easeInOut" }}
-      className={`your-file-div ${isDeleting ? "opacity-nill" : ""}`}
+      transition={{ duration: 0.2, delay: i * 0.1, ease: "easeInOut" }}
+      className={`your-file-div ${selectedFile?._id?.toString() === file?._id?.toString() ? "selected-file-highlight" : ""} ${isDeleting ? "opacity-nill" : ""}`}
     >
       <div ref={backElement} className="your-file-logo-div">
         {color === "#60a5fa" ? (

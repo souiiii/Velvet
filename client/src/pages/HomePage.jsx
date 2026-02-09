@@ -139,6 +139,7 @@ function HomePage() {
             downloading={downloading}
             setDownloading={setDownloading}
             setUploading={setUploading}
+            selectedFile={selectedFile}
             app={app}
           />
         </motion.div>

@@ -14,6 +14,7 @@ function CenterPanel({
   uploading,
   deleting,
   setDeleting,
+  selectedFile,
   setUploading,
   app,
   // isLayoutAnimating,
@@ -98,19 +99,21 @@ function CenterPanel({
             <motion.div
               className={`${numOfFiles !== 1 ? "file-display-list" : "lisstttt"}`}
             >
-              {filteredFilesAndLinks.map((f) => (
+              {filteredFilesAndLinks.map((f, i) => (
                 <File
                   // isLayoutAnimating={isLayoutAnimating}
                   setUploading={setUploading}
                   setDeleting={setDeleting}
                   deleting={deleting}
                   selectedOp={selectedOp}
+                  selectedFile={selectedFile}
                   setSelectedOp={setSelectedOp}
                   tick={tick}
                   setRefresh={setRefresh}
                   setRightOpen={setRightOpen}
                   key={f._id}
                   file={f}
+                  i={i}
                 />
               ))}
             </motion.div>

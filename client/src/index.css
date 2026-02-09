@@ -928,6 +928,11 @@ body {
   background-color: var(--foreground);
   border-radius: var(--border-radius);
   border: 1px solid var(--margins);
+  transition: border-color 0.2s ease-in-out;
+}
+
+.selected-file-highlight {
+  border-color: rgb(119, 59, 59);
 }
 
 .your-file-logo-div {
