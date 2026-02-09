@@ -114,8 +114,8 @@ function RightDefaultPanel({ videoRef, files, setRefresh }) {
               <motion.div
                 layoutId="selectedd"
                 transition={{
-                  layout: { duration: 0.3, ease: "easeOut" },
-                  default: { ease: "ease", duration: 0.3 },
+                  layout: { duration: 0.2, ease: "easeOut" },
+                  default: { ease: "ease", duration: 0.2 },
                 }}
                 className="right-panel-tab-overlay"
               ></motion.div>
@@ -137,8 +137,8 @@ function RightDefaultPanel({ videoRef, files, setRefresh }) {
               <motion.div
                 layoutId="selectedd"
                 transition={{
-                  layout: { duration: 0.3, ease: "easeOut" },
-                  default: { ease: "ease", duration: 0.3 },
+                  layout: { duration: 0.2, ease: "easeOut" },
+                  default: { ease: "ease", duration: 0.2 },
                 }}
                 className="right-panel-tab-overlay"
               ></motion.div>
@@ -160,8 +160,8 @@ function RightDefaultPanel({ videoRef, files, setRefresh }) {
               <motion.div
                 layoutId="selectedd"
                 transition={{
-                  layout: { duration: 0.3, ease: "easeOut" },
-                  default: { ease: "ease", duration: 0.3 },
+                  layout: { duration: 0.2, ease: "easeOut" },
+                  default: { ease: "ease", duration: 0.2 },
                 }}
                 className="right-panel-tab-overlay"
               ></motion.div>

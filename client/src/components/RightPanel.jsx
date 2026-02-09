@@ -129,8 +129,8 @@ function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
                 <motion.div
                   layoutId="selected"
                   transition={{
-                    layout: { duration: 0.3, ease: "easeOut" },
-                    default: { ease: "ease", duration: 0.3 },
+                    layout: { duration: 0.2, ease: "easeOut" },
+                    default: { ease: "ease", duration: 0.2 },
                   }}
                   className="right-panel-tab-overlay"
                 ></motion.div>
@@ -152,8 +152,8 @@ function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
                 <motion.div
                   layoutId="selected"
                   transition={{
-                    layout: { duration: 0.3, ease: "easeOut" },
-                    default: { ease: "ease", duration: 0.3 },
+                    layout: { duration: 0.2, ease: "easeOut" },
+                    default: { ease: "ease", duration: 0.2 },
                   }}
                   className="right-panel-tab-overlay"
                 ></motion.div>
@@ -175,8 +175,8 @@ function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
                 <motion.div
                   layoutId="selected"
                   transition={{
-                    layout: { duration: 0.3, ease: "easeOut" },
-                    default: { ease: "ease", duration: 0.3 },
+                    layout: { duration: 0.2, ease: "easeOut" },
+                    default: { ease: "ease", duration: 0.2 },
                   }}
                   className="right-panel-tab-overlay"
                 ></motion.div>
