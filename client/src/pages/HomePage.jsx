@@ -25,6 +25,9 @@ function HomePage() {
   const [isMobile, setIsMobile] = useState(
     window.matchMedia("(max-width: 1338px)").matches,
   );
+  const [isLaptop, setIsLaptop] = useState(
+    window.matchMedia("(max-width: 2300px)").matches,
+  );
 
   const app = useRef(null);
 
@@ -74,6 +77,14 @@ function HomePage() {
     const mediaQuery = window.matchMedia("(max-width: 1000px)");
 
     const handleChange = (e) => setIsSmallMobile(e.matches);
+
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, []);
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 2300px)");
+
+    const handleChange = (e) => setIsLaptop(e.matches);
 
     mediaQuery.addEventListener("change", handleChange);
     return () => mediaQuery.removeEventListener("change", handleChange);
@@ -176,6 +187,9 @@ function HomePage() {
           <CenterPanel
             // isLayoutAnimating={isLayoutAnimating}
             deleting={deleting}
+            isSmallMobile={isSmallMobile}
+            isLaptop={isLaptop}
+            isMobile={isMobile}
             setDeleting={setDeleting}
             setRightOpen={handleRightOpen}
             setRefresh={setRefresh}

@@ -61,6 +61,9 @@ const type = {
 
 function CenterPanel({
   setRefresh,
+  isMobile,
+  isSmallMobile,
+  isLaptop,
   downloading,
   setDownloading,
   filesAndLinks,
@@ -183,7 +186,10 @@ function CenterPanel({
               {filteredFilesAndLinks.map((f, i) => (
                 <File
                   // isLayoutAnimating={isLayoutAnimating}
+                  isMobile={isMobile}
+                  isSmallMobile={isSmallMobile}
                   setUploading={setUploading}
+                  isLaptop={isLaptop}
                   setDeleting={setDeleting}
                   deleting={deleting}
                   selectedOp={selectedOp}

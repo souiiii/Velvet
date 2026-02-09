@@ -71,6 +71,8 @@ const otherTypes = ["application/octet-stream"];
 function File({
   file,
   selectedFile,
+  isMobile,
+  isSmallMobile,
   setRightOpen,
   tick,
   selectedOp,
@@ -79,6 +81,7 @@ function File({
   deleting,
   setUploading,
   setDeleting,
+  isLaptop,
   i,
   // isLayoutAnimating,
 }) {
@@ -105,7 +108,13 @@ function File({
       file.fileName.trim().slice(1).toLowerCase()
     : "File.fileType";
 
-  const title = truncateFilename(rawTitle, 25);
+  const title = isSmallMobile
+    ? truncateFilename(rawTitle, 25)
+    : isMobile
+      ? truncateFilename(rawTitle, 35)
+      : isLaptop
+        ? truncateFilename(rawTitle, 40)
+        : truncateFilename(rawTitle, 60);
 
   let background = fileType
     ? documentTypes.includes(fileType)

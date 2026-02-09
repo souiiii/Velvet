@@ -19,7 +19,7 @@ function UploadDownload({ uploading, downloading, deleting }) {
           .toLowerCase()
       : "File.fileType";
 
-  const title = truncateFilename(rawTitle, 20);
+  const title = truncateFilename(rawTitle, 35);
   return (
     <motion.div
       initial={{ x: "-50%", y: "-4rem", opacity: 0 }}
@@ -39,6 +39,7 @@ function UploadDownload({ uploading, downloading, deleting }) {
         {downloading && `Downloading ${title?.trim()}`}
         {deleting && `Deleting ${title?.trim()}`}
       </motion.span>
+      <div className="loading-bar"></div>
     </motion.div>
   );
 }
