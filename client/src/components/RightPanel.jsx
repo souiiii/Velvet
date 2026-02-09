@@ -81,7 +81,7 @@ function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
     // Wait 400ms (slightly longer than your 0.3s transition)
     const timer = setTimeout(() => {
       setAnimationsEnabled(true);
-    }, 300);
+    }, 450);
     return () => clearTimeout(timer);
   }, []);
 
@@ -197,21 +197,22 @@ function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
               {numberOfLinks ? (
                 <>
                   <AnimatePresence initial={false} mode="popLayout">
-                    {relevantLinks.map((l, i) => (
-                      <Link
-                        i={i}
-                        setEditLink={setEditLink}
-                        key={l._id}
-                        // layoutReady={layoutReady}
-                        link={l}
-                        layout={animationsEnabled ? "position" : false}
-                        editLink={editLink}
-                        tab={tab}
-                        setRefresh={setRefresh}
-                        fileName={selectedFile.fileName}
-                        tick={tick}
-                      />
-                    ))}
+                    {animationsEnabled &&
+                      relevantLinks.map((l, i) => (
+                        <Link
+                          i={i}
+                          setEditLink={setEditLink}
+                          key={l._id}
+                          // layoutReady={layoutReady}
+                          link={l}
+                          layout="position"
+                          editLink={editLink}
+                          tab={tab}
+                          setRefresh={setRefresh}
+                          fileName={selectedFile.fileName}
+                          tick={tick}
+                        />
+                      ))}
                   </AnimatePresence>
                 </>
               ) : (

@@ -93,9 +93,15 @@ function Link({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
+      initial={{ opacity: 0, y: 0 }}
+      animate={{
+        opacity: 1,
+        x: 0,
+        // Stagger: The first item waits 0.05s, the second 0.10s, etc.
+        transition: { delay: i * 0.05, duration: 0.3 },
+      }}
+      exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
+      // exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.2, ease: "easeIn" }}
       className={`box link-box ${editLink?._id?.toString() === link?._id?.toString() ? "editing-curr-link" : ""}`}
       layout={layout}
