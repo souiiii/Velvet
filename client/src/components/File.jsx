@@ -79,6 +79,7 @@ function File({
   deleting,
   setUploading,
   setDeleting,
+  isLayoutAnimating,
 }) {
   const backElement = useRef(null);
   const fileBox = useRef(null);
@@ -209,7 +210,7 @@ function File({
 
   return (
     <motion.div
-      layout="position"
+      layout={"position"}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}

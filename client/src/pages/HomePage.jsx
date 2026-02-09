@@ -44,6 +44,14 @@ function HomePage() {
 
   const videoRef = useRef(null);
 
+  const [isLayoutAnimating, setIsLayoutAnimating] = useState(false);
+
+  const handleRightOpen = (id) => {
+    setIsLayoutAnimating(true);
+    setRightOpen(id);
+    setTimeout(() => setIsLayoutAnimating(false), 400); // match duration
+  };
+
   useEffect(() => {
     const timer = setTimeout(() => {
       videoRef.current?.play();
@@ -99,80 +107,77 @@ function HomePage() {
 
       <NavBar />
       {/* {globalLoading && <div>Loading..</div>} */}
-      <LayoutGroup>
-        <motion.div layout className="container">
-          <motion.div
-            // layout
-            className="leftPanel"
-          >
-            <LeftPanel
-              storageUsed={storageUsed}
-              totalDownloads={totalDownloads}
-              expiredLinks={expiredLinks}
-              revokedLinks={revokedLinks}
-              activeLinks={activeLinks}
-              name={values.user.fullName}
-              email={values.user.email}
-              numberOfFiles={numberOfFiles}
-            />
-          </motion.div>
-          <motion.div
-            // layout
-            className="centerPanel"
-          >
-            <CenterPanel
-              deleting={deleting}
-              setDeleting={setDeleting}
-              setRightOpen={setRightOpen}
-              setRefresh={setRefresh}
-              filesAndLinks={filesAndLinks}
-              uploading={uploading}
-              downloading={downloading}
-              setDownloading={setDownloading}
-              setUploading={setUploading}
-              app={app}
-            />
-          </motion.div>
-
-          <AnimatePresence mode="popLayout">
-            {rightOpen && (
-              <motion.div
-                key="right-panel"
-                // layout="position"
-                initial={{ x: 400, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                exit={{ x: 400, opacity: 0 }}
-                transition={{ ease: "easeInOut", duration: 0.4 }}
-                className="rightPanel notDefault"
-              >
-                <RightPanel
-                  selectedFile={selectedFile}
-                  setRefresh={setRefresh}
-                  setRightOpen={setRightOpen}
-                />
-              </motion.div>
-            )}
-          </AnimatePresence>
-          <AnimatePresence mode="popLayout">
-            {!rightOpen && (
-              <motion.div
-                key="right-default"
-                initial={{ x: 400, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                exit={{ x: 400, opacity: 0 }}
-                transition={{ ease: "easeInOut", duration: 0.4 }}
-                className="rightPanel  right-default-panel-div"
-              >
-                <RightDefaultPanel
-                  files={filesAndLinks}
-                  setRefresh={setRefresh}
-                  videoRef={videoRef}
-                />
-              </motion.div>
-            )}
-          </AnimatePresence>
+      {/* <LayoutGroup> */}
+      <motion.div className="container">
+        <motion.div
+          // layout
+          className="leftPanel"
+        >
+          <LeftPanel
+            storageUsed={storageUsed}
+            totalDownloads={totalDownloads}
+            expiredLinks={expiredLinks}
+            revokedLinks={revokedLinks}
+            activeLinks={activeLinks}
+            name={values.user.fullName}
+            email={values.user.email}
+            numberOfFiles={numberOfFiles}
+          />
         </motion.div>
-      </LayoutGroup>
+        <motion.div
+          // layout
+          className="centerPanel"
+        >
+          <CenterPanel
+            isLayoutAnimating={isLayoutAnimating}
+            deleting={deleting}
+            setDeleting={setDeleting}
+            setRightOpen={handleRightOpen}
+            setRefresh={setRefresh}
+            filesAndLinks={filesAndLinks}
+            uploading={uploading}
+            downloading={downloading}
+            setDownloading={setDownloading}
+            setUploading={setUploading}
+            app={app}
+          />
+        </motion.div>
+        <AnimatePresence mode="popLayout">
+          {rightOpen ? (
+            <motion.div
+              key="right-panel"
+              // layout="position"
+              initial={{ x: 400, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: 400, opacity: 0 }}
+              transition={{ ease: "easeInOut", duration: 0.4 }}
+              className="rightPanel notDefault"
+            >
+              <RightPanel
+                selectedFile={selectedFile}
+                setRefresh={setRefresh}
+                setRightOpen={handleRightOpen}
+              />
+            </motion.div>
+          ) : (
+            <motion.div
+              key="right-default"
+              initial={{ x: 400, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: 400, opacity: 0 }}
+              transition={{ ease: "easeInOut", duration: 0.4 }}
+              className="rightPanel  right-default-panel-div"
+            >
+              <RightDefaultPanel
+                files={filesAndLinks}
+                setRefresh={setRefresh}
+                videoRef={videoRef}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
+      {/* </LayoutGroup> */}
     </div>
   );
 }

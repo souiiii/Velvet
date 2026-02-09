@@ -16,6 +16,7 @@ function CenterPanel({
   setDeleting,
   setUploading,
   app,
+  isLayoutAnimating,
 }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [tick, setTick] = useState(0);
@@ -95,11 +96,11 @@ function CenterPanel({
         {numOfFiles ? (
           <>
             <motion.div
-              layout="position"
               className={`${numOfFiles !== 1 ? "file-display-list" : "lisstttt"}`}
             >
               {filteredFilesAndLinks.map((f) => (
                 <File
+                  isLayoutAnimating={isLayoutAnimating}
                   setUploading={setUploading}
                   setDeleting={setDeleting}
                   deleting={deleting}
