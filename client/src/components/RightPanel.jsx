@@ -14,6 +14,7 @@ function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
 
   const [tab, setTab] = useState("active");
   const links = selectedFile.links;
+  const id = selectedFile?._id?.toString();
 
   const now = new Date();
 
@@ -74,7 +75,7 @@ function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
     function () {
       setEditLink(null);
     },
-    [tab, selectedFile],
+    [tab, id],
   );
 
   // useEffect(() => {
