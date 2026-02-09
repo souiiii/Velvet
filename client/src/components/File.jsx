@@ -211,11 +211,11 @@ function File({
 
   return (
     <motion.div
-      layout
+      layout="position"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.3, delay: i * 0.1, ease: "easeInOut" }}
+      transition={{ duration: 0.3, delay: i * 0.05, ease: "easeInOut" }}
       className={`your-file-div ${selectedFile?._id?.toString() === file?._id?.toString() ? "selected-file-highlight" : ""} ${isDeleting ? "opacity-nill" : ""}`}
     >
       <div ref={backElement} className="your-file-logo-div">
@@ -240,7 +240,9 @@ function File({
         <div className="your-file-sub-title-div">
           <div className="your-file-size">
             {size === "0 KB" ? "1 KB" : size}&nbsp;•&nbsp;
-            {timeAgo === "0 seconds ago" ? "Just now" : timeAgo}
+            {timeAgo === "0 seconds ago" || timeAgo === "in 0 seconds"
+              ? "Just now"
+              : timeAgo}
           </div>
         </div>
       </div>

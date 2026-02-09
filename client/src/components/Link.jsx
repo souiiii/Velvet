@@ -111,7 +111,9 @@ function Link({
         <div className="link-top-heading-inner-div">
           <div className="link-top-heading">{title}</div>
           <div className="link-ago-time-created">
-            {timeAgo === "0 seconds ago" ? "Just now" : timeAgo}
+            {timeAgo === "0 seconds ago" || timeAgo === "in 0 seconds"
+              ? "Just now"
+              : timeAgo}
           </div>
         </div>
         {tab === "active" && (

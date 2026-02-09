@@ -1030,6 +1030,7 @@ body {
   border-radius: var(--border-radius);
   border: 1px solid var(--margins);
   transition: border-color 0.2s ease-in-out;
+  box-shadow: 0px 6px 12px var(--shadow-color);
 }
 
 .selected-file-highlight {
@@ -1239,6 +1240,7 @@ body {
   border: 1px solid var(--margins);
   cursor: pointer;
   overflow: hidden;
+  box-shadow: 0px 6px 12px var(--shadow-color);
 }
 
 .right-panel-tab-div {

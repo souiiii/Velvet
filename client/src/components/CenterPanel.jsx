@@ -6,6 +6,59 @@ import File from "./File";
 import Nothing from "./Nothing";
 import Filter from "./Filter";
 
+const type = {
+  i: [
+    "image/jpeg",
+    "image/png",
+    "image/webp",
+    "image/gif",
+    "image/bmp",
+    "image/tiff",
+    "image/svg+xml",
+  ],
+
+  d: [
+    "application/pdf",
+    "application/msword",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "application/vnd.ms-excel",
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    "application/vnd.ms-powerpoint",
+    "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+    "text/plain",
+    "text/csv",
+  ],
+
+  a: [
+    "audio/mpeg",
+    "audio/mp3",
+    "audio/wav",
+    "audio/ogg",
+    "audio/webm",
+    "audio/aac",
+    "audio/flac",
+    "audio/mp4",
+  ],
+
+  v: [
+    "video/mp4",
+    "video/webm",
+    "video/ogg",
+    "video/x-matroska",
+    "video/quicktime",
+  ],
+
+  c: [
+    "application/zip",
+    "application/x-rar",
+    "application/x-7z-compressed",
+    "application/x-zip-compressed",
+    "application/x-rar-compressed",
+  ],
+
+  o: ["application/octet-stream"],
+};
+
 function CenterPanel({
   setRefresh,
   downloading,
@@ -49,6 +102,9 @@ function CenterPanel({
                 .includes(searchQuery.trim().toLowerCase())
             : true;
         })
+        ?.filter((f) =>
+          !filtered ? true : type[filtered].includes(f?.mimeType?.trim()),
+        )
         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
     : [];
 
@@ -143,7 +199,7 @@ function CenterPanel({
               ))}
             </motion.div>
           </>
-        ) : searchQuery.length ? (
+        ) : searchQuery.length || filtered ? (
           <Nothing message="No results found" pic="ufo" />
         ) : (
           <Nothing message="Add files to create links" pic="ufo" />
