@@ -424,7 +424,7 @@ router.get("/all", checkAuthHard, async (req, res) => {
 
     relevantFiles.forEach((f) => {
       f.links = fileLink[f._id.toString()] || [];
-      f.storage = {};
+      f.storage = null;
     });
 
     // console.log(relevantFiles);
@@ -444,11 +444,8 @@ router.get("/link/:publicId", async (req, res) => {
     const publicId = req.params.publicId;
 
     const link = await Link.findOne({ publicId })
-      .populate(
-        "fileId",
-        "_id userId fullName size mimeType maxDownloads downloads",
-      )
-      .populate("userId", "_id fullName")
+      .populate("fileId", "fileName size mimeType")
+      .populate("userId", "fullName")
       .lean();
 
     if (!link) {
@@ -458,11 +455,15 @@ router.get("/link/:publicId", async (req, res) => {
     const now = new Date();
 
     if (link.expiresAt && link.expiresAt < now) {
-      return res.status(410).json({ err: "Invalid request" });
+      return res.status(404).json({ err: "Invalid request" });
     }
 
     if (link.isRevoked) {
-      return res.status(403).json({ err: "Invalid request" });
+      return res.status(404).json({ err: "Invalid request" });
+    }
+
+    if (link.isAnonymous) {
+      link.userId = null;
     }
 
     return res.status(200).json({ msg: "Link metadata sent", link });
@@ -474,85 +475,79 @@ router.get("/link/:publicId", async (req, res) => {
 
 router.get("/download-public/:publicId", async (req, res) => {
   try {
-    const publicId = req.params.publicId;
+    const { publicId } = req.params;
     const password = req.query.password?.trim();
 
     const link = await Link.findOne({ publicId }).populate("fileId").lean();
 
-    if (!link) {
-      return res.status(404).json({ err: "Invalid request" });
-    }
+    if (!link) return res.status(404).json({ err: "Invalid request" });
 
     const now = new Date();
 
-    if (link.expiresAt && link.expiresAt < now) {
+    if (link.expiresAt && link.expiresAt < now)
       return res.status(410).json({ err: "Invalid request" });
-    }
 
-    if (link.isRevoked) {
-      return res.status(403).json({ err: "Invalid request" });
-    }
+    if (link.isRevoked) return res.status(403).json({ err: "Invalid request" });
 
-    if (link.password && !password) {
-      return res.status(411).json({ err: "Password required" });
-    }
+    if (link.password && !password)
+      return res.status(401).json({ err: "Password required" });
 
-    if (link.password && !(await compare(password, link.password))) {
-      return res.status(412).json({ err: "Wrong password" });
-    }
+    if (link.password && !(await compare(password, link.password)))
+      return res.status(403).json({ err: "Wrong password" });
 
-    if (link.maxDownloads !== undefined && link.maxDownloads <= 0) {
-      return res.status(413).json({ err: "Invalid max downloads value" });
-    }
+    const cloudinaryUrl = link.fileId?.storage?.secureUrl;
+    if (!cloudinaryUrl)
+      return res.status(500).json({ err: "Missing storage URL" });
 
-    if (link.maxDownloads) {
-      const updatedLink = await Link.findOneAndUpdate(
-        {
-          publicId,
-          downloads: { $lt: link.maxDownloads },
-        },
-        { $inc: { downloads: 1 } },
-        { runValidators: true, new: true },
-      ).lean();
+    const originalName = link.fileId.fileName || "download";
+    const asciiName = originalName
+      .replace(/\s+/g, "_")
+      .replace(/[^a-zA-Z0-9._-]/g, "");
+    const encodedName = encodeURIComponent(originalName);
 
-      if (!updatedLink)
-        return res.status(414).json({ err: "Download limit reached" });
-    }
+    const cloudStream = request.get(cloudinaryUrl);
 
-    const originalUrl = link.fileId.storage.secureUrl;
-
-    if (!originalUrl) {
-      return res.status(415).json({ err: "Missing Cloudinary URL parameter" });
-    }
-
-    const customDownloadName = link.fileId.fullName;
-    const cloudinaryUrl = originalUrl.replace(
-      "/upload/",
-      `/upload/fl_attachment:${encodeURIComponent(customDownloadName)}/`,
-    );
-
-    res.setHeader(
-      "Content-Disposition",
-      `attachment; filename="${customDownloadName}"`,
-    );
-    res.setHeader("Content-Type", link.fileId.mimeType);
-
-    const downloadStream = request.get(cloudinaryUrl);
-    downloadStream.on("error", (err) => {
-      console.error("Cloudinary Stream Error:", err);
-      if (!res.headersSent) {
-        return res
-          .status(500)
-          .json({ err: "Failed to fetch file from storage" });
+    cloudStream.on("response", async (cloudRes) => {
+      if (cloudRes.statusCode !== 200) {
+        if (!res.headersSent)
+          return res.status(502).json({ err: "Failed to fetch file" });
+        return;
       }
+
+      if (link.maxDownloads !== undefined) {
+        const updated = await Link.findOneAndUpdate(
+          {
+            publicId,
+            downloads: { $lt: link.maxDownloads },
+          },
+          { $inc: { downloads: 1 } },
+          { new: true },
+        );
+
+        if (!updated)
+          return res.status(429).json({ err: "Download limit reached" });
+      } else {
+        await Link.updateOne({ publicId }, { $inc: { downloads: 1 } });
+      }
+
+      res.setHeader(
+        "Content-Disposition",
+        `attachment; filename="${asciiName}"; filename*=UTF-8''${encodedName}`,
+      );
+
+      res.setHeader(
+        "Content-Type",
+        link.fileId.mimeType || "application/octet-stream",
+      );
+
+      cloudRes.pipe(res);
     });
 
-    return downloadStream.pipe(res).on("error", (err) => {
-      console.error("Browser Pipe Error:", err);
-      res.end();
+    cloudStream.on("error", () => {
+      if (!res.headersSent)
+        return res.status(500).json({ err: "Download failed" });
     });
-  } catch (err) {
-    console.log(err.message);
+  } catch {
     return res.status(500).json({ err: "Download failed" });
   }
 });

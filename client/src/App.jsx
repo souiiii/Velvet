@@ -14,7 +14,7 @@ function App() {
         <Route path="/" element={<ProtectedPages />}>
           <Route index element={<HomePage />} />
         </Route>
-        <Route path="/link/:id" element={<LinkPage />} />
+        <Route path="/link/:publicId" element={<LinkPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
       </Routes>

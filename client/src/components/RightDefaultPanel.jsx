@@ -79,6 +79,7 @@ function RightDefaultPanel({ videoRef, files, setRefresh }) {
   return (
     <div className="right-panel-div">
       <div className=" box video-player">
+        <div className="linear-gradient-style halo"></div>
         <video
           ref={videoRef}
           style={{ width: "100%", borderRadius: "2rem" }}
@@ -90,6 +91,7 @@ function RightDefaultPanel({ videoRef, files, setRefresh }) {
           <source src="/hillclimb.mp4" type="video/mp4" />
         </video>
       </div>
+
       <div className="right-panel-link-list-div">
         <div className="file-display-heading-div link-display-right-panel-heading-div">
           <div className="file-display-heading link-display-right-panel-heading">

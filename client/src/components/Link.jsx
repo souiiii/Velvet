@@ -38,6 +38,8 @@ function Link({
   const bee = tick;
   const valueToCopy = `localhost:5173/link/${link.publicId}`;
 
+  const maxDownloads = link?.maxDownloads || null;
+
   const timeAgo =
     DateTime.fromISO(link.createdAt, {
       zone: "utc",
@@ -86,8 +88,9 @@ function Link({
       }
     } catch (err) {
       console.log(err.message);
-    } finally {
       setLoading(false);
+    } finally {
+      // setLoading(false);
     }
   }
 
@@ -103,7 +106,7 @@ function Link({
       exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
       // exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.2, ease: "easeIn" }}
-      className={`box link-box ${editLink?._id?.toString() === link?._id?.toString() ? "editing-curr-link" : ""}`}
+      className={`box link-box ${editLink?._id?.toString() === link?._id?.toString() ? "editing-curr-link" : ""} ${loading ? "opacity-nill" : ""}`}
       layout={layout}
       // layout="position"
     >
@@ -170,7 +173,9 @@ function Link({
       </div>
       <div className="link-display-action-downloads-expiry-div">
         <div className="link-display-action-downloads">
-          {link.downloads} downloads
+          {link.downloads}&nbsp;of&nbsp;
+          {maxDownloads || <Infinity size={12} />}
+          &nbsp;downloads
         </div>
         <div className="link-display-action-expiry">
           {tab === "active" ? "Expires" : tab === "expired" ? "Expired" : ""}{" "}

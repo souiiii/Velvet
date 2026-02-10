@@ -367,6 +367,16 @@ body {
   /* background-color: #0b0f14; */
 }
 
+.middle {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1000px;
+  padding-inline: 1rem;
+}
+
 .leftPanel {
   display: flex;
   width: 20rem;
@@ -1269,6 +1279,7 @@ body {
   overflow: hidden;
   padding: 1rem;
   flex-shrink: 0;
+  position: relative;
   /* mask-image: linear-gradient(to bottom, black 70%, transparent); */
 
   border: 2px solid var(--accent-transparent);
@@ -1753,6 +1764,11 @@ body {
   font-size: 0.75rem;
 }
 
+.link-display-action-downloads {
+  display: flex;
+  align-items: center;
+}
+
 .link-display-edit-revoke-div {
   display: flex;
   justify-content: space-between;
@@ -1951,6 +1967,152 @@ body {
 
 .edit-butt-edit:hover {
   background-color: var(--boxground-highlight);
+}
+
+.velvet-logo-div-big {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.download-file-container-box {
+  max-width: 500px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  overflow: hidden;
+}
+
+.download-file-container-box-inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  width: 100%;
+  flex-direction: column;
+}
+
+.secure-file-delivery-claim {
+  padding-block: 0.75rem;
+  background-color: var(--boxground);
+  width: 100%;
+  font-size: 0.6875rem;
+  color: var(--graytext);
+  display: flex;
+  justify-content: center;
+  line-height: 16.5px;
+  align-items: center;
+}
+
+.linear-gradient-style {
+  width: 100%;
+  max-width: 500px;
+  height: 2px;
+  background-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0),
+    rgba(220, 40, 40, 0.6),
+    rgba(0, 0, 0, 0)
+  );
+}
+
+.halo {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70%;
+  height: 3px;
+}
+
+.file-details-div-link-div {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
+  padding-bottom: 1.75rem;
+  border-bottom: 1px solid var(--thickmargin);
+  margin-bottom: 1.25rem;
+}
+
+.file-details-div-link-view {
+  display: flex;
+  flex: 1;
+  width: 100%;
+  justify-content: center;
+  align-items: start;
+  flex-direction: column;
+  gap: 0.25rem;
+  overflow: hidden;
+}
+
+.file-name-link-view {
+  color: var(--white-text);
+  font-size: 1.125rem;
+  line-height: 1.375;
+  font-weight: 600;
+  word-break: break-all;
+  white-space: nowrap;
+}
+
+.shared-by-link-view {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--graytext);
+  width: 100%;
+  word-break: break-all;
+
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  display: flex;
+  align-items: center;
+}
+
+.sharing-details-div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  font-size: 0.75rem;
+  color: var(--graytext);
+  margin-bottom: 1.75rem;
+}
+
+.shared-ago-link,
+.shared-download-count {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  word-break: break-all;
+  white-space: nowrap;
+}
+
+.sharing-download-button {
+  width: 100%;
+  padding-inline: 2rem;
+  height: 3rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.link-page-footer {
+  margin-top: 2.5rem;
+
+  font-size: 0.6875rem;
+  color: var(--graytext);
+  line-height: 16.5px;
+}
+
+.logo-div-link-page {
+  width: 56px;
+  height: 56px;
 }
 
 @media (max-width: 1800px) {

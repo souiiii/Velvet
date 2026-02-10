@@ -85,6 +85,7 @@ function File({
   i,
   // isLayoutAnimating,
 }) {
+  const [loading, setLoading] = useState(false);
   const backElement = useRef(null);
   const fileBox = useRef(null);
   const values = useAuth();
@@ -174,6 +175,7 @@ function File({
 
   async function handleDelete() {
     try {
+      setLoading(true);
       setDeleting({ name: title, _id: file?._id?.toString() });
       const res = await fetch(`/api/file/delete-file/${file._id}`, {
         method: "DELETE",
@@ -189,6 +191,7 @@ function File({
       }
     } catch (err) {
       console.log(err.message);
+      setLoading(false);
     } finally {
       setDeleting(null);
       setRefresh((r) => r + 1);
@@ -225,7 +228,7 @@ function File({
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3, delay: i * 0.05, ease: "easeInOut" }}
-      className={`your-file-div ${selectedFile?._id?.toString() === file?._id?.toString() ? "selected-file-highlight" : ""} ${isDeleting ? "opacity-nill" : ""}`}
+      className={`your-file-div ${selectedFile?._id?.toString() === file?._id?.toString() ? "selected-file-highlight" : ""} ${loading ? "opacity-nill" : ""}`}
     >
       <div ref={backElement} className="your-file-logo-div">
         {color === "#60a5fa" ? (
