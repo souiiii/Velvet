@@ -197,7 +197,7 @@ function Link({
             className={`link-display-revoke-button ${loading ? "banning" : ""} ${page === "default" ? "label upgrade-storage take-all-space-button" : ""}`}
           >
             <Ban size={16} />
-            {page === "default" && <span>Revoke Link {i}</span>}
+            {page === "default" && <span>Revoke Link {i + 1}</span>}
           </button>
         </div>
       )}

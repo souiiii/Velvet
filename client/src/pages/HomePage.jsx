@@ -117,7 +117,7 @@ function HomePage() {
 
         if (!res.ok) {
           const errData = await res.json().catch(() => ({}));
-          if (res.status === 401) values.setUser(null);
+          if (res.status === 401) setUser(null);
           throw new Error(errData.err || "Failed to fetch files");
         }
 
@@ -135,12 +135,14 @@ function HomePage() {
     getFilesAndLinks();
 
     return () => controller.abort();
-  }, [values]);
+  }, [setUser]);
 
   useEffect(() => {
-    const controller = new AbortController();
+    const fetchSilently = async () => {
+      if (document.visibilityState !== "visible") return;
 
-    async function getFilesAndLinksSilently() {
+      const controller = new AbortController();
+
       try {
         const res = await fetch("/api/file/all", {
           method: "GET",
@@ -161,11 +163,15 @@ function HomePage() {
           console.error(err);
         }
       }
-    }
+    };
 
-    getFilesAndLinksSilently();
+    fetchSilently();
 
-    return () => controller.abort();
+    const interval = setInterval(fetchSilently, 30000);
+
+    return () => {
+      clearInterval(interval);
+    };
   }, [refresh, setUser]);
 
   return (

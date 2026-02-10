@@ -19,6 +19,8 @@ import { use, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import Loading from "../components/Loading";
 import truncateFilename from "../utilities/truncate";
+import PageLoader from "../components/PageLoader";
+import NotFound from "../components/NotFound";
 
 const imageTypes = [
   "image/jpeg",
@@ -79,9 +81,10 @@ function LinkPage() {
   );
   const [tick, setTick] = useState(0);
   const { publicId } = useParams();
-  console.log(link);
+  // console.log(link);
   const backElement = useRef(null);
   const fileBox = useRef(null);
+  const [error, setError] = useState("");
   // const values = useAuth();
   const timeAgo =
     DateTime.fromISO(link?.createdAt, {
@@ -200,9 +203,14 @@ function LinkPage() {
           if (res.ok) {
             const data = await res.json();
             setLink(data.link);
+          } else {
+            const data = await res.json();
+
+            throw new Error(data.err);
           }
         } catch (err) {
           console.log(err.message);
+          setError(err.message);
         } finally {
           setLoading(false);
         }
@@ -222,9 +230,14 @@ function LinkPage() {
           if (res.ok) {
             const data = await res.json();
             setLink(data.link);
+          } else {
+            const data = await res.json();
+
+            throw new Error(data.err);
           }
         } catch (err) {
           console.log(err.message);
+          setError(err.message);
         }
       }
       const interval = setInterval(() => {
@@ -238,110 +251,114 @@ function LinkPage() {
 
   return (
     <div className="main">
-      <div className="container middle">
-        <LayoutGroup>
-          <div className="Velvet-logo-div-big"></div>
-          <AnimatePresence>
-            {link ? (
-              <>
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2, ease: "easeInOut" }}
-                  className="linear-gradient-style"
-                ></motion.div>
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2, ease: "easeInOut" }}
-                  className="box download-file-container-box"
-                >
-                  <div className="download-file-container-box-inner">
-                    <div className="file-details-div-link-div">
-                      <div
-                        ref={backElement}
-                        className="your-file-logo-div logo-div-link-page"
-                      >
-                        {color === "#60a5fa" ? (
-                          <FileText color={color} size={28} />
-                        ) : color === "#34d298" ? (
-                          <Image color={color} size={28} />
-                        ) : color === "#fbbf24" ? (
-                          <Archive color={color} size={28} />
-                        ) : color === "#f472b6" ? (
-                          <Music color={color} size={28} />
-                        ) : color === "#c084fc" ? (
-                          <Film color={color} size={28} />
-                        ) : color === "#ff6a6a" ? (
-                          <FileQuestion color={color} size={28} />
-                        ) : (
-                          <FileText color={color} size={28} />
-                        )}
-                      </div>
-                      <div className="file-details-div-link-view">
-                        <div className="file-name-link-view">{title}</div>
-                        <div className="shared-by-link-view">
-                          {link?.isAnonymous ? (
-                            <HatGlasses size={16} />
+      {loading ? (
+        <PageLoader show={true} />
+      ) : (
+        <div className="container middle">
+          <LayoutGroup>
+            <div className="Velvet-logo-div-big"></div>
+            <AnimatePresence>
+              {error ? (
+                <NotFound />
+              ) : (
+                <>
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2, ease: "easeInOut" }}
+                    className="linear-gradient-style"
+                  ></motion.div>
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2, ease: "easeInOut" }}
+                    className="box download-file-container-box"
+                  >
+                    <div className="download-file-container-box-inner">
+                      <div className="file-details-div-link-div">
+                        <div
+                          ref={backElement}
+                          className="your-file-logo-div logo-div-link-page"
+                        >
+                          {color === "#60a5fa" ? (
+                            <FileText color={color} size={28} />
+                          ) : color === "#34d298" ? (
+                            <Image color={color} size={28} />
+                          ) : color === "#fbbf24" ? (
+                            <Archive color={color} size={28} />
+                          ) : color === "#f472b6" ? (
+                            <Music color={color} size={28} />
+                          ) : color === "#c084fc" ? (
+                            <Film color={color} size={28} />
+                          ) : color === "#ff6a6a" ? (
+                            <FileQuestion color={color} size={28} />
                           ) : (
-                            <User size={16} />
+                            <FileText color={color} size={28} />
                           )}
-                          &nbsp;
-                          {link?.isAnonymous
-                            ? "Anonymous share"
-                            : "Shared by " + normalizedName}
+                        </div>
+                        <div className="file-details-div-link-view">
+                          <div className="file-name-link-view">{title}</div>
+                          <div className="shared-by-link-view">
+                            {link?.isAnonymous ? (
+                              <HatGlasses size={16} />
+                            ) : (
+                              <User size={16} />
+                            )}
+                            &nbsp;
+                            {link?.isAnonymous
+                              ? "Anonymous share"
+                              : "Shared by " + normalizedName}
+                          </div>
                         </div>
                       </div>
+                      <div className="sharing-details-div">
+                        <div className="shared-ago-link">
+                          <Link size={12} />
+                          &nbsp;Linked {timeAgo}
+                        </div>
+                        <div className="shared-download-count">
+                          <DownloadCloud size={12} />
+                          &nbsp;<span>{downloads} downloads</span>
+                        </div>
+                      </div>
+                      {downloadable ? (
+                        <a
+                          href={`/api/file/download-public/${publicId}`}
+                          className="action-button sharing-download-button"
+                        >
+                          <Download size={20} />
+                          &nbsp;Download File ({size})
+                        </a>
+                      ) : (
+                        <div className="action-button sharing-download-button disabled-download-button">
+                          <Ban size={20} />
+                          &nbsp;Download limit reached
+                        </div>
+                      )}
                     </div>
-                    <div className="sharing-details-div">
-                      <div className="shared-ago-link">
-                        <Link size={12} />
-                        &nbsp;Linked {timeAgo}
-                      </div>
-                      <div className="shared-download-count">
-                        <DownloadCloud size={12} />
-                        &nbsp;<span>{downloads} downloads</span>
-                      </div>
+                    <div className="secure-file-delivery-claim">
+                      <ShieldCheckIcon size={14} />
+                      &nbsp;
+                      <span>End-to-end encrypted</span>
                     </div>
-                    {downloadable ? (
-                      <a
-                        href={`/api/file/download-public/${publicId}`}
-                        className="action-button sharing-download-button"
-                      >
-                        <Download size={20} />
-                        &nbsp;Download File ({size})
-                      </a>
-                    ) : (
-                      <div className="action-button sharing-download-button disabled-download-button">
-                        <Ban size={20} />
-                        &nbsp;Download limit reached
-                      </div>
-                    )}
-                  </div>
-                  <div className="secure-file-delivery-claim">
-                    <ShieldCheckIcon size={14} />
-                    &nbsp;
-                    <span>End-to-end encrypted</span>
-                  </div>
-                </motion.div>
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2, ease: "easeInOut" }}
-                  className="link-page-footer"
-                >
-                  Secure file sharing powered by Velvet
-                </motion.div>
-              </>
-            ) : (
-              <div>No file found</div>
-            )}
-          </AnimatePresence>
-        </LayoutGroup>
-      </div>
+                  </motion.div>
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2, ease: "easeInOut" }}
+                    className="link-page-footer"
+                  >
+                    Secure file sharing powered by Velvet
+                  </motion.div>
+                </>
+              )}
+            </AnimatePresence>
+          </LayoutGroup>
+        </div>
+      )}
     </div>
   );
 }

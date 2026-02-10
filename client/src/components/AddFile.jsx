@@ -20,7 +20,7 @@ function AddFile({ setRefresh, uploading, setUploading, app }) {
   function handleDrop(e) {
     e.preventDefault();
     setFiles(e.dataTransfer.files);
-    console.log(e.dataTransfer.files);
+    // console.log(e.dataTransfer.files);
     app.current.classList.remove("drag-over");
   }
   function handleDragOver(e) {

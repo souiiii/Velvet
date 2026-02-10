@@ -1900,6 +1900,7 @@ body {
 
 .opacity-nill {
   opacity: 0.6 !important;
+  pointer-events: none;
   transition: all 0.2s ease-in-out;
 }
 
@@ -1930,7 +1931,7 @@ body {
   height: 50%;
   width: 100%;
   /* height: 250px; */
-  overflow: visible;
+  /* overflow: visible; */
   flex-shrink: 0;
 }
 
@@ -1943,7 +1944,7 @@ body {
   width: 100%;
   flex-shrink: 0;
   flex: 1;
-  overflow: visible;
+  /* overflow: visible; */
 }
 
 .nothing-message {

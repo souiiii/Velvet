@@ -20,7 +20,7 @@ cloudinary.config({
   api_secret: process.env.API_SECRET,
 });
 
-console.log(process.env.API_KEY);
+// console.log(process.env.API_KEY);
 
 const router = express.Router();
 
@@ -82,7 +82,7 @@ router.post(
   async (req, res) => {
     if (!req.file) return res.status(400).json({ err: "No file uploaded" });
     const fileBuffer = req.file.buffer;
-    console.log(req.file);
+    // console.log(req.file);
     if (req.file.size > 10000000) {
       return res.status(400).json({ err: "File size exceeds limit" });
     }
@@ -140,7 +140,7 @@ router.post(
           $inc: { storageUsed: uploadResult.bytes },
         }),
       ]);
-      console.log("done");
+      // console.log("done");
       return res.json({ msg: "uploaded" });
     } catch (err) {
       console.log(err);
