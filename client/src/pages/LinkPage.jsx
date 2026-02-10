@@ -11,6 +11,7 @@ import {
   Music,
   User,
   Link,
+  Ban,
 } from "lucide-react";
 import { DateTime } from "luxon";
 import { LayoutGroup, motion, AnimatePresence } from "motion/react";
@@ -88,6 +89,11 @@ function LinkPage() {
     }).toRelative() || "some time ago";
 
   const downloads = link?.downloads || 0;
+  const maxDownloads = link?.maxDownloads;
+
+  const downloadable = !maxDownloads
+    ? true
+    : Number(downloads) < Number(maxDownloads);
   const nameSplit = link?.userId?.fullName?.trim().split(" ") || [
     "Velvet",
     "user",
@@ -299,13 +305,20 @@ function LinkPage() {
                         &nbsp;<span>{downloads} downloads</span>
                       </div>
                     </div>
-                    <a
-                      href={`/api/file/download-public/${publicId}`}
-                      className="action-button sharing-download-button"
-                    >
-                      <Download size={20} />
-                      &nbsp;Download File ({size})
-                    </a>
+                    {downloadable ? (
+                      <a
+                        href={`/api/file/download-public/${publicId}`}
+                        className="action-button sharing-download-button"
+                      >
+                        <Download size={20} />
+                        &nbsp;Download File ({size})
+                      </a>
+                    ) : (
+                      <div className="action-button sharing-download-button disabled-download-button">
+                        <Ban size={20} />
+                        &nbsp;Download limit reached
+                      </div>
+                    )}
                   </div>
                   <div className="secure-file-delivery-claim">
                     <ShieldCheckIcon size={14} />

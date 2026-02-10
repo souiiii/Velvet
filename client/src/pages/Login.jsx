@@ -2,6 +2,7 @@ import { useState } from "react";
 import Loading from "../components/Loading";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/useAuth";
+import PageLoader from "../components/PageLoader";
 
 function Login() {
   const [loading, setLoading] = useState(false);
@@ -39,40 +40,37 @@ function Login() {
     }
   }
 
-  if (loading) {
-    return <Loading />;
-  } else {
-    return (
-      <div>
-        <div>Login</div>
-        <form onSubmit={handleSubmit}>
-          <label>
-            <p>Enter Email</p>
-            <input
-              required
-              type="email"
-              name="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </label>
-          <label>
-            <p>Enter Password</p>
-            <input
-              required
-              type="password"
-              name="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </label>
-          <button type="submit" disabled={loading}>
-            Log in
-          </button>
-        </form>
-      </div>
-    );
-  }
+  return (
+    <div className="main">
+      {loading && <PageLoader show={true} />}
+      <div>Login</div>
+      <form onSubmit={handleSubmit}>
+        <label>
+          <p>Enter Email</p>
+          <input
+            required
+            type="email"
+            name="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </label>
+        <label>
+          <p>Enter Password</p>
+          <input
+            required
+            type="password"
+            name="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </label>
+        <button type="submit" disabled={loading}>
+          Log in
+        </button>
+      </form>
+    </div>
+  );
 }
 
 export default Login;

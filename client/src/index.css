@@ -213,6 +213,19 @@ button {
   overflow: hidden;
 }
 
+.disabled-download-button {
+  background-color: var(--boxground-highlight) !important;
+  color: var(--graytext) !important;
+  border: 1px solid var(--thickmargin);
+  cursor: default;
+}
+
+.disabled-download-button:hover {
+  background-color: var(--boxground-highlight) !important;
+  color: var(--graytext) !important;
+  cursor: default;
+}
+
 .uploading-text {
   display: flex;
   justify-content: center;
@@ -2193,5 +2206,74 @@ body {
   }
   .file-display-list {
     grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}
+
+.page-loader {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #0b0f14;
+  background-color: var(--background);
+  background-image:
+    radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size:
+    24px 24px,
+    48px 48px;
+  background-position:
+    0 0,
+    12px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  pointer-events: all;
+}
+
+@keyframes floatDots {
+  from {
+    background-position:
+      0 0,
+      12px 12px;
+  }
+  to {
+    background-position:
+      40px 40px,
+      52px 52px;
+  }
+}
+
+.page-loader {
+  animation: floatDots 7s linear alternate-reverse infinite;
+}
+.netflix-loader {
+  position: relative;
+  width: 56px;
+  height: 56px;
+}
+
+/* hide old bar spans without touching JSX */
+.netflix-loader span {
+  display: none;
+}
+
+/* Netflix arc */
+.netflix-loader::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 4px solid transparent;
+  border-top-color: var(--accent-col);
+  border-left-color: var(--accent-col);
+  animation: netflix-spin 1s linear infinite;
+  filter: drop-shadow(0 0 6px rgba(229, 9, 20, 0.6));
+}
+
+@keyframes netflix-spin {
+  to {
+    transform: rotate(360deg);
   }
 }

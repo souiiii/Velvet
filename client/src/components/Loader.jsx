@@ -1,4 +1,4 @@
-function Loading() {
+function Loader() {
   return (
     <div className="netflix-loader">
       <span />
@@ -8,4 +8,4 @@ function Loading() {
   );
 }
 
-export default Loading;
+export default Loader;

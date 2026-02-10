@@ -8,6 +8,7 @@ import RightDefaultPanel from "../components/RightDefaultPanel";
 import RightPanel from "../components/RightPanel";
 import NavBar from "../components/NavBar";
 import BlackBackgound from "../components/BlackBackgound";
+import PageLoader from "../components/PageLoader";
 
 function HomePage() {
   const values = useAuth();
@@ -34,6 +35,7 @@ function HomePage() {
   const storageUsed = filesAndLinks?.reduce((acc, f) => acc + f.size, 0) || 0;
   const numberOfFiles = filesAndLinks?.length || 0;
   const now = new Date();
+  const setUser = values?.setUser;
 
   const links = filesAndLinks?.flatMap((f) => f?.links ?? []) ?? [];
   const activeLinks = links.filter((l) => {
@@ -133,10 +135,43 @@ function HomePage() {
     getFilesAndLinks();
 
     return () => controller.abort();
-  }, [refresh, values]);
+  }, [values]);
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    async function getFilesAndLinksSilently() {
+      try {
+        const res = await fetch("/api/file/all", {
+          method: "GET",
+          credentials: "include",
+          signal: controller.signal,
+        });
+
+        if (!res.ok) {
+          const errData = await res.json().catch(() => ({}));
+          if (res.status === 401) setUser(null);
+          throw new Error(errData.err || "Failed to fetch files");
+        }
+
+        const data = await res.json();
+        setFilesAndLinks(data.filesAndLinks);
+      } catch (err) {
+        if (err.name !== "AbortError") {
+          console.error(err);
+        }
+      }
+    }
+
+    getFilesAndLinksSilently();
+
+    return () => controller.abort();
+  }, [refresh, setUser]);
 
   return (
     <div className="main">
+      {globalLoading && <PageLoader show={true} />}
+
       <AnimatePresence>
         {uploading && <UploadDownload uploading={uploading} />}
         {downloading && <UploadDownload downloading={downloading} />}
