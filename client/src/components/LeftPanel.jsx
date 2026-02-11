@@ -16,6 +16,7 @@ import "react-circular-progressbar/dist/styles.css";
 import { useEffect } from "react";
 import { motion } from "motion/react";
 import BlackBackgound from "./BlackBackgound";
+import PageLoader from "./PageLoader";
 
 function LeftPanel({
   name,
@@ -23,6 +24,8 @@ function LeftPanel({
   storageUsed,
   numberOfFiles,
   activeLinks,
+  setLoading,
+  loading,
   revokedLinks,
   expiredLinks,
   isMobile,
@@ -32,7 +35,6 @@ function LeftPanel({
   const nameSplit = name.trim().split(" ");
   const firstLetter = nameSplit[0].slice(0, 1);
   const values = useAuth();
-  const [loading, setLoading] = useState(false);
   const [percent, setPercent] = useState(0);
   const percentRef = useRef(null);
   const lastLetter =

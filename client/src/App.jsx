@@ -5,16 +5,35 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ProtectedPages from "./pages/ProtectedPages";
 import LinkPage from "./pages/LinkPage";
+import PageLoader from "./components/PageLoader";
+import { useState } from "react";
 // import CosmicBackground from "./components/CosmicBackground";
 
 function App() {
+  const [globalLoading, setGlobalLoading] = useState(true);
+
   return (
     <AuthProvider>
+      <PageLoader show={globalLoading} />
+
       <Routes>
         <Route path="/" element={<ProtectedPages />}>
-          <Route index element={<HomePage />} />
+          <Route
+            index
+            element={
+              <HomePage
+                globalLoading={globalLoading}
+                setGlobalLoading={setGlobalLoading}
+              />
+            }
+          />
         </Route>
-        <Route path="/link/:publicId" element={<LinkPage />} />
+        <Route
+          path="/link/:publicId"
+          element={
+            <LinkPage loading={globalLoading} setLoading={setGlobalLoading} />
+          }
+        />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
       </Routes>

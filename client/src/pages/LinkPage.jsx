@@ -73,9 +73,9 @@ const compressedTypes = [
 
 const otherTypes = ["application/octet-stream"];
 
-function LinkPage() {
+function LinkPage({ loading, setLoading }) {
   const [link, setLink] = useState(null);
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
   const [isSmallMobile, setIsSmallMobile] = useState(
     window.matchMedia("(max-width: 1000px)").matches,
   );
@@ -351,7 +351,7 @@ function LinkPage() {
                     transition={{ duration: 0.2, ease: "easeInOut" }}
                     className="link-page-footer"
                   >
-                    Secure file sharing powered by Velvet
+                    Secure file sharing powered by <span>Velvet</span>
                   </motion.div>
                 </>
               )}

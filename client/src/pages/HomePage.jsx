@@ -10,9 +10,8 @@ import NavBar from "../components/NavBar";
 import BlackBackgound from "../components/BlackBackgound";
 import PageLoader from "../components/PageLoader";
 
-function HomePage() {
+function HomePage({ setGlobalLoading, globalLoading }) {
   const values = useAuth();
-  const [globalLoading, setGlobalLoading] = useState(false);
   const [rightOpen, setRightOpen] = useState("");
   const [leftOpen, setLeftOpen] = useState(false);
   const [filesAndLinks, setFilesAndLinks] = useState(null);
@@ -135,11 +134,12 @@ function HomePage() {
     getFilesAndLinks();
 
     return () => controller.abort();
-  }, [setUser]);
+  }, [setUser, setGlobalLoading]);
 
   useEffect(() => {
     const fetchSilently = async () => {
       if (document.visibilityState !== "visible") return;
+      // if (!filesAndLinks) return;
 
       const controller = new AbortController();
 
@@ -164,8 +164,7 @@ function HomePage() {
         }
       }
     };
-
-    fetchSilently();
+    if (refresh !== 0) fetchSilently();
 
     const interval = setInterval(fetchSilently, 30000);
 
@@ -176,8 +175,6 @@ function HomePage() {
 
   return (
     <div className="main">
-      {globalLoading && <PageLoader show={true} />}
-
       <AnimatePresence>
         {uploading && <UploadDownload uploading={uploading} />}
         {downloading && <UploadDownload downloading={downloading} />}
@@ -185,8 +182,7 @@ function HomePage() {
       </AnimatePresence>
 
       <NavBar setRightOpen={setRightOpen} setLeftOpen={setLeftOpen} />
-      {/* {globalLoading && <div>Loading..</div>} */}
-      {/* <LayoutGroup> */}
+
       <motion.div className="container">
         <AnimatePresence>
           {((isMobile && leftOpen) || (isSmallMobile && rightOpen)) && (
@@ -207,6 +203,8 @@ function HomePage() {
               className="leftPanel"
             >
               <LeftPanel
+                setLoading={setGlobalLoading}
+                loading={globalLoading}
                 leftOpen={leftOpen}
                 storageUsed={storageUsed}
                 totalDownloads={totalDownloads}
@@ -278,7 +276,6 @@ function HomePage() {
           )}
         </AnimatePresence>
       </motion.div>
-      {/* </LayoutGroup> */}
     </div>
   );
 }

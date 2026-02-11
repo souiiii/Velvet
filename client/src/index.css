@@ -2124,9 +2124,45 @@ body {
   line-height: 16.5px;
 }
 
+.link-page-footer > span {
+  color: var(--accent-col);
+}
+
 .logo-div-link-page {
   width: 56px;
   height: 56px;
+}
+
+.not-found-box {
+  padding: 2rem;
+}
+
+.not-found-warning-div {
+  display: flex;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  background-color: var(--accent-transparent);
+  border: 1px solid var(--accent-border-2);
+  align-items: center;
+  border-radius: var(--border-radius);
+  color: var(--accent-col);
+  margin-bottom: 1.5rem;
+}
+
+.not-found-heading {
+  color: var(--white-text);
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 27px;
+  margin-bottom: 0.5rem;
+}
+.not-found-para {
+  color: var(--graytext);
+  font-size: 0.8125rem;
+  line-height: 20.8px;
+  margin-bottom: 0.5rem;
+  text-align: center;
 }
 
 @media (max-width: 1800px) {
@@ -2227,6 +2263,8 @@ body {
     0 0,
     12px 12px;
   display: flex;
+  top: 0;
+  left: 0;
   align-items: center;
   justify-content: center;
   z-index: 999;
