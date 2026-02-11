@@ -225,6 +225,7 @@ function HomePage({ setGlobalLoading, globalLoading }) {
         >
           <CenterPanel
             // isLayoutAnimating={isLayoutAnimating}
+            storageUsed={storageUsed}
             deleting={deleting}
             isSmallMobile={isSmallMobile}
             isLaptop={isLaptop}

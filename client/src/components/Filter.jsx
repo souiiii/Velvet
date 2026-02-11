@@ -1,7 +1,9 @@
 import { motion } from "motion/react";
 import {
   Archive,
+  FileCheck,
   FileQuestionMark,
+  Files,
   FileText,
   Film,
   Image,
@@ -30,7 +32,7 @@ function Filter({ filtered = "", setFiltered = () => {} }) {
             {filtered === "" && <span>✔</span>}
           </div>
           <div className="filter-floater-option-logo-div">
-            <LayoutGrid color="#ed9" size={20} />
+            <Files color="#E5E7EB" size={20} />
           </div>
           <div className="filter-floater-option-text">All Files</div>
         </div>

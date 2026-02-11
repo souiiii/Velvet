@@ -64,6 +64,7 @@ function CenterPanel({
   isMobile,
   isSmallMobile,
   isLaptop,
+  storageUsed,
   downloading,
   setDownloading,
   filesAndLinks,
@@ -168,6 +169,7 @@ function CenterPanel({
       </motion.div>
       <AddFile
         app={app}
+        storageUsed={storageUsed}
         setRefresh={setRefresh}
         uploading={uploading}
         setUploading={setUploading}

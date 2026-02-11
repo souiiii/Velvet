@@ -10,7 +10,7 @@ import { useState } from "react";
 // import CosmicBackground from "./components/CosmicBackground";
 
 function App() {
-  const [globalLoading, setGlobalLoading] = useState(true);
+  const [globalLoading, setGlobalLoading] = useState(false);
 
   return (
     <AuthProvider>

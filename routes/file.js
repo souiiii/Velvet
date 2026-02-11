@@ -80,70 +80,81 @@ router.post(
   checkAuthHard,
   upload.single("file"),
   async (req, res) => {
-    if (!req.file) return res.status(400).json({ err: "No file uploaded" });
-    const fileBuffer = req.file.buffer;
-    // console.log(req.file);
-    if (req.file.size > 10000000) {
-      return res.status(400).json({ err: "File size exceeds limit" });
-    }
-    const mimeType = req.file.mimetype;
-    if (!ALLOWED_MIME_TYPES.includes(mimeType)) {
-      return res.status(400).json({ err: "File type not supported" });
-    }
-    if (
-      mimeType === "application/octet-stream" &&
-      imageTypes.includes(mimeType)
-    ) {
-      return res.status(400).json({ err: "Invalid image upload" });
-    }
-
-    if (req.user.storageUsed + req.file.size > 100000000) {
-      return res.status(400).json({ err: "Insufficent space" });
-    }
-
-    let uploadResult;
     try {
+      if (!req.file) {
+        return res.status(400).json({ err: "No file uploaded" });
+      }
+
+      const MAX_FILE_SIZE = 10_000_000;
+      const MAX_STORAGE = 100_000_000;
+
+      const { buffer, size, mimetype, originalname } = req.file;
+
+      if (size > MAX_FILE_SIZE) {
+        return res.status(400).json({ err: "File size exceeds limit" });
+      }
+
+      if (!ALLOWED_MIME_TYPES.includes(mimetype)) {
+        return res.status(400).json({ err: "File type not supported" });
+      }
+
       const random = (await randomBytes(12)).toString("hex");
-      const stream = Readable.from(fileBuffer);
-      uploadResult = await new Promise((resolve, reject) => {
+      const stream = Readable.from(buffer);
+
+      const uploadResult = await new Promise((resolve, reject) => {
         const uploadStream = cloudinary.uploader.upload_stream(
           {
             public_id: random,
             folder: `velvet/users/${req.user._id}`,
-            resource_type: imageTypes.includes(mimeType) ? "image" : "raw",
+            resource_type: imageTypes.includes(mimetype) ? "image" : "raw",
           },
           (error, result) => {
-            if (error) {
-              reject(error);
-            } else {
-              resolve(result);
-            }
+            if (error) reject(error);
+            else resolve(result);
           },
         );
+
         stream.pipe(uploadStream);
       });
 
-      const metadata = {
+      const uploadedBytes = uploadResult.bytes;
+
+      console.log("Current DB storage:", req.user.storageUsed);
+      console.log("Uploaded bytes:", uploadedBytes);
+      console.log("Max allowed:", MAX_STORAGE);
+
+      const updatedUser = await User.findOneAndUpdate(
+        {
+          _id: req.user._id,
+          storageUsed: { $lte: MAX_STORAGE - uploadedBytes },
+        },
+        { $inc: { storageUsed: uploadedBytes } },
+        { new: true },
+      );
+      console.log("DB update result:", updatedUser);
+      if (!updatedUser) {
+        await cloudinary.uploader.destroy(uploadResult.public_id, {
+          resource_type: uploadResult.resource_type,
+        });
+
+        return res.status(400).json({ err: "Insufficient space" });
+      }
+
+      await File.create({
         storage: {
           publicId: uploadResult.public_id,
           secureUrl: uploadResult.secure_url,
           resourceType: uploadResult.resource_type,
         },
         userId: req.user._id,
-        size: uploadResult.bytes,
-        fileName: req.file.originalname,
-        mimeType,
-      };
-      await Promise.all([
-        File.create(metadata),
-        User.findByIdAndUpdate(req.user._id, {
-          $inc: { storageUsed: uploadResult.bytes },
-        }),
-      ]);
-      // console.log("done");
+        size: uploadedBytes,
+        fileName: originalname,
+        mimeType: mimetype,
+      });
+
       return res.json({ msg: "uploaded" });
     } catch (err) {
-      console.log(err);
+      console.error(err);
       return res.status(500).json({ err: "Internal server error" });
     }
   },
@@ -153,8 +164,10 @@ router.delete("/delete-file/:id", checkAuthHard, async (req, res) => {
   try {
     const fileId = req.params.id;
 
-    if (!mongoose.Types.ObjectId.isValid(fileId))
+    // Validate ObjectId
+    if (!mongoose.Types.ObjectId.isValid(fileId)) {
       return res.status(400).json({ err: "Invalid request" });
+    }
 
     const file = await File.findById(fileId);
 
@@ -162,10 +175,12 @@ router.delete("/delete-file/:id", checkAuthHard, async (req, res) => {
       return res.status(404).json({ err: "File not found" });
     }
 
+    // Ensure ownership
     if (file.userId.toString() !== req.user._id.toString()) {
-      return res.status(403).json({ err: "Invalid request" });
+      return res.status(403).json({ err: "Unauthorized" });
     }
 
+    // Delete from Cloudinary
     await new Promise((resolve, reject) => {
       cloudinary.uploader.destroy(
         file.storage.publicId,
@@ -174,30 +189,40 @@ router.delete("/delete-file/:id", checkAuthHard, async (req, res) => {
           resource_type: file.storage.resourceType,
         },
         (error, result) => {
-          if (error) {
-            console.log(error);
-            reject(error);
-          } else if (result.result === "ok" || result.result === "not found") {
+          if (error) return reject(error);
+
+          if (result.result === "ok" || result.result === "not found") {
             resolve(result);
           } else {
-            reject(new Error("File cannot be deleted"));
+            reject(new Error("Cloudinary deletion failed"));
           }
         },
       );
     });
 
+    // Delete file + links in parallel
     await Promise.all([
       File.deleteOne({ _id: file._id }),
       Link.deleteMany({ fileId: file._id }),
-      User.findByIdAndUpdate(req.user._id, {
-        $inc: { storageUsed: 0 - file.size },
-      }),
     ]);
+
+    // 🔥 Recalculate storage safely
+    const aggregation = await File.aggregate([
+      { $match: { userId: req.user._id } },
+      { $group: { _id: null, total: { $sum: "$size" } } },
+    ]);
+
+    const newStorageUsed = aggregation[0]?.total || 0;
+
+    await User.findByIdAndUpdate(req.user._id, {
+      storageUsed: newStorageUsed,
+    });
+
     return res.status(200).json({
-      msg: "File is successfully deleted",
+      msg: "File successfully deleted",
     });
   } catch (err) {
-    console.log(err.message);
+    console.log(err);
     return res.status(500).json({ err: "File cannot be deleted" });
   }
 });

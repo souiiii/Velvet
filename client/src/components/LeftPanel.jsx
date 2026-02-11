@@ -50,21 +50,22 @@ function LeftPanel({
       : "")
   ).trim();
 
-  const storage =
-    storageUsed < 100000
-      ? Math.floor(storageUsed / 1000) + " KB"
-      : Math.floor(storageUsed / 100000) % 10 === 0
-        ? Math.floor(Math.floor(storageUsed / 100000) / 10) + " MB"
-        : Math.floor(storageUsed / 100000) / 10 + " MB";
+  const MAX_STORAGE = 100_000_000; // 100 MB (decimal)
 
-  const leftStorage =
-    storageUsed > 99000000
-      ? Math.ceil((100000000 - storageUsed) / 1000) + " KB"
-      : Math.ceil(storageUsed / 100000) % 10 === 0
-        ? Math.ceil(Math.ceil((100000000 - storageUsed) / 100000) / 10) + " MB"
-        : Math.ceil((100000000 - storageUsed) / 100000) / 10 + " MB";
+  const formatSize = (bytes) => {
+    if (bytes < 1000) return bytes + " B";
+    if (bytes < 1_000_000) return Math.floor(bytes / 1000) + " KB";
+    return (bytes / 1_000_000).toFixed(1).replace(/\.0$/, "") + " MB";
+  };
 
-  const percentage = Math.floor(storageUsed / 1000000);
+  const storage = formatSize(storageUsed);
+
+  const leftStorage = formatSize(MAX_STORAGE - storageUsed);
+
+  const percentage = Math.min(
+    Math.floor((storageUsed / MAX_STORAGE) * 100),
+    100,
+  );
 
   const storageMeterStyles = {
     // Customize the root svg element

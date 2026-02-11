@@ -4,7 +4,7 @@ import UploadDownload from "./UploadDownload";
 import { Cloud, Lock, Upload } from "lucide-react";
 import { useAuth } from "../contexts/useAuth";
 
-function AddFile({ setRefresh, uploading, setUploading, app }) {
+function AddFile({ setRefresh, uploading, setUploading, storageUsed, app }) {
   const [files, setFiles] = useState([]);
   const values = useAuth();
   // const [isDragOver, setIsDragOver] = useState(false);
@@ -51,7 +51,15 @@ function AddFile({ setRefresh, uploading, setUploading, app }) {
     async (e) => {
       e.preventDefault();
       if (!files.length) return;
-
+      // let size;
+      // for (let i = 0; i < files.length; i++) {
+      //   size += files[i]?.size;
+      // }
+      // console.log(size);
+      // if (size + storageUsed > 100000000) {
+      //   alert("Upload limit reached");
+      //   return;
+      // }
       try {
         for (let i = 0; i < files.length; i++) {
           const file = files[i];

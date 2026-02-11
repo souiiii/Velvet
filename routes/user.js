@@ -13,6 +13,7 @@ router.get("/", checkAuthHard, async (req, res) => {
       fullName: req.user.fullName,
       email: req.user.email,
       userId: req.user._id,
+      storageUsed: req.user.storageUsed,
     },
   });
 });
