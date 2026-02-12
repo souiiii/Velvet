@@ -4,9 +4,9 @@ import { motion } from "motion/react";
 function NotFound() {
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 10 }}
       transition={{ duration: 0.2, ease: "easeInOut" }}
       className="main"
     >
@@ -21,7 +21,7 @@ function NotFound() {
           </div>
         </div>
         <div className="link-page-footer">
-          Secure file sharing powered by <span>Velvet</span>
+          Secure file sharing powered by&nbsp;<span>Velvet</span>
         </div>
       </div>
     </motion.div>

@@ -263,16 +263,16 @@ function LinkPage({ loading, setLoading }) {
               ) : (
                 <>
                   <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
                     transition={{ duration: 0.2, ease: "easeInOut" }}
                     className="linear-gradient-style"
                   ></motion.div>
                   <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
                     transition={{ duration: 0.2, ease: "easeInOut" }}
                     className="box download-file-container-box"
                   >
@@ -345,13 +345,13 @@ function LinkPage({ loading, setLoading }) {
                     </div>
                   </motion.div>
                   <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
                     transition={{ duration: 0.2, ease: "easeInOut" }}
                     className="link-page-footer"
                   >
-                    Secure file sharing powered by <span>Velvet</span>
+                    Secure file sharing powered by&nbsp;<span>Velvet</span>
                   </motion.div>
                 </>
               )}

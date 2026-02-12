@@ -4,7 +4,7 @@ import express from "express";
 import multer from "multer";
 import { v2 as cloudinary } from "cloudinary";
 import randomBytes from "random-bytes";
-import { Readable } from "stream";
+import { pipeline, Readable } from "stream";
 import File from "../models/File.js";
 import { checkAuthHard } from "../middlewares/user.js";
 import mongoose from "mongoose";
@@ -524,35 +524,36 @@ router.get("/download-public/:publicId", async (req, res) => {
     if (!cloudinaryUrl)
       return res.status(500).json({ err: "Missing storage URL" });
 
+    // ---- Download limit logic BEFORE streaming ----
+    if (link.maxDownloads !== undefined) {
+      const updated = await Link.findOneAndUpdate(
+        {
+          publicId,
+          downloads: { $lt: link.maxDownloads },
+        },
+        { $inc: { downloads: 1 } },
+        { new: true },
+      );
+
+      if (!updated)
+        return res.status(429).json({ err: "Download limit reached" });
+    } else {
+      await Link.updateOne({ publicId }, { $inc: { downloads: 1 } });
+    }
+
     const originalName = link.fileId.fileName || "download";
+
     const asciiName = originalName
       .replace(/\s+/g, "_")
       .replace(/[^a-zA-Z0-9._-]/g, "");
+
     const encodedName = encodeURIComponent(originalName);
 
     const cloudStream = request.get(cloudinaryUrl);
 
-    cloudStream.on("response", async (cloudRes) => {
+    cloudStream.on("response", (cloudRes) => {
       if (cloudRes.statusCode !== 200) {
-        if (!res.headersSent)
-          return res.status(502).json({ err: "Failed to fetch file" });
-        return;
-      }
-
-      if (link.maxDownloads !== undefined) {
-        const updated = await Link.findOneAndUpdate(
-          {
-            publicId,
-            downloads: { $lt: link.maxDownloads },
-          },
-          { $inc: { downloads: 1 } },
-          { new: true },
-        );
-
-        if (!updated)
-          return res.status(429).json({ err: "Download limit reached" });
-      } else {
-        await Link.updateOne({ publicId }, { $inc: { downloads: 1 } });
+        return res.status(502).json({ err: "Failed to fetch file" });
       }
 
       res.setHeader(
@@ -565,14 +566,24 @@ router.get("/download-public/:publicId", async (req, res) => {
         link.fileId.mimeType || "application/octet-stream",
       );
 
-      cloudRes.pipe(res);
+      pipeline(cloudRes, res, (err) => {
+        if (err) {
+          console.error("Stream pipeline failed:", err.message);
+          if (!res.headersSent) {
+            res.status(500).json({ err: "Download failed" });
+          }
+        }
+      });
     });
 
-    cloudStream.on("error", () => {
-      if (!res.headersSent)
-        return res.status(500).json({ err: "Download failed" });
+    cloudStream.on("error", (err) => {
+      console.error("Cloudinary stream error:", err.message);
+      if (!res.headersSent) {
+        res.status(500).json({ err: "Download failed" });
+      }
     });
-  } catch {
+  } catch (err) {
+    console.error(err.message);
     return res.status(500).json({ err: "Download failed" });
   }
 });

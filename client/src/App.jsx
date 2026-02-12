@@ -7,6 +7,7 @@ import ProtectedPages from "./pages/ProtectedPages";
 import LinkPage from "./pages/LinkPage";
 import PageLoader from "./components/PageLoader";
 import { useState } from "react";
+import BgEffects from "./components/BgEffects";
 // import CosmicBackground from "./components/CosmicBackground";
 
 function App() {
@@ -15,7 +16,6 @@ function App() {
   return (
     <AuthProvider>
       <PageLoader show={globalLoading} />
-
       <Routes>
         <Route path="/" element={<ProtectedPages />}>
           <Route
