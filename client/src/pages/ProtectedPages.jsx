@@ -1,11 +1,13 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../contexts/useAuth";
 import Loading from "../components/Loading";
+import PageLoader from "../components/PageLoader";
 
-function ProtectedPages() {
+function ProtectedPages({}) {
   const values = useAuth();
   if (values.loading) {
-    return <Loading />;
+    return <PageLoader show={true} />;
+
   } else if (values.user) {
     return <Outlet />;
   } else {
