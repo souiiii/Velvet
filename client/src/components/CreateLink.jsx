@@ -4,6 +4,8 @@ import {
   ChevronUp,
   Clock,
   CloudDownload,
+  Eye,
+  EyeOff,
   FileText,
   Lock,
   Sparkles,
@@ -31,6 +33,7 @@ function CreateLink({
   const [maxDownloads, setMaxDownloads] = useState("");
   const [password, setPassword] = useState("");
   const [isChecked, setIsChecked] = useState(false);
+  const [eye, setEye] = useState(false);
   const [expiry, setExpiry] = useState("never");
   const [clickOnDropDown, setClickOnDropDown] = useState(false);
   const dropdownRef = useRef(null);
@@ -284,6 +287,23 @@ function CreateLink({
           <Lock size={12} />
           &nbsp;<span>Password</span>
         </label>
+        {isChecked && (
+          <div className="password-eye-div create-edit-eye">
+            {eye ? (
+              <EyeOff
+                onClick={() => setEye((e) => !e)}
+                className="eye"
+                size={14}
+              />
+            ) : (
+              <Eye
+                onClick={() => setEye((e) => !e)}
+                className="eye"
+                size={14}
+              />
+            )}
+          </div>
+        )}
         <input
           id="password-input"
           ref={inputRef}
@@ -294,9 +314,9 @@ function CreateLink({
           placeholder="example: xyz"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          type="password"
+          type={eye ? "text" : "password"}
           minLength={3}
-          maxLength={25}
+          maxLength={24}
         />
       </div>
       <button

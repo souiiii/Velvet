@@ -6,6 +6,8 @@ import {
   Clock,
   CloudDownload,
   Cog,
+  Eye,
+  EyeOff,
   FileText,
   Lock,
   PenLine,
@@ -38,6 +40,7 @@ function EditLink({
   );
   const [password, setPassword] = useState("");
   const [isChecked, setIsChecked] = useState(false);
+  const [eye, setEye] = useState(false);
   const [expiry, setExpiry] = useState("never");
   const [clickOnDropDown, setClickOnDropDown] = useState(false);
   const dropdownRef = useRef(null);
@@ -308,6 +311,23 @@ function EditLink({
               : "Password"}
           </span>
         </label>
+        {isChecked && (
+          <div className="password-eye-div create-edit-eye">
+            {eye ? (
+              <EyeOff
+                onClick={() => setEye((e) => !e)}
+                className="eye"
+                size={14}
+              />
+            ) : (
+              <Eye
+                onClick={() => setEye((e) => !e)}
+                className="eye"
+                size={14}
+              />
+            )}
+          </div>
+        )}
         <input
           id="password-input"
           ref={inputRef}

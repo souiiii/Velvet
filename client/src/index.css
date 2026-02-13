@@ -1725,6 +1725,7 @@ body {
 .create-link-password-div {
   display: flex;
   gap: 0.5rem;
+  position: relative;
   justify-content: start;
   align-items: center;
   width: 100%;
@@ -2121,10 +2122,12 @@ body {
 .edit-butt-edit {
   background-color: var(--boxground);
   border: 1px solid var(--margins);
+  color: var(--graytext);
 }
 
 .edit-butt-edit:hover {
   background-color: var(--boxground-highlight);
+  color: var(--white-text);
 }
 
 .velvet-logo-div-big {
@@ -2760,6 +2763,10 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.create-edit-eye {
+  top: -20%;
 }
 
 @media (max-width: 1800px) {

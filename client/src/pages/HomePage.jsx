@@ -260,6 +260,7 @@ function HomePage({ setGlobalLoading, globalLoading, setMsg, setErr }) {
             >
               <RightPanel
                 setErr={setErr}
+                isSmallMobile={isSmallMobile}
                 setMsg={setMsg}
                 selectedFile={selectedFile}
                 setRefresh={setRefresh}
@@ -276,6 +277,7 @@ function HomePage({ setGlobalLoading, globalLoading, setMsg, setErr }) {
               className="rightPanel  right-default-panel-div"
             >
               <RightDefaultPanel
+                isSmallMobile={isSmallMobile}
                 setErr={setErr}
                 setMsg={setMsg}
                 files={filesAndLinks}

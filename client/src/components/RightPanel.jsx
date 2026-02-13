@@ -12,6 +12,7 @@ function RightPanel({
   setRightOpen,
   setRefresh,
   setErr,
+  isSmallMobile,
   setMsg,
 }) {
   const [tick, setTick] = useState(0);
@@ -211,6 +212,7 @@ function RightPanel({
                       <Link
                         i={i}
                         setErr={setErr}
+                        isSmallMobile={isSmallMobile}
                         setMsg={setMsg}
                         setEditLink={setEditLink}
                         key={l._id}

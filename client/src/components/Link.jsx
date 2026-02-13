@@ -20,6 +20,7 @@ function Link({
   setMsg,
   link,
   setEditLink,
+  isSmallMobile,
   fileName,
   layout,
   tab,
@@ -52,7 +53,7 @@ function Link({
       fileName.trim().slice(1).toLowerCase()
     : "File";
 
-  const title = truncateFilename(rawTitle, 24);
+  const title = truncateFilename(rawTitle, isSmallMobile ? 20 : 24);
 
   const badge =
     tab === "active" && link.password
