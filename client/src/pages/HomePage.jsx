@@ -9,6 +9,34 @@ import RightPanel from "../components/RightPanel";
 import NavBar from "../components/NavBar";
 import BlackBackgound from "../components/BlackBackgound";
 import PageLoader from "../components/PageLoader";
+const container = {
+  hidden: {
+    opacity: 0,
+    y: 10,
+  },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.4,
+      ease: [0.22, 1, 0.36, 1],
+      staggerChildren: 0.1,
+      delayChildren: 0.15,
+    },
+  },
+};
+
+// const item = {
+//   hidden: { opacity: 0, y: 15 },
+//   show: {
+//     opacity: 1,
+//     y: 0,
+//     transition: {
+//       duration: 0.35,
+//       ease: [0.16, 1, 0.3, 1],
+//     },
+//   },
+// };
 
 function HomePage({ setGlobalLoading, globalLoading, setMsg, setErr }) {
   const values = useAuth();
@@ -135,7 +163,7 @@ function HomePage({ setGlobalLoading, globalLoading, setMsg, setErr }) {
     getFilesAndLinks();
 
     return () => controller.abort();
-  }, [setUser, setGlobalLoading]);
+  }, [setUser, setGlobalLoading, setErr]);
 
   useEffect(() => {
     const fetchSilently = async () => {
@@ -175,7 +203,7 @@ function HomePage({ setGlobalLoading, globalLoading, setMsg, setErr }) {
   }, [refresh, setUser]);
 
   return (
-    <div className="main">
+    <motion.div className="main">
       <AnimatePresence>
         {uploading && <UploadDownload uploading={uploading} />}
         {downloading && <UploadDownload downloading={downloading} />}
@@ -288,7 +316,7 @@ function HomePage({ setGlobalLoading, globalLoading, setMsg, setErr }) {
           )}
         </AnimatePresence>
       </motion.div>
-    </div>
+    </motion.div>
   );
 }
 
