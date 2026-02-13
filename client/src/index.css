@@ -1778,6 +1778,10 @@ body {
   background-color: rgb(97, 10, 10);
 }
 
+.disabled-create-button:hover {
+  background-color: rgb(97, 10, 10);
+}
+
 .right-panel-link-list-scrollable-div {
   width: 100%;
   display: flex;
