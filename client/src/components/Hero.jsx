@@ -1,8 +1,15 @@
 import { Clock, Eye, Link2 } from "lucide-react";
+import { motion } from "motion/react";
 
 function Hero() {
   return (
-    <div className="hero-div">
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 10 }}
+      transition={{ duration: 0.2, ease: "easeInOut" }}
+      className="hero-div"
+    >
       <div className="logo-velvet-hero-div">
         <img src="/logo3.svg" alt="logo" />
       </div>
@@ -32,7 +39,7 @@ function Hero() {
           <span>Real-time view and download tracking</span>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

@@ -82,7 +82,9 @@ function Signup({ setMsg, setErr, loading, setLoading }) {
           className="signup-login-container-main"
         >
           <div className="signup-login-left-container">
-            <Hero />
+            <AnimatePresence>
+              <Hero />
+            </AnimatePresence>
           </div>
           <div className="signup-login-right-container">
             <div className="security-assurance-logo-div">
