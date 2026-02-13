@@ -3,14 +3,16 @@ import { Clock, Eye, Link2 } from "lucide-react";
 function Hero() {
   return (
     <div className="hero-div">
-      <div className="logo-velvet-hero-div"></div>
+      <div className="logo-velvet-hero-div">
+        <img src="/logo3.svg" />
+      </div>
       <div className="hero-main-heading">Share freely.</div>
       <div className="hero-sub-heading">Control stays yours.</div>
-      <div className="hero--heading-description">
+      <div className="hero--heading-description ">
         A premium encrypted vault for creating customizable public links with
         expiry, passwords, and download tracking.
       </div>
-      <div className="hero-features-div">
+      <div className="hero-features-div ">
         <div className="hero-feature">
           <div className="hero-logo-feature-div">
             <Link2 size={16} />

@@ -12,15 +12,20 @@ import {
   User,
   Link,
   Ban,
+  ArrowLeft,
 } from "lucide-react";
+import { Link as Linkk } from "react-router-dom";
 import { DateTime } from "luxon";
 import { LayoutGroup, motion, AnimatePresence } from "motion/react";
 import { use, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import Loading from "../components/Loading";
+import { useNavigate } from "react-router-dom";
 import truncateFilename from "../utilities/truncate";
 import PageLoader from "../components/PageLoader";
 import NotFound from "../components/NotFound";
+import BgEffects from "../components/BgEffects";
+import Hero from "../components/Hero";
 
 const imageTypes = [
   "image/jpeg",
@@ -81,6 +86,7 @@ function LinkPage({ loading, setLoading }) {
   );
   const [tick, setTick] = useState(0);
   const { publicId } = useParams();
+  const navigate = useNavigate();
   // console.log(link);
   const backElement = useRef(null);
   const fileBox = useRef(null);
@@ -217,7 +223,7 @@ function LinkPage({ loading, setLoading }) {
       }
       getLinkDetails();
     },
-    [publicId],
+    [publicId, setLoading],
   );
 
   useEffect(
@@ -251,12 +257,23 @@ function LinkPage({ loading, setLoading }) {
 
   return (
     <div className="main">
+      <BgEffects />
       {loading ? (
         <PageLoader show={true} />
       ) : (
         <div className="container middle">
+          <ArrowLeft
+            onClick={() => navigate("/")}
+            className="arrow-left-back"
+            size={21}
+          />
           <LayoutGroup>
-            <div className="Velvet-logo-div-big"></div>
+            <Linkk to="/" className="Velvet-logo-div-big">
+              <img src="/logo3.svg" />
+            </Linkk>
+            <div className="security-you-control">
+              <span>Security</span>, you control
+            </div>
             <AnimatePresence>
               {error ? (
                 <NotFound />

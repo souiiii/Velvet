@@ -16,7 +16,9 @@ function NavBar({ setLeftOpen, setRightOpen }) {
         >
           <Menu size={20} />
         </div>
-        <span>Velvet</span>
+        <div className="logo-div-navbar">
+          <img src="/logo3.svg" />
+        </div>
       </div>
       <div className="utility-div">
         {isHomePage && (

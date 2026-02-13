@@ -325,6 +325,18 @@ body {
   gap: 1rem;
 }
 
+.logo-div-navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 8rem;
+}
+
+.logo-div-navbar > img {
+  display: flex;
+  width: 100%;
+}
+
 .menu-logo {
   padding: 0.5rem;
   display: flex;
@@ -2009,9 +2021,50 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 2rem;
+  padding: 1.75rem;
   width: 100%;
   flex-direction: column;
+}
+
+.arrow-left-back {
+  position: absolute;
+  top: 2rem;
+  color: var(--graytext);
+  left: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.arrow-left-back:hover {
+  color: var(--white-text);
+}
+
+.Velvet-logo-div-big {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  width: 100%;
+  max-width: 400px;
+  align-items: center;
+}
+
+.Velvet-logo-div-big > img {
+  width: 80%;
+}
+
+.security-you-control {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 4rem;
+  font-weight: 600;
+  color: var(--white-text);
+  font-size: 2rem;
+}
+
+.security-you-control > span {
+  color: var(--accent-col);
 }
 
 .secure-file-delivery-claim {
@@ -2193,12 +2246,17 @@ body {
   flex-direction: column;
 }
 
+.signup-login-right-container {
+  transform: translateY(-10px);
+}
+
 .security-assurance-logo-div {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 84px;
-  height: 84px;
+  height: 72px;
+  box-shadow: 0px 0px 77px rgba(255, 0, 0, 0.267);
   margin-bottom: 1rem;
   color: var(--accent-col);
   border: 1px solid var(--accent-border);
@@ -2226,11 +2284,12 @@ body {
 
 .signup-login-form {
   box-shadow:
-    rgba(0, 0, 0, 0.6) 0px 4px 24px -4px,
-    rgba(255, 255, 255, 0.03) 0px 1px 0px 0px inset;
+    rgba(32, 3, 3, 0.6) 0px 4px 24px -4px,
+    rgba(75, 2, 2, 0.158) 0px 1px 0px 0px inset;
   width: 100%;
-  max-width: 500px;
+  max-width: 475px;
   padding: 2rem;
+  padding-block: 2.5rem;
   display: flex;
   flex-direction: column;
   /* background-image: linear-gradient(
@@ -2321,6 +2380,31 @@ body {
   padding-right: 3rem;
 }
 
+.password-requirements-div {
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  flex-direction: column;
+  width: 100%;
+  gap: 0.5rem;
+  color: var(--graytext);
+  margin-bottom: 0.5rem;
+  /* transform: translateY(-5px); */
+}
+
+.password-requirement {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  width: 100%;
+  transition: all 0.2s ease-in-out;
+  font-size: 0.75rem;
+}
+
+.green-check {
+  color: var(--green);
+}
+
 .signup-login-button {
   /* background-image: linear-gradient(
     135deg,
@@ -2330,8 +2414,9 @@ body {
   ); */
   background-color: var(--accent-col);
   width: 100%;
-  height: 3rem;
+  height: 3.25rem;
   line-height: 21px;
+  letter-spacing: 0.5px;
   font-size: 0.875rem;
   border-radius: var(--border-radius);
   font-weight: 600;
@@ -2340,6 +2425,10 @@ body {
   justify-content: center;
   align-items: center;
   transition: all 0.2s ease-in-out;
+}
+
+.butt-mar-top {
+  margin-top: 0.5rem;
 }
 
 .signup-login-button:hover {
@@ -2395,7 +2484,7 @@ body {
 .signup-glow-primary {
   position: absolute;
   top: 80px;
-  left: 13%;
+  left: 17%;
   width: 500px;
   height: 500px;
   background: #e236451a;
@@ -2406,7 +2495,7 @@ body {
 .signup-glow-magenta {
   position: absolute;
   bottom: 40px;
-  right: 50%;
+  right: 40%;
   width: 350px;
   height: 350px;
   background: #c62a5e12;
@@ -2460,14 +2549,27 @@ body {
   /* padding-inline: 2rem; */
 }
 
+.logo-velvet-hero-div {
+  display: flex;
+  width: 100%;
+  justify-content: start;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.logo-velvet-hero-div img {
+  width: 70%;
+}
+
 .hero-main-heading {
-  font-size: 3.5rem;
+  font-size: 4rem;
   color: var(--accent-col);
   font-weight: 700;
   line-height: 52.8px;
   letter-spacing: -0.02em;
   display: flex;
   width: 100%;
+  margin-bottom: 0.75rem;
   align-items: center;
   justify-content: start;
   /* background: linear-gradient(135deg, #e23645, #c62a5e, #d22d9b);
@@ -2480,7 +2582,7 @@ body {
 .hero-sub-heading {
   font-size: 3rem;
   color: var(--white-text);
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.1;
   display: flex;
   width: 100%;
@@ -2491,9 +2593,9 @@ body {
 
 .hero--heading-description {
   color: var(--graytext);
-  line-height: 1.7;
+  line-height: 1.8;
   /* max-width: 28rem; */
-  font-size: 1.125rem;
+  font-size: 1.25rem;
   margin-bottom: 2.5rem;
   width: 100%;
   display: flex;
@@ -2504,7 +2606,7 @@ body {
 
 .hero-features-div {
   gap: 1rem;
-  color: var(--graytext);
+  color: rgb(134, 142, 160);
   font-size: 0.875rem;
   display: flex;
   flex-direction: column;
@@ -2518,14 +2620,14 @@ body {
   justify-content: start;
   align-items: center;
   width: 100%;
-  gap: 0.75rem;
+  gap: 1rem;
 }
 
 .hero-logo-feature-div {
   background-color: var(--accent-transparent);
   color: var(--accent-col);
-  width: 2rem;
-  height: 2rem;
+  width: 2.5rem;
+  height: 2.5rem;
   border-radius: var(--border-radius);
   display: flex;
   justify-content: center;
@@ -2548,6 +2650,14 @@ body {
     background-color: #111318;
     border-right: 1px solid var(--thickmargin);
     box-shadow: 8px 0px 16px #0a0a0abe;
+  }
+
+  .signup-login-container-main {
+    gap: 1rem;
+  }
+
+  .hero-div {
+    max-width: 600px;
   }
 
   .upload-files-div-box {
@@ -2582,6 +2692,53 @@ body {
 }
 
 @media (max-width: 1000px) {
+  .mobile-left {
+    display: none;
+  }
+  .container {
+    padding-bottom: 1rem;
+  }
+  .signup-login {
+    max-height: unset;
+    height: 100%;
+  }
+  .signup-login-container-main {
+    flex-direction: column;
+  }
+  .signup-login-right-container,
+  .signup-login-left-container {
+    padding-block: 3rem;
+    width: 100%;
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
+    width: 1px;
+    height: 1px;
+    cursor: grab;
+  }
+
+  .hero-features-div {
+    font-size: 0.875rem;
+  }
+
+  .signup-float-dot-1 {
+    right: 15%;
+  }
+
+  .hero-logo-feature-div {
+    height: 2rem;
+    width: 2rem;
+  }
+
+  .hero-feature {
+    gap: 0.75rem;
+  }
+
+  .signup-login-right-container {
+    transform: translateY(0px);
+  }
+
   .file-display-list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -2596,9 +2753,23 @@ body {
     width: 22rem;
     box-shadow: 8px 0px 16px #0a0a0abe;
   }
+
   .right-default-panel-div {
     display: none;
   }
+
+  .hero-main-heading {
+    font-size: 3.25rem;
+  }
+
+  .hero-sub-heading {
+    font-size: 2.5rem;
+  }
+
+  .hero--heading-description {
+    font-size: 1rem;
+  }
+
   * {
     font-family: "Noto Sans";
   }

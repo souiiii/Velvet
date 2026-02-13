@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Loading from "../components/Loading";
 import {
   ArrowRight,
+  Check,
+  Dot,
   Eye,
-  EyeClosed,
   EyeOff,
   Lock,
   Mail,
@@ -17,13 +18,29 @@ import { AnimatePresence, motion } from "motion/react";
 import BgEffects from "../components/BgEffects";
 import Hero from "../components/Hero";
 
+const MotionCheck = motion(Check);
+const MotionDot = motion(Dot);
+
 function Signup() {
   const [loading, setLoading] = useState(false);
   const [eye, setEye] = useState(false);
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordCirteria, setPasswordCriteria] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(
+    function () {
+      const criteria = [];
+      if (password.length >= 8) criteria.push("len");
+      if (/\d/.test(password)) criteria.push("num");
+      if (/[a-z]/.test(password) && /[A-Z]/.test(password))
+        criteria.push("char");
+      setPasswordCriteria(criteria);
+    },
+    [password],
+  );
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -51,7 +68,7 @@ function Signup() {
   }
 
   return (
-    <div className="main">
+    <div className="main signup-login">
       {loading && <PageLoader show={true} />}
       <BgEffects />
 
@@ -139,6 +156,86 @@ function Signup() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
+              </div>
+              <div className="password-requirements-div">
+                <div
+                  className={`password-requirement ${passwordCirteria.includes("len") ? "green-check" : ""}`}
+                >
+                  <AnimatePresence mode="wait">
+                    {passwordCirteria.includes("len") ? (
+                      <MotionCheck
+                        key="check"
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        exit={{ scale: 0 }}
+                        transition={{ duration: 0.2 }}
+                        size={14}
+                      />
+                    ) : (
+                      <MotionDot
+                        key="dot"
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        exit={{ scale: 0 }}
+                        transition={{ duration: 0.2 }}
+                        size={14}
+                      />
+                    )}
+                  </AnimatePresence>
+                  &nbsp;8+ characters
+                </div>
+                <div
+                  className={`password-requirement ${passwordCirteria.includes("num") ? "green-check" : ""}`}
+                >
+                  <AnimatePresence mode="wait">
+                    {passwordCirteria.includes("num") ? (
+                      <MotionCheck
+                        key="check"
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        exit={{ scale: 0 }}
+                        transition={{ duration: 0.2 }}
+                        size={14}
+                      />
+                    ) : (
+                      <MotionDot
+                        key="dot"
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        exit={{ scale: 0 }}
+                        transition={{ duration: 0.2 }}
+                        size={14}
+                      />
+                    )}
+                  </AnimatePresence>
+                  &nbsp;At least one number
+                </div>
+                <div
+                  className={`password-requirement ${passwordCirteria.includes("char") ? "green-check" : ""}`}
+                >
+                  <AnimatePresence mode="wait">
+                    {passwordCirteria.includes("char") ? (
+                      <MotionCheck
+                        key="check"
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        exit={{ scale: 0 }}
+                        transition={{ duration: 0.2 }}
+                        size={14}
+                      />
+                    ) : (
+                      <MotionDot
+                        key="dot"
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        exit={{ scale: 0 }}
+                        transition={{ duration: 0.2 }}
+                        size={14}
+                      />
+                    )}
+                  </AnimatePresence>
+                  &nbsp;Uppercase & lowercase letters
+                </div>
               </div>
               <button
                 className="signup-login-button"
