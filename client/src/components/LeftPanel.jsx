@@ -56,6 +56,7 @@ function LeftPanel({
   const MAX_STORAGE = 100_000_000; // 100 MB (decimal)
 
   const formatSize = (bytes) => {
+    if (bytes === 0) return "0 KB";
     if (bytes < 1000) return bytes + " B";
     if (bytes < 1_000_000) return Math.floor(bytes / 1000) + " KB";
     return (bytes / 1_000_000).toFixed(1).replace(/\.0$/, "") + " MB";
