@@ -1,5 +1,5 @@
 import { Menu } from "lucide-react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 function NavBar({ setLeftOpen, setRightOpen }) {
   const location = useLocation();
@@ -16,9 +16,9 @@ function NavBar({ setLeftOpen, setRightOpen }) {
         >
           <Menu size={20} />
         </div>
-        <div className="logo-div-navbar">
-          <img src="/logo3.svg" />
-        </div>
+        <Link to="/" className="logo-div-navbar">
+          <img src="/logo3.svg" alt="logo" />
+        </Link>
       </div>
       <div className="utility-div">
         {isHomePage && (

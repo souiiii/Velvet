@@ -7,17 +7,21 @@ import {
   FileQuestion,
   Film,
   Image,
+  Eye,
+  EyeOff,
   HatGlasses,
   Music,
   User,
   Link,
   Ban,
   ArrowLeft,
+  Lock,
 } from "lucide-react";
-import { Link as Linkk } from "react-router-dom";
+import { Link as Linkk, useSearchParams } from "react-router-dom";
 import { DateTime } from "luxon";
 import { LayoutGroup, motion, AnimatePresence } from "motion/react";
-import { use, useEffect, useRef, useState } from "react";
+
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import Loading from "../components/Loading";
 import { useNavigate } from "react-router-dom";
@@ -81,9 +85,13 @@ const otherTypes = ["application/octet-stream"];
 function LinkPage({ loading, setLoading, setMsg, setErr }) {
   const [link, setLink] = useState(null);
   // const [loading, setLoading] = useState(true);
+  const [eye, setEye] = useState(false);
+
   const [isSmallMobile, setIsSmallMobile] = useState(
     window.matchMedia("(max-width: 1000px)").matches,
   );
+  const [password, setPassword] = useState("");
+
   const [tick, setTick] = useState(0);
   const { publicId } = useParams();
   const navigate = useNavigate();
@@ -92,6 +100,8 @@ function LinkPage({ loading, setLoading, setMsg, setErr }) {
   const fileBox = useRef(null);
   const [error, setError] = useState("");
   // const values = useAuth();
+
+  const [searchParams] = useSearchParams();
   const timeAgo =
     DateTime.fromISO(link?.createdAt, {
       zone: "utc",
@@ -99,6 +109,7 @@ function LinkPage({ loading, setLoading, setMsg, setErr }) {
 
   const downloads = link?.downloads || 0;
   const maxDownloads = link?.maxDownloads;
+  const isPassEnabled = link?.isPassEnabled;
 
   const downloadable = !maxDownloads
     ? true
@@ -258,13 +269,26 @@ function LinkPage({ loading, setLoading, setMsg, setErr }) {
     [publicId, setErr],
   );
 
+  useEffect(() => {
+    const errorFromQuery = searchParams.get("error");
+    if (errorFromQuery) {
+      setErr(errorFromQuery);
+    }
+  }, [searchParams, setErr]);
+
   return (
     <div className="main">
       <BgEffects />
       {loading ? (
         <PageLoader show={true} />
       ) : (
-        <div className="container middle">
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 10 }}
+          transition={{ duration: 0.2, ease: "easeInOut" }}
+          className="container middle"
+        >
           <ArrowLeft
             onClick={() => navigate("/")}
             className="arrow-left-back"
@@ -272,7 +296,7 @@ function LinkPage({ loading, setLoading, setMsg, setErr }) {
           />
           <LayoutGroup>
             <Linkk to="/" className="Velvet-logo-div-big">
-              <img src="/logo3.svg" />
+              <img src="/logo3.svg" alt="logo" />
             </Linkk>
             <div className="security-you-control">
               <span>Security</span>, you control
@@ -322,9 +346,12 @@ function LinkPage({ loading, setLoading, setMsg, setErr }) {
                           <div className="file-name-link-view">{title}</div>
                           <div className="shared-by-link-view">
                             {link?.isAnonymous ? (
-                              <HatGlasses size={16} />
+                              <HatGlasses
+                                className="non-shrinkable "
+                                size={16}
+                              />
                             ) : (
-                              <User size={16} />
+                              <User className="non-shrinkable " size={16} />
                             )}
                             &nbsp;
                             {link?.isAnonymous
@@ -343,9 +370,46 @@ function LinkPage({ loading, setLoading, setMsg, setErr }) {
                           &nbsp;<span>{downloads} downloads</span>
                         </div>
                       </div>
-                      {downloadable ? (
+                      {isPassEnabled && (
+                        <div className="signup-login-form-field-div password-div-link-page">
+                          <label
+                            htmlFor="password-signup"
+                            className="signup-login-form-label"
+                          >
+                            <Lock size={16} />
+                            &nbsp;<span>Password</span>
+                          </label>
+                          <div className="password-eye-div">
+                            {eye ? (
+                              <EyeOff
+                                onClick={() => setEye((e) => !e)}
+                                className="eye"
+                                size={16}
+                              />
+                            ) : (
+                              <Eye
+                                onClick={() => setEye((e) => !e)}
+                                className="eye"
+                                size={16}
+                              />
+                            )}
+                          </div>
+                          <input
+                            id="password-signup"
+                            className="signup-login-input-field password-field"
+                            type={eye ? "text" : "password"}
+                            placeholder="(minimum 3 characters)"
+                            name="password"
+                            required
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                          />
+                        </div>
+                      )}
+                      {downloadable &&
+                      (!isPassEnabled || password.length >= 3) ? (
                         <a
-                          href={`/api/file/download-public/${publicId}`}
+                          href={`/api/file/download-public/${publicId}?password=${password}`}
                           className="action-button sharing-download-button"
                         >
                           <Download size={20} />
@@ -354,7 +418,10 @@ function LinkPage({ loading, setLoading, setMsg, setErr }) {
                       ) : (
                         <div className="action-button sharing-download-button disabled-download-button">
                           <Ban size={20} />
-                          &nbsp;Download limit reached
+                          &nbsp;
+                          {!downloadable
+                            ? "Download limit reached"
+                            : "Enter Password to download"}
                         </div>
                       )}
                     </div>
@@ -377,7 +444,7 @@ function LinkPage({ loading, setLoading, setMsg, setErr }) {
               )}
             </AnimatePresence>
           </LayoutGroup>
-        </div>
+        </motion.div>
       )}
     </div>
   );

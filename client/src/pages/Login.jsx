@@ -63,7 +63,7 @@ function Login({ setMsg, setErr, loading, setLoading }) {
           </div>
           <div className="signup-login-right-container">
             <div className="security-assurance-logo-div">
-              <Key size={56} />
+              <Key size={48} />
             </div>
             <div className="signup-login-heading">Welcome back</div>
             <div className="signup-login-sub-heading">

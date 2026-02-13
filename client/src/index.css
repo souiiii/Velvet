@@ -208,7 +208,7 @@ button {
   border: 1px solid var(--thickmargin);
   box-shadow: 0 6px 12px var(--shadow-color);
   font-size: 0.875rem;
-  position: absolute;
+  position: fixed;
   left: 50%;
   top: 1rem;
   z-index: 10000000;
@@ -327,7 +327,7 @@ body {
 }
 
 .popup {
-  position: absolute;
+  position: fixed;
   top: 2rem;
   left: 50%;
   /* margin-inline: auto; */
@@ -440,8 +440,13 @@ body {
   gap: 1rem;
 }
 
+.password-div-link-page {
+  margin-bottom: 1.5rem;
+}
+
 .logo-div-navbar {
   display: flex;
+  cursor: pointer;
   justify-content: center;
   align-items: center;
   width: 8rem;
@@ -732,8 +737,15 @@ body {
   color: var(--white-text);
 }
 
+.coming-soon-logo {
+  width: 50%;
+  max-width: 500px;
+  margin-bottom: 1rem;
+}
+
 .label {
   display: flex;
+  text-decoration: none;
   justify-content: start;
   align-items: center;
   margin-top: 0.75rem;

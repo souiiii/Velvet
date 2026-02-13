@@ -515,10 +515,14 @@ router.get("/download-public/:publicId", async (req, res) => {
     if (link.isRevoked) return res.status(405).json({ err: "Invalid request" });
 
     if (link.password && !password)
-      return res.status(401).json({ err: "Password required" });
+      return res.redirect(
+        `${process.env.CLIENT_URL}/link/${publicId}?error=Password%20required`,
+      );
 
     if (link.password && !(await compare(password, link.password)))
-      return res.status(403).json({ err: "Wrong password" });
+      return res.redirect(
+        `${process.env.CLIENT_URL}/link/${publicId}?error=Wrong%20password`,
+      );
 
     const cloudinaryUrl = link.fileId?.storage?.secureUrl;
     if (!cloudinaryUrl)

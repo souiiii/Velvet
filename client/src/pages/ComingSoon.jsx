@@ -1,9 +1,18 @@
 import { Construction } from "lucide-react";
+import { motion } from "motion/react";
+import BgEffects from "../components/BgEffects";
 
 const ComingSoon = () => (
-  <div className="coming-soon">
+  <motion.div
+    initial={{ opacity: 0, y: 10 }}
+    animate={{ opacity: 1, y: 0 }}
+    exit={{ opacity: 0, y: 10 }}
+    transition={{ duration: 0.2, ease: "easeInOut" }}
+    className="coming-soon"
+  >
+    <BgEffects />
     <div className="coming-soon__inner">
-      <img src="/logo3.svg" />
+      <img className="coming-soon-logo" src="/logo3.svg" alt="logo" />
       <div className="coming-soon__badge">
         <Construction style={{ width: 16, height: 16 }} />
         Under Development
@@ -17,7 +26,7 @@ const ComingSoon = () => (
         Back to Vault
       </a>
     </div>
-  </div>
+  </motion.div>
 );
 
 export default ComingSoon;

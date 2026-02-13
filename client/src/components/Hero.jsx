@@ -4,7 +4,7 @@ function Hero() {
   return (
     <div className="hero-div">
       <div className="logo-velvet-hero-div">
-        <img src="/logo3.svg" />
+        <img src="/logo3.svg" alt="logo" />
       </div>
       <div className="hero-main-heading">Share freely.</div>
       <div className="hero-sub-heading">Control stays yours.</div>

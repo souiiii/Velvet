@@ -8,9 +8,9 @@ function NotFound() {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 10 }}
       transition={{ duration: 0.2, ease: "easeInOut" }}
-      className="main"
+      className=""
     >
-      <div className="container middle">
+      <div className=" middle">
         <div className="box download-file-container-box not-found-box">
           <div className="not-found-warning-div">
             <ShieldAlert size={32} />

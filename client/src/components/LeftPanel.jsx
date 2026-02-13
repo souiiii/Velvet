@@ -225,9 +225,9 @@ function LeftPanel({
           </div>
         </div>
 
-        <button className="label upgrade-storage">
+        <Linkk to="/coming-soon" className="label upgrade-storage">
           <span>Upgrade Storage</span>
-        </button>
+        </Linkk>
       </div>
       <div className="box">
         <div className="quick-stats-div">

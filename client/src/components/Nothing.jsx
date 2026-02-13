@@ -14,7 +14,7 @@ function Nothing({ message, pic = "ufo" }) {
         className="nothing-view"
       >
         <div className="nothing-view-image-div">
-          <img className="nothing-image" src={link} />
+          <img className="nothing-image" src={link} alt="logo" />
         </div>
         <div className="nothing-message">
           {message || "Nothing to see here"}

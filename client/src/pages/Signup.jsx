@@ -86,7 +86,7 @@ function Signup({ setMsg, setErr, loading, setLoading }) {
           </div>
           <div className="signup-login-right-container">
             <div className="security-assurance-logo-div">
-              <ShieldCheck size={56} />
+              <ShieldCheck size={48} />
             </div>
             <div className="signup-login-heading">Create your vault</div>
             <div className="signup-login-sub-heading">
