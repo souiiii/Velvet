@@ -95,7 +95,7 @@ function RightDefaultPanel({
           muted
           playsInline
         >
-          <source src="/hillclimb.mp4" type="video/mp4" />
+          <source src="/hillclimb1.mp4" type="video/mp4" />
         </video>
       </div>
 
