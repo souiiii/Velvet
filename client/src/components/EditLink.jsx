@@ -27,6 +27,8 @@ function EditLink({
   selectedFile,
   setRefresh,
   setTab,
+  setErr,
+  setMsg,
   link,
   setLink,
 }) {
@@ -122,7 +124,7 @@ function EditLink({
       });
       if (res.ok) {
         const data = await res.json();
-        console.log(data.msg);
+        setMsg(data.msg);
         setMaxDownloads("");
         setIsChecked(false);
         setPassword("");
@@ -135,7 +137,7 @@ function EditLink({
         throw new Error(data.err);
       }
     } catch (err) {
-      console.log(err.message);
+      setErr(err.message);
     } finally {
       setLoading(false);
     }

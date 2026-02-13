@@ -16,6 +16,8 @@ import { AnimatePresence } from "motion/react";
 import { useAuth } from "../contexts/useAuth";
 
 function Link({
+  setErr,
+  setMsg,
   link,
   setEditLink,
   fileName,
@@ -79,7 +81,7 @@ function Link({
       });
       if (res.ok) {
         const data = await res.json();
-        console.log(data.msg);
+        setMsg(data.msg);
         setRefresh((r) => r + 1);
       } else {
         const data = await res.json();
@@ -87,10 +89,8 @@ function Link({
         throw new Error(data.err);
       }
     } catch (err) {
-      console.log(err.message);
+      setErr(err.message);
       setLoading(false);
-    } finally {
-      // setLoading(false);
     }
   }
 

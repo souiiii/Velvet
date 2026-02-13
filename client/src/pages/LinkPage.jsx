@@ -78,7 +78,7 @@ const compressedTypes = [
 
 const otherTypes = ["application/octet-stream"];
 
-function LinkPage({ loading, setLoading }) {
+function LinkPage({ loading, setLoading, setMsg, setErr }) {
   const [link, setLink] = useState(null);
   // const [loading, setLoading] = useState(true);
   const [isSmallMobile, setIsSmallMobile] = useState(
@@ -238,7 +238,10 @@ function LinkPage({ loading, setLoading }) {
             setLink(data.link);
           } else {
             const data = await res.json();
-
+            if (res.status === 401 || res.status === 403) {
+              setErr(data.err);
+              return;
+            }
             throw new Error(data.err);
           }
         } catch (err) {
@@ -252,7 +255,7 @@ function LinkPage({ loading, setLoading }) {
       }, 2000);
       return () => clearInterval(interval);
     },
-    [publicId],
+    [publicId, setErr],
   );
 
   return (

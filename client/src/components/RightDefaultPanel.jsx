@@ -5,7 +5,7 @@ import { AlarmClockOff, Ban, Link2 } from "lucide-react";
 import Link from "./Link";
 import Nothing from "./Nothing";
 
-function RightDefaultPanel({ videoRef, files, setRefresh }) {
+function RightDefaultPanel({ videoRef, files, setRefresh, setErr, setMsg }) {
   const [tick, setTick] = useState(0);
   const [layoutReady, setLayoutReady] = useState(false);
   const [tab, setTab] = useState("active");
@@ -185,6 +185,8 @@ function RightDefaultPanel({ videoRef, files, setRefresh }) {
                 <AnimatePresence initial={false} mode="popLayout">
                   {links.map((l, index) => (
                     <Link
+                      setMsg={setMsg}
+                      setErr={setErr}
                       key={l._id}
                       layoutReady={layoutReady}
                       link={l}

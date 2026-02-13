@@ -18,11 +18,10 @@ import { AnimatePresence, motion } from "motion/react";
 import BgEffects from "../components/BgEffects";
 import Hero from "../components/Hero";
 
-const MotionCheck = motion(Check);
-const MotionDot = motion(Dot);
+const MotionCheck = motion.create(Check);
+const MotionDot = motion.create(Dot);
 
-function Signup() {
-  const [loading, setLoading] = useState(false);
+function Signup({ setMsg, setErr, loading, setLoading }) {
   const [eye, setEye] = useState(false);
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -55,13 +54,15 @@ function Signup() {
         body: JSON.stringify({ email, fullName, password }),
       });
       if (res.ok) {
+        const data = await res.json();
+        setMsg(data.msg);
         navigate("/login");
       } else {
         const errData = await res.json();
         throw new Error(errData.err);
       }
     } catch (err) {
-      console.log(err.message);
+      setErr(err.message);
     } finally {
       setLoading(false);
     }

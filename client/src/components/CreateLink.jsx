@@ -19,7 +19,14 @@ const MotionChevronDown = motion.create(ChevronDown);
 
 dayjs.extend(utc);
 
-function CreateLink({ setRightOpen, selectedFile, setRefresh, setTab }) {
+function CreateLink({
+  setRightOpen,
+  selectedFile,
+  setRefresh,
+  setTab,
+  setErr,
+  setMsg,
+}) {
   const [loading, setLoading] = useState(false);
   const [maxDownloads, setMaxDownloads] = useState("");
   const [password, setPassword] = useState("");
@@ -99,13 +106,13 @@ function CreateLink({ setRightOpen, selectedFile, setRefresh, setTab }) {
       });
       if (res.ok) {
         const data = await res.json();
-        console.log(data.msg);
+        setMsg(data.msg);
       } else {
         const data = await res.json().catch(() => ({}));
         throw new Error(data.err);
       }
     } catch (err) {
-      console.log(err.message);
+      setErr(err.message);
     } finally {
       setLoading(false);
       setMaxDownloads("");

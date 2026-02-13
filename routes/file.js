@@ -512,7 +512,7 @@ router.get("/download-public/:publicId", async (req, res) => {
     if (link.expiresAt && link.expiresAt < now)
       return res.status(410).json({ err: "Invalid request" });
 
-    if (link.isRevoked) return res.status(403).json({ err: "Invalid request" });
+    if (link.isRevoked) return res.status(405).json({ err: "Invalid request" });
 
     if (link.password && !password)
       return res.status(401).json({ err: "Password required" });

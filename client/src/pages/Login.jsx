@@ -8,8 +8,7 @@ import Hero from "../components/Hero";
 import PageLoader from "../components/PageLoader";
 import BgEffects from "../components/BgEffects";
 
-function Login() {
-  const [loading, setLoading] = useState(false);
+function Login({ setMsg, setErr, loading, setLoading }) {
   const [eye, setEye] = useState(false);
 
   const [email, setEmail] = useState("");
@@ -33,6 +32,7 @@ function Login() {
       if (res.ok) {
         const data = await res.json();
         values.setUser(data.user);
+        setMsg(data.msg);
         navigate("/");
       } else {
         const data = await res.json();
@@ -40,7 +40,7 @@ function Login() {
         throw new Error(data.err);
       }
     } catch (err) {
-      console.log(err.message);
+      setErr(err.message);
     } finally {
       setLoading(false);
     }

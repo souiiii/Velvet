@@ -7,7 +7,13 @@ import Link from "./Link";
 import EditLink from "./EditLink";
 import Nothing from "./Nothing";
 
-function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
+function RightPanel({
+  selectedFile = {},
+  setRightOpen,
+  setRefresh,
+  setErr,
+  setMsg,
+}) {
   const [tick, setTick] = useState(0);
   // const [animationsEnabled, setAnimationsEnabled] = useState(false);
   const [editLink, setEditLink] = useState(null);
@@ -91,6 +97,8 @@ function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
         {editLink ? (
           <EditLink
             setTab={setTab}
+            setErr={setErr}
+            setMsg={setMsg}
             setRefresh={setRefresh}
             setRightOpen={setRightOpen}
             selectedFile={selectedFile}
@@ -100,6 +108,8 @@ function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
         ) : (
           <CreateLink
             setTab={setTab}
+            setErr={setErr}
+            setMsg={setMsg}
             setRefresh={setRefresh}
             setRightOpen={setRightOpen}
             selectedFile={selectedFile}
@@ -200,6 +210,8 @@ function RightPanel({ selectedFile = {}, setRightOpen, setRefresh }) {
                     {relevantLinks.map((l, i) => (
                       <Link
                         i={i}
+                        setErr={setErr}
+                        setMsg={setMsg}
                         setEditLink={setEditLink}
                         key={l._id}
                         // layoutReady={layoutReady}

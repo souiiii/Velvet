@@ -14,6 +14,7 @@ import {
 import { CircularProgressbarWithChildren } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { useEffect } from "react";
+import { Link as Linkk } from "react-router-dom";
 import { motion } from "motion/react";
 import BlackBackgound from "./BlackBackgound";
 import PageLoader from "./PageLoader";
@@ -25,6 +26,8 @@ function LeftPanel({
   numberOfFiles,
   activeLinks,
   setLoading,
+  setErr,
+  setMsg,
   loading,
   revokedLinks,
   expiredLinks,
@@ -150,11 +153,12 @@ function LeftPanel({
       const data = await res.json();
       if (res.status === 200) {
         values.setUser(null);
+        setMsg(data.msg);
       } else {
-        console.log(data.err);
+        throw new Error(data.err);
       }
     } catch (err) {
-      console.log(err.message);
+      setErr(err.message);
     } finally {
       setLoading(false);
     }
@@ -174,10 +178,10 @@ function LeftPanel({
         </div>
         <div className="user-util-div">
           <div className="user-interaction">
-            <div className="settings">
+            <Linkk to="/coming-soon" className="settings">
               <Settings size={16} />
               <span>Settings</span>
-            </div>
+            </Linkk>
             <button
               className="logout"
               disabled={loading}

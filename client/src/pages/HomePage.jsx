@@ -10,7 +10,7 @@ import NavBar from "../components/NavBar";
 import BlackBackgound from "../components/BlackBackgound";
 import PageLoader from "../components/PageLoader";
 
-function HomePage({ setGlobalLoading, globalLoading }) {
+function HomePage({ setGlobalLoading, globalLoading, setMsg, setErr }) {
   const values = useAuth();
   const [rightOpen, setRightOpen] = useState("");
   const [leftOpen, setLeftOpen] = useState(false);
@@ -125,6 +125,7 @@ function HomePage({ setGlobalLoading, globalLoading }) {
       } catch (err) {
         if (err.name !== "AbortError") {
           console.error(err);
+          setErr(err.message);
         }
       } finally {
         setGlobalLoading(false);
@@ -203,6 +204,8 @@ function HomePage({ setGlobalLoading, globalLoading }) {
               className="leftPanel"
             >
               <LeftPanel
+                setErr={setErr}
+                setMsg={setMsg}
                 setLoading={setGlobalLoading}
                 loading={globalLoading}
                 leftOpen={leftOpen}
@@ -224,6 +227,8 @@ function HomePage({ setGlobalLoading, globalLoading }) {
           className="centerPanel"
         >
           <CenterPanel
+            setErr={setErr}
+            setMsg={setMsg}
             // isLayoutAnimating={isLayoutAnimating}
             storageUsed={storageUsed}
             deleting={deleting}
@@ -254,6 +259,8 @@ function HomePage({ setGlobalLoading, globalLoading }) {
               className="rightPanel notDefault"
             >
               <RightPanel
+                setErr={setErr}
+                setMsg={setMsg}
                 selectedFile={selectedFile}
                 setRefresh={setRefresh}
                 setRightOpen={handleRightOpen}
@@ -269,6 +276,8 @@ function HomePage({ setGlobalLoading, globalLoading }) {
               className="rightPanel  right-default-panel-div"
             >
               <RightDefaultPanel
+                setErr={setErr}
+                setMsg={setMsg}
                 files={filesAndLinks}
                 setRefresh={setRefresh}
                 videoRef={videoRef}
