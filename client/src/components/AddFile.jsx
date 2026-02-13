@@ -1,6 +1,4 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import Loading from "./Loading";
-import UploadDownload from "./UploadDownload";
 import { Cloud, Lock, Upload } from "lucide-react";
 import { useAuth } from "../contexts/useAuth";
 
