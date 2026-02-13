@@ -23,7 +23,6 @@ import { LayoutGroup, motion, AnimatePresence } from "motion/react";
 
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import Loading from "../components/Loading";
 import { useNavigate } from "react-router-dom";
 import truncateFilename from "../utilities/truncate";
 import PageLoader from "../components/PageLoader";
