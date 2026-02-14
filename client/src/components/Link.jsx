@@ -14,6 +14,7 @@ import { useState } from "react";
 import truncateFilename from "../utilities/truncate";
 import { AnimatePresence } from "motion/react";
 import { useAuth } from "../contexts/useAuth";
+import { NavLink } from "react-router-dom";
 
 function Link({
   setErr,
@@ -39,7 +40,7 @@ function Link({
     ? DateTime.fromISO(link.expiresAt, { zone: "utc" }).toRelative()
     : "never";
   const bee = tick;
-  const valueToCopy = `localhost:5173/link/${link.publicId}`;
+  const valueToCopy = `https://velvet-my28.onrender.com/link/${link.publicId}`;
 
   const maxDownloads = link?.maxDownloads || null;
 
@@ -142,7 +143,7 @@ function Link({
         )}
       </div>
       <div className="link-display-action-div">
-        <div className="link-display">localhost:5173/link/{link.publicId}</div>
+        <div className="link-display">velvet/link/{link.publicId}</div>
         <div className="link-action-inner-div">
           <div onClick={copyToClipboard} className="link-action-copy">
             <Copy size={14} />
@@ -169,13 +170,13 @@ function Link({
               )}
             </AnimatePresence>
           </div>
-          <a
-            href={`http:/link/${link.publicId}`}
+          <NavLink
+            to={`/link/${link.publicId}`}
             target="_blank"
             className="link-action-redirect"
           >
             <ExternalLink size={14} />
-          </a>
+          </NavLink>
         </div>
       </div>
       <div className="link-display-action-downloads-expiry-div">
