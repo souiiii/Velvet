@@ -207,7 +207,10 @@ function RightPanel({
             >
               {numberOfLinks ? (
                 <>
-                  <AnimatePresence initial={false} mode="popLayout">
+                  <AnimatePresence
+                    // initial={false}
+                    mode="popLayout"
+                  >
                     {relevantLinks.map((l, i) => (
                       <Link
                         i={i}
