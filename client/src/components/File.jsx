@@ -112,10 +112,10 @@ function File({
   const title = isSmallMobile
     ? truncateFilename(rawTitle, 25)
     : isMobile
-      ? truncateFilename(rawTitle, 35)
+      ? truncateFilename(rawTitle, 55)
       : isLaptop
-        ? truncateFilename(rawTitle, 40)
-        : truncateFilename(rawTitle, 60);
+        ? truncateFilename(rawTitle, 30)
+        : truncateFilename(rawTitle, 35);
 
   let background = fileType
     ? documentTypes.includes(fileType)
@@ -267,7 +267,7 @@ function File({
               f === file?._id?.toString() ? "" : file?._id?.toString(),
             )
           }
-          className="your-file-generate-link-button label"
+          className="label your-file-generate-link-button "
         >
           {selectedFile?._id?.toString() === file?._id?.toString() ? (
             <>

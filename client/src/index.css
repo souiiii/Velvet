@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Cascadia+Mono:ital,wght@0,200..700;1,200..700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cascadia+Code:ital,wght@0,200..700;1,200..700&display=swap");
 
 :root {
   --background: #0c0e12;
@@ -50,7 +51,7 @@
 
   --velvet-glow: #da3b25;
 
-  --font: "Cascadia Mono";
+  --font: "Cascadia Code";
 
   --border-radius: 0.75rem;
 }
@@ -357,6 +358,7 @@ body {
   text-overflow: ellipsis;
   white-space: nowrap;
   display: flex;
+  font-size: 1rem;
   justify-content: start;
   align-items: center;
 }
@@ -1770,6 +1772,7 @@ body {
 
 .create-butt {
   width: 100%;
+  font-size: 0.875rem;
   margin-top: 0.75rem;
   transition: all 0.2s ease;
 }
@@ -2926,6 +2929,265 @@ body {
   }
   .popup {
     max-width: 300px;
+  }
+}
+
+@media (min-width: 2000px) {
+  .leftPanel {
+    width: 25rem;
+  }
+
+  .rightPanel {
+    width: 30rem;
+  }
+}
+
+@media (min-width: 2100px) {
+  .name {
+    font-size: 1.25rem;
+  }
+
+  .email {
+    font-size: 1rem;
+  }
+
+  .profilePic {
+    font-size: 1.25rem;
+  }
+
+  .settings {
+    font-size: 1rem;
+    padding-block: 0.6rem;
+  }
+
+  .logout {
+    padding: 0.6rem;
+  }
+
+  .label {
+    padding-block: 0.5rem;
+    font-size: 0.875rem;
+    margin-top: 1rem;
+  }
+
+  .storage-heading {
+    font-size: 1rem;
+  }
+
+  .storageInfo {
+    font-size: 1rem;
+  }
+
+  .remaining-storage {
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+  }
+
+  .upgrade-storage {
+    font-size: 1rem;
+    margin-top: 1.5rem;
+    padding-block: 0.6rem;
+  }
+
+  .upgrade-storage > span {
+    font-size: 1rem;
+  }
+
+  .box {
+    padding: 1.5rem;
+  }
+
+  .quick-stats-heading {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .stat-block-heading {
+    font-size: 1rem;
+  }
+
+  .value-stat {
+    font-size: 1.25rem;
+  }
+
+  .stat {
+    gap: 1rem;
+  }
+
+  .navbar {
+    height: 5rem;
+  }
+
+  .action-button {
+    font-size: 1.1rem;
+    padding: 0.75rem 1.25rem;
+  }
+
+  .search-bar {
+    height: 3.25rem;
+  }
+
+  .filter-button {
+    font-size: 1.125rem;
+  }
+  .search-field {
+    font-size: 1.25rem;
+  }
+
+  .upload-files-div-box {
+    height: 20rem;
+  }
+
+  .upload-files-prompt-text {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .upload-files-drag-instruction {
+    font-size: 1rem;
+  }
+
+  .upload-files-feature-div {
+    font-size: 0.875rem;
+  }
+
+  .file-display-heading {
+    font-size: 1.3rem;
+  }
+
+  .file-display-file-count {
+    font-size: 1rem;
+  }
+
+  .your-file-div {
+    padding: 1.5rem;
+  }
+
+  .your-file-details-div {
+    gap: 0.5rem;
+    height: 100%;
+  }
+  .your-file-title {
+    font-size: 1.125rem;
+  }
+
+  .your-file-sub-title-div {
+    font-size: 0.875rem;
+  }
+
+  .your-file-generate-link-button {
+    margin-top: 0;
+    font-size: 1rem;
+  }
+
+  .selected-file-action-div {
+    font-size: 1rem;
+    width: 10rem;
+  }
+
+  .selected-file-action-download,
+  .selected-file-action-delete {
+    font-size: 1rem;
+    padding: 0.75rem;
+  }
+
+  .right-panel-div {
+    gap: 1.5rem;
+  }
+
+  .link-display-right-panel-heading {
+    font-size: 1.125rem;
+  }
+
+  .right-panel-link-tab-div {
+    font-size: 0.875rem;
+    height: 3rem;
+  }
+
+  .active-tab {
+    font-size: 1rem;
+  }
+
+  .link-top-heading-div {
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .link-top-heading {
+    font-size: 1.1rem;
+  }
+
+  .link-top-heading-badge {
+    font-size: 0.875rem;
+  }
+
+  .link-ago-time-created {
+    font-size: 0.875rem;
+  }
+
+  .link-display-action-div {
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+  }
+
+  .link-display-action-downloads-expiry-div {
+    font-size: 0.875rem;
+  }
+
+  .link-display-edit-revoke-div {
+    margin-top: 1rem;
+  }
+
+  .take-all-space-button {
+    margin-top: 0.75rem;
+    font-size: 1.1rem;
+    padding-block: 0.75rem;
+  }
+
+  .create-link-heading-div {
+    font-size: 1.125rem;
+    margin-bottom: 1rem;
+  }
+
+  .create-link-file-name-div {
+    font-size: 0.875rem;
+  }
+  .create-link-file-name-div {
+    margin-bottom: 1rem;
+  }
+
+  .create-link-subheading {
+    font-size: 0.75rem;
+  }
+
+  .select-trigger,
+  .create-link-input-fields {
+    font-size: 0.875rem;
+    padding-block: 0.75rem;
+  }
+
+  .create-link-expiry-div,
+  .create-link-max-download-div {
+    gap: 0.5rem;
+  }
+
+  .create-link-password-div {
+    gap: 0.75rem;
+  }
+
+  .password-message {
+    font-size: 0.875rem;
+  }
+
+  .create-butt {
+    margin-top: 1rem;
+  }
+
+  .link-display-edit-button {
+    padding-block: 0.75rem;
+  }
+  .popup > p {
+    font-size: 1.125rem;
   }
 }
 
