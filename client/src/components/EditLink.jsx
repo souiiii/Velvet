@@ -356,7 +356,7 @@ function EditLink({
           className={`action-button create-butt ${loading && "disabled-create-button"}`}
         >
           <Cog size={18} />
-          &nbsp;{loading ? "Editing..." : "Edit Link"}&nbsp;{link.i + 1}
+          &nbsp;{loading ? "Editing.." : "Edit Link " + (link.i + 1)}
         </button>
         <button
           className="action-button create-butt edit-butt-edit"
