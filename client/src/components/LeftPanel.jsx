@@ -244,7 +244,7 @@ function LeftPanel({
                 <div className="value-stat">{numberOfFiles}</div>
               </div>
               {numberOfFiles !== undefined &&
-              initials.current?.numberOfFiles &&
+              initials.current?.numberOfFiles !== undefined &&
               numberOfFiles - initials.current?.numberOfFiles ? (
                 <div
                   className={`stat-curr-deviation ${numberOfFiles - initials.current?.numberOfFiles > 0 ? "" : "redd"}`}
@@ -265,7 +265,7 @@ function LeftPanel({
                 <div className="value-stat">{activeLinks}</div>
               </div>
               {activeLinks !== undefined &&
-              initials.current?.activeLinks &&
+              initials.current?.activeLinks !== undefined &&
               activeLinks - initials.current?.activeLinks ? (
                 <div
                   className={`stat-curr-deviation ${activeLinks - initials.current?.activeLinks > 0 ? "" : "redd"}`}
@@ -286,7 +286,7 @@ function LeftPanel({
                 <div className="value-stat">{totalDownloads}</div>
               </div>
               {totalDownloads !== undefined &&
-              initials.current?.totalDownloads &&
+              initials.current?.totalDownloads !== undefined &&
               totalDownloads - initials.current?.totalDownloads ? (
                 <div
                   className={`stat-curr-deviation ${totalDownloads - initials.current?.totalDownloads > 0 ? "" : "redd"}`}
@@ -307,7 +307,7 @@ function LeftPanel({
                 <div className="value-stat">{expiredLinks}</div>
               </div>
               {expiredLinks !== undefined &&
-              initials.current?.expiredLinks &&
+              initials.current?.expiredLinks !== undefined &&
               expiredLinks - initials.current?.expiredLinks ? (
                 <div
                   className={`stat-curr-deviation ${expiredLinks - initials.current?.expiredLinks > 0 ? "" : "redd"}`}
@@ -328,7 +328,7 @@ function LeftPanel({
                 <div className="value-stat">{revokedLinks}</div>
               </div>
               {revokedLinks !== undefined &&
-              initials.current?.revokedLinks &&
+              initials.current?.revokedLinks !== undefined &&
               revokedLinks - initials.current?.revokedLinks ? (
                 <div
                   className={`stat-curr-deviation ${revokedLinks - initials.current?.revokedLinks > 0 ? "" : "redd"}`}
