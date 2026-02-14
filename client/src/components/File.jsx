@@ -71,6 +71,8 @@ const otherTypes = ["application/octet-stream"];
 function File({
   file,
   selectedFile,
+  setMsg,
+  setErr,
   isMobile,
   isSmallMobile,
   setRightOpen,
@@ -183,15 +185,15 @@ function File({
       });
       if (res.ok) {
         const data = await res.json();
-        console.log(data.msg);
+        setMsg(data.msg);
       } else {
         const data = await res.json();
         if (res.status === 401) values.setUser(null);
         throw new Error(data.err);
       }
     } catch (err) {
-      console.log(err.message);
       setLoading(false);
+      setErr(err.message);
     } finally {
       setDeleting(null);
       setRefresh((r) => r + 1);

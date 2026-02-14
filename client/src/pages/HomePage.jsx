@@ -57,6 +57,8 @@ function HomePage({ setGlobalLoading, globalLoading, setMsg, setErr }) {
     window.matchMedia("(max-width: 2300px)").matches,
   );
 
+  const initialStatsRef = useRef(null);
+
   const app = useRef(null);
 
   const storageUsed = filesAndLinks?.reduce((acc, f) => acc + f.size, 0) || 0;
@@ -92,6 +94,20 @@ function HomePage({ setGlobalLoading, globalLoading, setMsg, setErr }) {
     setRightOpen(id);
     // setTimeout(() => setIsLayoutAnimating(false), 400);
   };
+
+  useEffect(() => {
+    if (!filesAndLinks) return;
+
+    if (!initialStatsRef.current) {
+      initialStatsRef.current = {
+        numberOfFiles,
+        activeLinks,
+        revokedLinks,
+        expiredLinks,
+        totalDownloads,
+      };
+    }
+  }, [filesAndLinks]);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 1338px)");
@@ -232,6 +248,7 @@ function HomePage({ setGlobalLoading, globalLoading, setMsg, setErr }) {
               className="leftPanel"
             >
               <LeftPanel
+                initials={initialStatsRef}
                 setErr={setErr}
                 setMsg={setMsg}
                 setLoading={setGlobalLoading}

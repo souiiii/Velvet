@@ -62,6 +62,8 @@ const type = {
 function CenterPanel({
   setRefresh,
   isMobile,
+  setMsg,
+  setErr,
   isSmallMobile,
   isLaptop,
   storageUsed,
@@ -168,6 +170,8 @@ function CenterPanel({
         </button>
       </motion.div>
       <AddFile
+        setMsg={setMsg}
+        setErr={setErr}
         app={app}
         storageUsed={storageUsed}
         setRefresh={setRefresh}
@@ -201,6 +205,8 @@ function CenterPanel({
                   setRefresh={setRefresh}
                   setRightOpen={setRightOpen}
                   key={f._id}
+                  setMsg={setMsg}
+                  setErr={setErr}
                   file={f}
                   i={i}
                 />

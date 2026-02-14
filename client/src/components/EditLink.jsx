@@ -147,7 +147,11 @@ function EditLink({
   }
 
   return (
-    <form
+    <motion.form
+      initial={{ opacity: 0, y: 0 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 0 }}
+      transition={{ duration: 0.2, ease: "easeInOut" }}
       onSubmit={(e) => {
         e.preventDefault();
         handleSubmit(e);
@@ -363,7 +367,7 @@ function EditLink({
           &nbsp;Cancel Edit
         </button>
       </div>
-    </form>
+    </motion.form>
   );
 }
 

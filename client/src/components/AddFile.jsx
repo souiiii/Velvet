@@ -2,7 +2,15 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Cloud, Lock, Upload } from "lucide-react";
 import { useAuth } from "../contexts/useAuth";
 
-function AddFile({ setRefresh, uploading, setUploading, storageUsed, app }) {
+function AddFile({
+  setRefresh,
+  uploading,
+  setMsg,
+  setErr,
+  setUploading,
+  storageUsed,
+  app,
+}) {
   const [files, setFiles] = useState([]);
   const values = useAuth();
   // const [isDragOver, setIsDragOver] = useState(false);
@@ -49,30 +57,45 @@ function AddFile({ setRefresh, uploading, setUploading, storageUsed, app }) {
     async (e) => {
       e.preventDefault();
       if (!files.length) return;
-      // let size;
-      // for (let i = 0; i < files.length; i++) {
-      //   size += files[i]?.size;
-      // }
-      // console.log(size);
-      // if (size + storageUsed > 100000000) {
-      //   alert("Upload limit reached");
-      //   return;
-      // }
+      let errCount = 0;
+      let succCount = 0;
       try {
+        // let size;
+        // for (let i = 0; i < files.length; i++) {
+        //   size += files[i]?.size;
+        // }
+        // console.log(size);
+        // if (size + storageUsed > 100000000) {
+        //   alert("Upload limit reached");
+        //   return;
+        // }
+
         for (let i = 0; i < files.length; i++) {
-          const file = files[i];
+          try {
+            const file = files[i];
 
-          setUploading({ name: file.name, index: i + 1 });
-          await new Promise(requestAnimationFrame);
-          await uploadSingleFile(file);
+            setUploading({ name: file.name, index: i + 1 });
+            await new Promise(requestAnimationFrame);
+            await uploadSingleFile(file);
+            succCount = succCount + 1;
+          } catch (err) {
+            console.error(err.message);
+            alert(err.message);
+            errCount = errCount + 1;
+          }
         }
-
-        setRefresh((r) => r + 1);
+        if (succCount > 0) setRefresh((r) => r + 1);
         setFiles([]);
-      } catch (err) {
-        console.error(err.message);
-        alert(err.message);
       } finally {
+        setTimeout(() => {
+          if (succCount > 1) setMsg(succCount + " files uploaded successfully");
+          else if (succCount > 0)
+            setMsg(succCount + " file uploaded successfully");
+        }, 400);
+        setTimeout(() => {
+          if (errCount > 1) setErr(errCount + " files failed upload");
+          else if (errCount > 0) setErr(errCount + " file failed upload");
+        }, 2600);
         setUploading(null);
         if (fileInputRef.current) {
           fileInputRef.current.value = "";

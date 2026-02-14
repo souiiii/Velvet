@@ -490,12 +490,14 @@ body {
   font-size: 0.9rem;
   font-weight: 500;
   line-height: 1.25rem;
+  border: 1px solid var(--accent-col);
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 }
 
 .action-button:hover {
   background-color: var(--accent-dark);
+  border-color: var(--accent-dark);
 }
 
 .action-button span {
@@ -885,10 +887,22 @@ body {
   justify-content: start;
   align-items: center;
   width: 100%;
+  position: relative;
   padding-top: 0.5rem;
   padding-bottom: 0.75rem;
   border-bottom: 1px solid var(--margins);
   gap: 0.75rem;
+}
+
+.stat-curr-deviation {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 10%;
+  font-weight: 300;
+  z-index: 2;
+  color: var(--green);
+  font-size: 0.875rem;
 }
 
 .last {
@@ -1885,6 +1899,10 @@ body {
   color: var(--white-text);
 }
 
+.redd {
+  color: var(--accent-col);
+}
+
 .link-action-copy {
   position: relative;
 }
@@ -2135,6 +2153,7 @@ body {
 .edit-butt-edit:hover {
   background-color: var(--boxground-highlight);
   color: var(--white-text);
+  border-color: var(--margins);
 }
 
 .velvet-logo-div-big {

@@ -128,7 +128,11 @@ function CreateLink({
   }
 
   return (
-    <form
+    <motion.form
+      initial={{ opacity: 0, y: 0 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 0 }}
+      transition={{ duration: 0.2, ease: "easeInOut" }}
       onSubmit={(e) => {
         e.preventDefault();
         handleSubmit(e);
@@ -326,7 +330,7 @@ function CreateLink({
       >
         <span>+</span>&nbsp;{loading ? "Creating Link..." : "Create Link"}
       </button>
-    </form>
+    </motion.form>
   );
 }
 

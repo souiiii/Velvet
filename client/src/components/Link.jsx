@@ -19,7 +19,7 @@ function Link({
   setErr,
   setMsg,
   link,
-  setEditLink,
+  setEditLink = () => {},
   isSmallMobile,
   fileName,
   layout,
@@ -83,6 +83,7 @@ function Link({
       if (res.ok) {
         const data = await res.json();
         setMsg(data.msg);
+        setEditLink(null);
         setRefresh((r) => r + 1);
       } else {
         const data = await res.json();

@@ -20,6 +20,7 @@ import BlackBackgound from "./BlackBackgound";
 import PageLoader from "./PageLoader";
 
 function LeftPanel({
+  initials,
   name,
   email,
   storageUsed,
@@ -242,6 +243,18 @@ function LeftPanel({
                 <div className="stat-block-heading">Total Files</div>
                 <div className="value-stat">{numberOfFiles}</div>
               </div>
+              {numberOfFiles &&
+              initials.current?.numberOfFiles &&
+              numberOfFiles - initials.current?.numberOfFiles ? (
+                <div
+                  className={`stat-curr-deviation ${numberOfFiles - initials.current?.numberOfFiles > 0 ? "" : "redd"}`}
+                >
+                  {numberOfFiles - initials.current?.numberOfFiles > 0 && "+"}
+                  {numberOfFiles - initials.current.numberOfFiles}
+                </div>
+              ) : (
+                ""
+              )}
             </div>
             <div className="stat">
               <div className="stat-logo-div">
@@ -251,6 +264,18 @@ function LeftPanel({
                 <div className="stat-block-heading">Active Links</div>
                 <div className="value-stat">{activeLinks}</div>
               </div>
+              {activeLinks &&
+              initials.current?.activeLinks &&
+              activeLinks - initials.current?.activeLinks ? (
+                <div
+                  className={`stat-curr-deviation ${activeLinks - initials.current?.activeLinks > 0 ? "" : "redd"}`}
+                >
+                  {activeLinks - initials.current?.activeLinks > 0 && "+"}
+                  {activeLinks - initials.current.activeLinks}
+                </div>
+              ) : (
+                ""
+              )}
             </div>
             <div className="stat">
               <div className="stat-logo-div">
@@ -260,6 +285,18 @@ function LeftPanel({
                 <div className="stat-block-heading">Total Downloads</div>
                 <div className="value-stat">{totalDownloads}</div>
               </div>
+              {totalDownloads &&
+              initials.current?.totalDownloads &&
+              totalDownloads - initials.current?.totalDownloads ? (
+                <div
+                  className={`stat-curr-deviation ${totalDownloads - initials.current?.totalDownloads > 0 ? "" : "redd"}`}
+                >
+                  {totalDownloads - initials.current?.totalDownloads > 0 && "+"}
+                  {totalDownloads - initials.current.totalDownloads}
+                </div>
+              ) : (
+                ""
+              )}
             </div>
             <div className="stat">
               <div className="stat-logo-div">
@@ -269,6 +306,18 @@ function LeftPanel({
                 <div className="stat-block-heading">Expired Links</div>
                 <div className="value-stat">{expiredLinks}</div>
               </div>
+              {expiredLinks &&
+              initials.current?.expiredLinks &&
+              expiredLinks - initials.current?.expiredLinks ? (
+                <div
+                  className={`stat-curr-deviation ${expiredLinks - initials.current?.expiredLinks > 0 ? "" : "redd"}`}
+                >
+                  {expiredLinks - initials.current?.expiredLinks > 0 && "+"}
+                  {expiredLinks - initials.current.expiredLinks}
+                </div>
+              ) : (
+                ""
+              )}
             </div>
             <div className="stat last">
               <div className="stat-logo-div">
@@ -278,6 +327,18 @@ function LeftPanel({
                 <div className="stat-block-heading">Revoked Links</div>
                 <div className="value-stat">{revokedLinks}</div>
               </div>
+              {revokedLinks &&
+              initials.current?.revokedLinks &&
+              revokedLinks - initials.current?.revokedLinks ? (
+                <div
+                  className={`stat-curr-deviation ${revokedLinks - initials.current?.revokedLinks > 0 ? "" : "redd"}`}
+                >
+                  {revokedLinks - initials.current?.revokedLinks > 0 && "+"}
+                  {revokedLinks - initials.current.revokedLinks}
+                </div>
+              ) : (
+                ""
+              )}
             </div>
           </div>
         </div>

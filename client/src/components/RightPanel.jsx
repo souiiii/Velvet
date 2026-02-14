@@ -95,28 +95,29 @@ function RightPanel({
   return (
     <LayoutGroup>
       <div className="right-panel-div">
-        {editLink ? (
-          <EditLink
-            setTab={setTab}
-            setErr={setErr}
-            setMsg={setMsg}
-            setRefresh={setRefresh}
-            setRightOpen={setRightOpen}
-            selectedFile={selectedFile}
-            link={editLink}
-            setLink={setEditLink}
-          />
-        ) : (
-          <CreateLink
-            setTab={setTab}
-            setErr={setErr}
-            setMsg={setMsg}
-            setRefresh={setRefresh}
-            setRightOpen={setRightOpen}
-            selectedFile={selectedFile}
-          />
-        )}
-
+        <AnimatePresence mode="wait">
+          {editLink ? (
+            <EditLink
+              setTab={setTab}
+              setErr={setErr}
+              setMsg={setMsg}
+              setRefresh={setRefresh}
+              setRightOpen={setRightOpen}
+              selectedFile={selectedFile}
+              link={editLink}
+              setLink={setEditLink}
+            />
+          ) : (
+            <CreateLink
+              setTab={setTab}
+              setErr={setErr}
+              setMsg={setMsg}
+              setRefresh={setRefresh}
+              setRightOpen={setRightOpen}
+              selectedFile={selectedFile}
+            />
+          )}
+        </AnimatePresence>
         <div className="right-panel-link-list-div">
           <div className="file-display-heading-div link-display-right-panel-heading-div">
             <div className="file-display-heading link-display-right-panel-heading">
