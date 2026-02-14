@@ -243,7 +243,7 @@ function LeftPanel({
                 <div className="stat-block-heading">Total Files</div>
                 <div className="value-stat">{numberOfFiles}</div>
               </div>
-              {numberOfFiles &&
+              {numberOfFiles !== undefined &&
               initials.current?.numberOfFiles &&
               numberOfFiles - initials.current?.numberOfFiles ? (
                 <div
@@ -264,7 +264,7 @@ function LeftPanel({
                 <div className="stat-block-heading">Active Links</div>
                 <div className="value-stat">{activeLinks}</div>
               </div>
-              {activeLinks &&
+              {activeLinks !== undefined &&
               initials.current?.activeLinks &&
               activeLinks - initials.current?.activeLinks ? (
                 <div
@@ -285,7 +285,7 @@ function LeftPanel({
                 <div className="stat-block-heading">Total Downloads</div>
                 <div className="value-stat">{totalDownloads}</div>
               </div>
-              {totalDownloads &&
+              {totalDownloads !== undefined &&
               initials.current?.totalDownloads &&
               totalDownloads - initials.current?.totalDownloads ? (
                 <div
@@ -306,7 +306,7 @@ function LeftPanel({
                 <div className="stat-block-heading">Expired Links</div>
                 <div className="value-stat">{expiredLinks}</div>
               </div>
-              {expiredLinks &&
+              {expiredLinks !== undefined &&
               initials.current?.expiredLinks &&
               expiredLinks - initials.current?.expiredLinks ? (
                 <div
@@ -327,7 +327,7 @@ function LeftPanel({
                 <div className="stat-block-heading">Revoked Links</div>
                 <div className="value-stat">{revokedLinks}</div>
               </div>
-              {revokedLinks &&
+              {revokedLinks !== undefined &&
               initials.current?.revokedLinks &&
               revokedLinks - initials.current?.revokedLinks ? (
                 <div
