@@ -250,7 +250,7 @@ function LeftPanel({
                   className={`stat-curr-deviation ${numberOfFiles - initials.current?.numberOfFiles > 0 ? "" : "redd"}`}
                 >
                   {numberOfFiles - initials.current?.numberOfFiles > 0 && "+"}
-                  {numberOfFiles - initials.current.numberOfFiles}
+                  {numberOfFiles - initials.current?.numberOfFiles}
                 </div>
               ) : (
                 ""
@@ -271,7 +271,7 @@ function LeftPanel({
                   className={`stat-curr-deviation ${activeLinks - initials.current?.activeLinks > 0 ? "" : "redd"}`}
                 >
                   {activeLinks - initials.current?.activeLinks > 0 && "+"}
-                  {activeLinks - initials.current.activeLinks}
+                  {activeLinks - initials.current?.activeLinks}
                 </div>
               ) : (
                 ""
@@ -292,7 +292,7 @@ function LeftPanel({
                   className={`stat-curr-deviation ${totalDownloads - initials.current?.totalDownloads > 0 ? "" : "redd"}`}
                 >
                   {totalDownloads - initials.current?.totalDownloads > 0 && "+"}
-                  {totalDownloads - initials.current.totalDownloads}
+                  {totalDownloads - initials.current?.totalDownloads}
                 </div>
               ) : (
                 ""
@@ -313,7 +313,7 @@ function LeftPanel({
                   className={`stat-curr-deviation ${expiredLinks - initials.current?.expiredLinks > 0 ? "" : "redd"}`}
                 >
                   {expiredLinks - initials.current?.expiredLinks > 0 && "+"}
-                  {expiredLinks - initials.current.expiredLinks}
+                  {expiredLinks - initials.current?.expiredLinks}
                 </div>
               ) : (
                 ""
@@ -334,7 +334,7 @@ function LeftPanel({
                   className={`stat-curr-deviation ${revokedLinks - initials.current?.revokedLinks > 0 ? "" : "redd"}`}
                 >
                   {revokedLinks - initials.current?.revokedLinks > 0 && "+"}
-                  {revokedLinks - initials.current.revokedLinks}
+                  {revokedLinks - initials.current?.revokedLinks}
                 </div>
               ) : (
                 ""
