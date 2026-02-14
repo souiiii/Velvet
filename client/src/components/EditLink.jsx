@@ -344,7 +344,7 @@ function EditLink({
           }
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          type="password"
+          type={eye ? "text" : "password"}
           minLength={3}
           maxLength={25}
         />
