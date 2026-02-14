@@ -221,11 +221,13 @@ button {
   color: var(--graytext) !important;
   border: 1px solid var(--thickmargin);
   cursor: default;
+  border-color: var(--thickmargin) !important;
 }
 
 .disabled-download-button:hover {
   background-color: var(--boxground-highlight) !important;
   color: var(--graytext) !important;
+  border-color: var(--thickmargin) !important;
   cursor: default;
 }
 
