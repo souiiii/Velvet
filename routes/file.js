@@ -503,14 +503,22 @@ router.get("/download-public/:publicId", async (req, res) => {
 
     const link = await Link.findOne({ publicId }).populate("fileId").lean();
 
-    if (!link) return res.status(404).json({ err: "Invalid request" });
+    if (!link)
+      return res.redirect(
+        `${process.env.CLIENT_URL}/link/${publicId}?error=Invalid%20request`,
+      );
 
     const now = new Date();
 
     if (link.expiresAt && link.expiresAt < now)
-      return res.status(410).json({ err: "Invalid request" });
+      return res.redirect(
+        `${process.env.CLIENT_URL}/link/${publicId}?error=Invalid%20request`,
+      );
 
-    if (link.isRevoked) return res.status(405).json({ err: "Invalid request" });
+    if (link.isRevoked)
+      return res.redirect(
+        `${process.env.CLIENT_URL}/link/${publicId}?error=Invalid%20request`,
+      );
 
     if (link.password && !password)
       return res.redirect(
@@ -537,7 +545,9 @@ router.get("/download-public/:publicId", async (req, res) => {
       );
 
       if (!updated)
-        return res.status(429).json({ err: "Download limit reached" });
+        return res.redirect(
+          `${process.env.CLIENT_URL}/link/${publicId}?error=Download%20limit%20reached`,
+        );
     } else {
       await Link.updateOne({ publicId }, { $inc: { downloads: 1 } });
     }
