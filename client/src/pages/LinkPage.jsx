@@ -369,7 +369,7 @@ function LinkPage({ loading, setLoading, setMsg, setErr }) {
                             &nbsp;<span>{downloads} downloads</span>
                           </div>
                         </div>
-                        {isPassEnabled && (
+                        {isPassEnabled && downloadable && (
                           <div className="signup-login-form-field-div password-div-link-page">
                             <label
                               htmlFor="password-signup"

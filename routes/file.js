@@ -452,8 +452,6 @@ router.get("/all", checkAuthHard, async (req, res) => {
       f.storage = null;
     });
 
-    // console.log(relevantFiles);
-
     return res.status(200).json({
       msg: "All user files and links returned successfully",
       filesAndLinks: relevantFiles,
@@ -528,7 +526,6 @@ router.get("/download-public/:publicId", async (req, res) => {
     if (!cloudinaryUrl)
       return res.status(500).json({ err: "Missing storage URL" });
 
-    // ---- Download limit logic BEFORE streaming ----
     if (link.maxDownloads !== undefined) {
       const updated = await Link.findOneAndUpdate(
         {
