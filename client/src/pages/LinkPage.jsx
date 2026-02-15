@@ -84,7 +84,7 @@ function LinkPage({ loading, setLoading, setMsg, setErr }) {
   const [link, setLink] = useState(null);
   // const [loading, setLoading] = useState(true);
   const [eye, setEye] = useState(false);
-  const [isDownloading, setIsDownloading] = useState(false);
+  // const [isDownloading, setIsDownloading] = useState(false);
 
   const [isSmallMobile, setIsSmallMobile] = useState(
     window.matchMedia("(max-width: 1000px)").matches,
@@ -208,14 +208,14 @@ function LinkPage({ loading, setLoading, setMsg, setErr }) {
     return () => mediaQuery.removeEventListener("change", handleChange);
   }, []);
 
-  useEffect(
-    function () {
-      if (!isDownloading) return;
-      const timeout = setTimeout(() => setIsDownloading(false), 3000);
-      return () => clearTimeout(timeout);
-    },
-    [isDownloading],
-  );
+  // useEffect(
+  //   function () {
+  //     if (!isDownloading) return;
+  //     const timeout = setTimeout(() => setIsDownloading(false), 3000);
+  //     return () => clearTimeout(timeout);
+  //   },
+  //   [isDownloading],
+  // );
 
   useEffect(
     function () {
@@ -269,12 +269,12 @@ function LinkPage({ loading, setLoading, setMsg, setErr }) {
         }
       }
       const interval = setInterval(() => {
-        if (document.visibilityState !== "visible" || isDownloading) return;
+        if (document.visibilityState !== "visible") return;
         getLinkDetailsSilently();
       }, 2000);
       return () => clearInterval(interval);
     },
-    [publicId, setErr, isDownloading],
+    [publicId, setErr],
   );
 
   useEffect(() => {
@@ -418,7 +418,6 @@ function LinkPage({ loading, setLoading, setMsg, setErr }) {
                         {downloadable &&
                         (!isPassEnabled || password.length >= 3) ? (
                           <a
-                            onClick={() => setIsDownloading(true)}
                             href={`/api/file/download-public/${publicId}?password=${password}`}
                             className="action-button sharing-download-button"
                           >
