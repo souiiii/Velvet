@@ -84,6 +84,7 @@ function LinkPage({ loading, setLoading, setMsg, setErr }) {
   const [link, setLink] = useState(null);
   // const [loading, setLoading] = useState(true);
   const [eye, setEye] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
 
   const [isSmallMobile, setIsSmallMobile] = useState(
     window.matchMedia("(max-width: 1000px)").matches,
@@ -209,6 +210,15 @@ function LinkPage({ loading, setLoading, setMsg, setErr }) {
 
   useEffect(
     function () {
+      if (!isDownloading) return;
+      const timeout = setTimeout(() => setIsDownloading(false), 3000);
+      return () => clearTimeout(timeout);
+    },
+    [isDownloading],
+  );
+
+  useEffect(
+    function () {
       async function getLinkDetails() {
         try {
           setLoading(true);
@@ -259,12 +269,12 @@ function LinkPage({ loading, setLoading, setMsg, setErr }) {
         }
       }
       const interval = setInterval(() => {
-        if (document.visibilityState !== "visible") return;
+        if (document.visibilityState !== "visible" || isDownloading) return;
         getLinkDetailsSilently();
       }, 2000);
       return () => clearInterval(interval);
     },
-    [publicId, setErr],
+    [publicId, setErr, isDownloading],
   );
 
   useEffect(() => {
@@ -408,6 +418,7 @@ function LinkPage({ loading, setLoading, setMsg, setErr }) {
                         {downloadable &&
                         (!isPassEnabled || password.length >= 3) ? (
                           <a
+                            onClick={() => setIsDownloading(true)}
                             href={`/api/file/download-public/${publicId}?password=${password}`}
                             className="action-button sharing-download-button"
                           >
