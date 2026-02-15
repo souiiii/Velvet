@@ -1,6 +1,6 @@
 import { Search, SlidersHorizontal } from "lucide-react";
 import AddFile from "./AddFile";
-import { AnimatePresence, motion, number } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import File from "./File";
 import Nothing from "./Nothing";

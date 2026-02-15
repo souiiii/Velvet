@@ -1,13 +1,11 @@
 import { motion } from "motion/react";
 import {
   Archive,
-  FileCheck,
   FileQuestionMark,
   Files,
   FileText,
   Film,
   Image,
-  LayoutGrid,
   Music,
 } from "lucide-react";
 

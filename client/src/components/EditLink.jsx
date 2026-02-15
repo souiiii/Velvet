@@ -11,7 +11,6 @@ import {
   FileText,
   Lock,
   PenLine,
-  SquareX,
   X,
 } from "lucide-react";
 import dayjs from "dayjs";

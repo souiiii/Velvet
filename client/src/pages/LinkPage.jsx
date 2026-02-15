@@ -28,7 +28,6 @@ import truncateFilename from "../utilities/truncate";
 import PageLoader from "../components/PageLoader";
 import NotFound from "../components/NotFound";
 import BgEffects from "../components/BgEffects";
-import Hero from "../components/Hero";
 
 const imageTypes = [
   "image/jpeg",
@@ -281,169 +280,171 @@ function LinkPage({ loading, setLoading, setMsg, setErr }) {
       {loading ? (
         <PageLoader show={true} />
       ) : (
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 10 }}
-          transition={{ duration: 0.2, ease: "easeInOut" }}
-          className="container middle"
-        >
-          <ArrowLeft
-            onClick={() => navigate("/")}
-            className="arrow-left-back"
-            size={21}
-          />
-          <LayoutGroup>
-            <Linkk to="/" className="Velvet-logo-div-big">
-              <img src="/logo3.svg" alt="logo" />
-            </Linkk>
-            <div className="security-you-control">
-              <span>Security</span>, you control
-            </div>
-            <AnimatePresence>
-              {error ? (
-                <NotFound />
-              ) : (
-                <>
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 10 }}
-                    transition={{ duration: 0.2, ease: "easeInOut" }}
-                    className="linear-gradient-style"
-                  ></motion.div>
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 10 }}
-                    transition={{ duration: 0.2, ease: "easeInOut" }}
-                    className="box download-file-container-box"
-                  >
-                    <div className="download-file-container-box-inner">
-                      <div className="file-details-div-link-div">
-                        <div
-                          ref={backElement}
-                          className="your-file-logo-div logo-div-link-page"
-                        >
-                          {color === "#60a5fa" ? (
-                            <FileText color={color} size={28} />
-                          ) : color === "#34d298" ? (
-                            <Image color={color} size={28} />
-                          ) : color === "#fbbf24" ? (
-                            <Archive color={color} size={28} />
-                          ) : color === "#f472b6" ? (
-                            <Music color={color} size={28} />
-                          ) : color === "#c084fc" ? (
-                            <Film color={color} size={28} />
-                          ) : color === "#ff6a6a" ? (
-                            <FileQuestion color={color} size={28} />
-                          ) : (
-                            <FileText color={color} size={28} />
-                          )}
-                        </div>
-                        <div className="file-details-div-link-view">
-                          <div className="file-name-link-view">{title}</div>
-                          <div className="shared-by-link-view">
-                            {link?.isAnonymous ? (
-                              <HatGlasses
-                                className="non-shrinkable "
-                                size={16}
-                              />
-                            ) : (
-                              <User className="non-shrinkable " size={16} />
-                            )}
-                            &nbsp;
-                            {link?.isAnonymous
-                              ? "Anonymous share"
-                              : "Shared by " + normalizedName}
-                          </div>
-                        </div>
-                      </div>
-                      <div className="sharing-details-div">
-                        <div className="shared-ago-link">
-                          <Link size={12} />
-                          &nbsp;Linked {timeAgo}
-                        </div>
-                        <div className="shared-download-count">
-                          <DownloadCloud size={12} />
-                          &nbsp;<span>{downloads} downloads</span>
-                        </div>
-                      </div>
-                      {isPassEnabled && (
-                        <div className="signup-login-form-field-div password-div-link-page">
-                          <label
-                            htmlFor="password-signup"
-                            className="signup-login-form-label"
+        <>
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            transition={{ duration: 0.2, ease: "easeInOut" }}
+            className="container middle"
+          >
+            <ArrowLeft
+              onClick={() => navigate("/")}
+              className="arrow-left-back"
+              size={21}
+            />
+            <LayoutGroup>
+              <Linkk to="/" className="Velvet-logo-div-big">
+                <img src="/logo3.svg" alt="logo" />
+              </Linkk>
+              <div className="security-you-control">
+                <span>Security</span>, you control
+              </div>
+              <AnimatePresence>
+                {error ? (
+                  <NotFound />
+                ) : (
+                  <>
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      transition={{ duration: 0.2, ease: "easeInOut" }}
+                      className="linear-gradient-style"
+                    ></motion.div>
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      transition={{ duration: 0.2, ease: "easeInOut" }}
+                      className="box download-file-container-box"
+                    >
+                      <div className="download-file-container-box-inner">
+                        <div className="file-details-div-link-div">
+                          <div
+                            ref={backElement}
+                            className="your-file-logo-div logo-div-link-page"
                           >
-                            <Lock size={16} />
-                            &nbsp;<span>Password</span>
-                          </label>
-                          <div className="password-eye-div">
-                            {eye ? (
-                              <EyeOff
-                                onClick={() => setEye((e) => !e)}
-                                className="eye"
-                                size={16}
-                              />
+                            {color === "#60a5fa" ? (
+                              <FileText color={color} size={28} />
+                            ) : color === "#34d298" ? (
+                              <Image color={color} size={28} />
+                            ) : color === "#fbbf24" ? (
+                              <Archive color={color} size={28} />
+                            ) : color === "#f472b6" ? (
+                              <Music color={color} size={28} />
+                            ) : color === "#c084fc" ? (
+                              <Film color={color} size={28} />
+                            ) : color === "#ff6a6a" ? (
+                              <FileQuestion color={color} size={28} />
                             ) : (
-                              <Eye
-                                onClick={() => setEye((e) => !e)}
-                                className="eye"
-                                size={16}
-                              />
+                              <FileText color={color} size={28} />
                             )}
                           </div>
-                          <input
-                            id="password-signup"
-                            className="signup-login-input-field password-field"
-                            type={eye ? "text" : "password"}
-                            placeholder="(minimum 3 characters)"
-                            name="password"
-                            required
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                          />
+                          <div className="file-details-div-link-view">
+                            <div className="file-name-link-view">{title}</div>
+                            <div className="shared-by-link-view">
+                              {link?.isAnonymous ? (
+                                <HatGlasses
+                                  className="non-shrinkable "
+                                  size={16}
+                                />
+                              ) : (
+                                <User className="non-shrinkable " size={16} />
+                              )}
+                              &nbsp;
+                              {link?.isAnonymous
+                                ? "Anonymous share"
+                                : "Shared by " + normalizedName}
+                            </div>
+                          </div>
                         </div>
-                      )}
-                      {downloadable &&
-                      (!isPassEnabled || password.length >= 3) ? (
-                        <a
-                          href={`/api/file/download-public/${publicId}?password=${password}`}
-                          className="action-button sharing-download-button"
-                        >
-                          <Download size={20} />
-                          &nbsp;Download File ({size})
-                        </a>
-                      ) : (
-                        <div className="action-button sharing-download-button disabled-download-button">
-                          <Ban size={20} />
-                          &nbsp;
-                          {!downloadable
-                            ? "Download limit reached"
-                            : "Enter Password to download"}
+                        <div className="sharing-details-div">
+                          <div className="shared-ago-link">
+                            <Link size={12} />
+                            &nbsp;Linked {timeAgo}
+                          </div>
+                          <div className="shared-download-count">
+                            <DownloadCloud size={12} />
+                            &nbsp;<span>{downloads} downloads</span>
+                          </div>
                         </div>
-                      )}
-                    </div>
-                    <div className="secure-file-delivery-claim">
-                      <ShieldCheckIcon size={14} />
-                      &nbsp;
-                      <span>End-to-end encrypted</span>
-                    </div>
-                  </motion.div>
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 10 }}
-                    transition={{ duration: 0.2, ease: "easeInOut" }}
-                    className="link-page-footer"
-                  >
-                    Secure file sharing powered by&nbsp;<span>Velvet</span>
-                  </motion.div>
-                </>
-              )}
-            </AnimatePresence>
-          </LayoutGroup>
-        </motion.div>
+                        {isPassEnabled && (
+                          <div className="signup-login-form-field-div password-div-link-page">
+                            <label
+                              htmlFor="password-signup"
+                              className="signup-login-form-label"
+                            >
+                              <Lock size={16} />
+                              &nbsp;<span>Password</span>
+                            </label>
+                            <div className="password-eye-div">
+                              {eye ? (
+                                <EyeOff
+                                  onClick={() => setEye((e) => !e)}
+                                  className="eye"
+                                  size={16}
+                                />
+                              ) : (
+                                <Eye
+                                  onClick={() => setEye((e) => !e)}
+                                  className="eye"
+                                  size={16}
+                                />
+                              )}
+                            </div>
+                            <input
+                              id="password-signup"
+                              className="signup-login-input-field password-field"
+                              type={eye ? "text" : "password"}
+                              placeholder="(minimum 3 characters)"
+                              name="password"
+                              required
+                              value={password}
+                              onChange={(e) => setPassword(e.target.value)}
+                            />
+                          </div>
+                        )}
+                        {downloadable &&
+                        (!isPassEnabled || password.length >= 3) ? (
+                          <a
+                            href={`/api/file/download-public/${publicId}?password=${password}`}
+                            className="action-button sharing-download-button"
+                          >
+                            <Download size={20} />
+                            &nbsp;Download File ({size})
+                          </a>
+                        ) : (
+                          <div className="action-button sharing-download-button disabled-download-button">
+                            <Ban size={20} />
+                            &nbsp;
+                            {!downloadable
+                              ? "Download limit reached"
+                              : "Enter Password to download"}
+                          </div>
+                        )}
+                      </div>
+                      <div className="secure-file-delivery-claim">
+                        <ShieldCheckIcon size={14} />
+                        &nbsp;
+                        <span>End-to-end encrypted</span>
+                      </div>
+                    </motion.div>
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      transition={{ duration: 0.2, ease: "easeInOut" }}
+                      className="link-page-footer"
+                    >
+                      Secure file sharing powered by&nbsp;<span>Velvet</span>
+                    </motion.div>
+                  </>
+                )}
+              </AnimatePresence>
+            </LayoutGroup>
+          </motion.div>
+        </>
       )}
     </div>
   );
