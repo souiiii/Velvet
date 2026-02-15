@@ -1,9 +1,18 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import { analyzer } from "vite-bundle-analyzer";
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  build: { minify: true, cssMinify: true },
+  plugins: [
+    react({
+      babel: {
+        plugins: ["babel-plugin-react-compiler"],
+      },
+    }),
+    analyzer(),
+  ],
   server: {
     proxy: {
       "/api": "http://localhost:8000",

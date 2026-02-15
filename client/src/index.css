@@ -1451,6 +1451,7 @@ body {
   align-items: center;
   width: 100%;
   border-radius: 3rem;
+  pointer-events: none;
   overflow: hidden;
   padding: 1rem;
   flex-shrink: 0;
@@ -2799,6 +2800,31 @@ body {
   top: -20%;
 }
 
+@media (max-width: 1600px) {
+  .security-assurance-logo-div {
+    display: none;
+  }
+
+  .logo-velvet-hero-div {
+    width: 100%;
+  }
+  .logo-velvet-hero-div > img {
+    width: 60%;
+  }
+
+  .hero-main-heading {
+    font-size: 3.5rem;
+  }
+
+  .hero-sub-heading {
+    font-size: 2.8rem;
+  }
+
+  .hero--heading-description {
+    font-size: 1.125rem;
+  }
+}
+
 @media (max-width: 1800px) {
   .file-display-list {
     grid-template-columns: repeat(1, minmax(0, 1fr));
@@ -2859,6 +2885,9 @@ body {
 @media (max-width: 1000px) {
   .popup {
     max-width: 700px;
+  }
+  .security-assurance-logo-div {
+    display: flex;
   }
   .mobile-left {
     display: none;

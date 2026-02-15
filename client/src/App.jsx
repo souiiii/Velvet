@@ -1,17 +1,17 @@
 import { Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./contexts/authContext";
-import HomePage from "./pages/HomePage";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
 import ProtectedPages from "./pages/ProtectedPages";
-import LinkPage from "./pages/LinkPage";
 import PageLoader from "./components/PageLoader";
-import { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import BgEffects from "./components/BgEffects";
 import Notify from "./components/Notify";
 import { AnimatePresence } from "motion/react";
-import ComingSoon from "./pages/ComingSoon";
 // import CosmicBackground from "./components/CosmicBackground";
+const HomePage = React.lazy(() => import("./pages/HomePage"));
+const Login = React.lazy(() => import("./pages/Login"));
+const Signup = React.lazy(() => import("./pages/Signup"));
+const ComingSoon = React.lazy(() => import("./pages/ComingSoon"));
+const LinkPage = React.lazy(() => import("./pages/LinkPage"));
 
 function App() {
   const [globalLoading, setGlobalLoading] = useState(false);
@@ -37,55 +37,57 @@ function App() {
         {err && <Notify msg={err} type="err" />}
       </AnimatePresence>
       <PageLoader show={globalLoading} />
-      <Routes>
-        <Route path="/" element={<ProtectedPages />}>
+      <Suspense fallback={<PageLoader show={true} />}>
+        <Routes>
+          <Route path="/" element={<ProtectedPages />}>
+            <Route
+              index
+              element={
+                <HomePage
+                  globalLoading={globalLoading}
+                  setGlobalLoading={setGlobalLoading}
+                  setMsg={setMsg}
+                  setErr={setErr}
+                />
+              }
+            />
+          </Route>
           <Route
-            index
+            path="/link/:publicId"
             element={
-              <HomePage
-                globalLoading={globalLoading}
-                setGlobalLoading={setGlobalLoading}
+              <LinkPage
+                setMsg={setMsg}
+                setErr={setErr}
+                loading={globalLoading}
+                setLoading={setGlobalLoading}
+              />
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <Login
+                loading={globalLoading}
+                setLoading={setGlobalLoading}
                 setMsg={setMsg}
                 setErr={setErr}
               />
             }
           />
-        </Route>
-        <Route
-          path="/link/:publicId"
-          element={
-            <LinkPage
-              setMsg={setMsg}
-              setErr={setErr}
-              loading={globalLoading}
-              setLoading={setGlobalLoading}
-            />
-          }
-        />
-        <Route
-          path="/login"
-          element={
-            <Login
-              loading={globalLoading}
-              setLoading={setGlobalLoading}
-              setMsg={setMsg}
-              setErr={setErr}
-            />
-          }
-        />
-        <Route
-          path="/signup"
-          element={
-            <Signup
-              loading={globalLoading}
-              setLoading={setGlobalLoading}
-              setMsg={setMsg}
-              setErr={setErr}
-            />
-          }
-        />
-        <Route path="/coming-soon" element={<ComingSoon />} />
-      </Routes>
+          <Route
+            path="/signup"
+            element={
+              <Signup
+                loading={globalLoading}
+                setLoading={setGlobalLoading}
+                setMsg={setMsg}
+                setErr={setErr}
+              />
+            }
+          />
+          <Route path="/coming-soon" element={<ComingSoon />} />
+        </Routes>
+      </Suspense>
     </AuthProvider>
   );
 }
