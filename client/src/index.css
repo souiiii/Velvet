@@ -2805,6 +2805,14 @@ body {
     display: none;
   }
 
+  .signup-login-right-container {
+    transform: translateY(0px);
+  }
+
+  .signup-login-form {
+    padding-block: 1.5rem;
+  }
+
   .logo-velvet-hero-div {
     width: 100%;
   }
@@ -2883,6 +2891,9 @@ body {
 }
 
 @media (max-width: 1000px) {
+  .password-requirements-div {
+    display: flex;
+  }
   .popup {
     max-width: 700px;
   }
