@@ -10,7 +10,8 @@ The system is designed with a strong emphasis on link governance, authentication
 
 <img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/a6d64c36-ec69-4409-9572-ebd63ddbaf87" />
 <img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/fb4153dc-000c-4290-afa3-6dfd0000974a" />
-<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/fb4153dc-000c-4290-afa3-6dfd0000974a" />
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/5a2a252f-4c0a-436e-be12-cec1ce5745ca" />
+
 
 ---
 
