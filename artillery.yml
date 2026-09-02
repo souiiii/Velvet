@@ -1,0 +1,11 @@
+config:
+  target: "https://localhost:8000"
+  phases:
+    - duration: 60
+      arrivalRate: 10
+
+scenarios:
+  - name: "Fetch the login page"
+    flow:
+      - get:
+          url: "/api/user/login"
